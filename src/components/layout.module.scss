@@ -1,3 +1,5 @@
+$border: 1px solid rgba(28, 160, 134, 0.1);
+
 .container {
   display: flex;
   margin: 32px auto;
@@ -13,6 +15,25 @@
     width: 304px;
     height: 600px;
     padding: 0 40px;
-    border-left: 1px solid rgba(28, 160, 134, 0.1);
+    border-left: $border;
+  }
+
+  @media screen and (max-width: 720px) {
+    aside {
+      display: none;
+    }
+  }
+
+  .profile {
+    text-align: center;
+    padding-bottom: 32px;
+    border-bottom: $border;
+
+    img {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 8px;
+      border-radius: 50%;
+    }
   }
 }

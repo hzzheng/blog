@@ -12,8 +12,11 @@ export default ({ children }) => (
       {children}
     </section>
     <aside>
-      <section>
-        hello
+      <section className={cls.profile}>
+        <img src="/profile.png" alt="profile" />
+        <div>
+          I am a ...... developer in Google........
+        </div>
       </section>
     </aside>
   </div>

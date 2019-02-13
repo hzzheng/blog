@@ -18,9 +18,9 @@ export default ({ data }) => {
               <div key={id}>
                 <h3>
                   <Link to={fields.slug}>{frontmatter.title}</Link>
-                  <span className={cls.date}>{frontmatter.date}</span>
                 </h3>
-                <p className={cls.excerpt}>{excerpt}</p>
+                <div className={cls.excerpt}>{excerpt}</div>
+                <div className={cls.date}>{frontmatter.date}</div>
               </div>
             )
           })
@@ -43,7 +43,7 @@ export const query = graphql`
           fields {
             slug
           }
-          excerpt
+          excerpt(pruneLength: 140, truncate: true)
         }
       }
     }
