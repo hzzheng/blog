@@ -1,31 +1,18 @@
-.app {
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 800px;
+.container {
+  display: flex;
+  margin: 32px auto;
+  max-width: 1024px;
   overflow: hidden;
 
-  header {
-    display: flex;
-    margin-top: 1rem;
-    line-height: 2rem;
-
-    h1 {
-      flex: 1;
-      margin-top: 0;
-
-      a {
-        color: #1ca086;
-        background-image: none;
-      }
-    }
+  .content {
+    flex: 1;
   }
-
-  .nav {
-    list-style: none;
-
-    li {
-      float: left;
-      margin-left: 1.5rem;
-    }
+  
+  aside {
+    box-sizing: border-box;
+    width: 304px;
+    height: 600px;
+    padding: 0 40px;
+    border-left: 1px solid rgba(28, 160, 134, 0.1);
   }
 }
