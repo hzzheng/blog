@@ -18,6 +18,14 @@ export default ({ children }) => (
           I am a ...... developer in Google........
         </div>
       </section>
+      <section className={cls.contact}>
+        <h4>Contact</h4>
+        <div>
+          <a href="mailto:zhchaozju@gmail.com">Email</a>
+          <a href="https://twitter.com/zhchaozju" target="_blank">Twitter</a>
+          <a href="https://github.com/hzzheng" target="_blank">Github</a>
+        </div>
+      </section>
     </aside>
   </div>
 )

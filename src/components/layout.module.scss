@@ -8,6 +8,10 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
 
   .content {
     flex: 1;
+
+    a {
+      background-image: none;
+    }
   }
   
   aside {
@@ -16,6 +20,10 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
     height: 600px;
     padding: 0 40px;
     border-left: $border;
+
+    a {
+      background-image: none;
+    }
   }
 
   @media screen and (max-width: 720px) {
@@ -26,7 +34,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
 
   .profile {
     text-align: center;
-    padding-bottom: 32px;
+    padding-bottom: 2.25rem;
     border-bottom: $border;
 
     img {
@@ -34,6 +42,22 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       height: 160px;
       margin-bottom: 8px;
       border-radius: 50%;
+    }
+  }
+
+  .contact {
+    text-align: center;
+
+    h4 {
+      font-size: 16px;
+      font-weight: normal;
+    }
+    a {
+      font-size: 12px;
+
+      &:nth-child(2) {
+        padding: 0 16px;
+      }
     }
   }
 }
