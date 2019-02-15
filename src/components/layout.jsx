@@ -31,6 +31,8 @@ export default ({ children }) => (
         </section>
       </aside>
     </div>
-    <footer>郑超的独立博客 © 2019 Powered By GatsbyJS & Docz</footer>
+    <footer>
+      郑超的独立博客 © 2019 Powered By GatsbyJS
+    </footer>
   </div>
 )

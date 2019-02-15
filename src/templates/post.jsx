@@ -11,8 +11,8 @@ class postPage extends PureComponent {
     const { data: { markdownRemark } } = this.props;
     const { fields: { slug } } = markdownRemark;
 
-    // 等待依赖的JS加载完成
     setTimeout(() => {
+      // 等待依赖的JS加载完成
       if (window.Valine) {
         new Valine({
           el: '#comments',
