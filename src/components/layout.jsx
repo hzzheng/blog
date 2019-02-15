@@ -7,6 +7,8 @@ export default ({ children }) => (
   <div className={cls.container}>
     <Helmet>
       <title>CNOTE</title>
+      <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
+      <script src="//unpkg.com/valine/dist/Valine.min.js" />
     </Helmet>
     <section className={cls.content}>{children}</section>
     <aside>

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { graphql } from 'gatsby'
-import Valine from 'valine'
 import Layout from '../components/layout'
 import cls from './templates.module.scss'
 
@@ -12,13 +11,18 @@ class postPage extends PureComponent {
     const { data: { markdownRemark } } = this.props;
     const { fields: { slug } } = markdownRemark;
 
-    new Valine({
-      el: '#comments',
-      appId: API_ID,
-      appKey: API_KEY,
-      placeholder: '可匿名评论...',
-      path: slug,
-    })
+    // 等待依赖的JS加载完成
+    setTimeout(() => {
+      if (window.Valine) {
+        new Valine({
+          el: '#comments',
+          appId: API_ID,
+          appKey: API_KEY,
+          placeholder: '可匿名评论...',
+          path: slug,
+        })
+      }
+    }, 3000);
   }
 
   render() {
