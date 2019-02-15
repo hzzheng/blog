@@ -13,38 +13,79 @@ class Home extends PureComponent {
     }
   }
 
+  getFilteredPosts() {
+    const {
+      data: { allMarkdownRemark }
+    } = this.props
+    const { currentPage } = this.state
+
+    const posts = allMarkdownRemark.edges.filter((_, index) => {
+      const skip = currentPage * PAGE_SIZE
+      return index >= skip && index < skip + PAGE_SIZE
+    })
+
+    return posts
+  }
+
   getPaginationData() {
     const {
       data: {
         allMarkdownRemark: { edges }
       }
     } = this.props
-    const pageCount = Math.ceil(edges.length / PAGE_SIZE)
+    const count = Math.ceil(edges.length / PAGE_SIZE)
     const indexs = []
     let i = 0
-    while (i < pageCount) {
+    while (i < count) {
       i += 1
       indexs.push(i)
     }
 
-    return indexs
+    return {
+      count,
+      indexs
+    }
   }
 
-  handlePagination(currentPage) {
+  handlePagination = (currentPage) => {
     this.setState({
       currentPage
     })
   }
 
+  handlePrevPagination = () => {
+    const { currentPage } = this.state
+    if (currentPage > 0) {
+      this.handlePagination(currentPage - 1)
+    }
+  }
+
+  handleNextPagination = () => {
+    const { currentPage } = this.state
+    const { count } = this.getPaginationData()
+
+    if (currentPage < count - 1) {
+      this.handlePagination(currentPage + 1)
+    }
+  }
+
   renderPagination() {
-    const indexs = this.getPaginationData()
+    const { indexs, count } = this.getPaginationData()
+    const { currentPage } = this.state
     return (
       <div className={cls.pagination}>
-        <span>Previous</span>
+        <button
+          className={currentPage === 0 ? cls.disabled : undefined}
+          type="button"
+          onClick={this.handlePrevPagination}
+        >
+          Previous
+        </button>
         <ul>
           {indexs.map((c, index) => (
             <li
               key={c}
+              className={index === currentPage ? cls.active : undefined}
               onClick={() => this.handlePagination(index)}
               onKeyDown={() => {}}
             >
@@ -52,24 +93,22 @@ class Home extends PureComponent {
             </li>
           ))}
         </ul>
-        <span>Next</span>
+        <button
+          className={currentPage === count - 1 ? cls.disabled : undefined}
+          type="button"
+          onClick={this.handleNextPagination}
+        >
+          Next
+        </button>
       </div>
     )
   }
 
   render() {
-    const {
-      data: { allMarkdownRemark }
-    } = this.props
-    const { currentPage } = this.state
-
     return (
       <Layout>
         <div className={cls.list}>
-          {allMarkdownRemark.edges.filter((_, index) => {
-            const skip = currentPage * PAGE_SIZE
-            return index >= skip && index < skip + PAGE_SIZE
-          }).map(({ node }) => {
+          {this.getFilteredPosts().map(({ node }) => {
             const { frontmatter, excerpt, fields, id } = node
 
             return (
