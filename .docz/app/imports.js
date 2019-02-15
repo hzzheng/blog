@@ -1,4 +1,6 @@
 export const imports = {
-  'tutorials/gatsbyjs/index.mdx': () =>
-    import(/* webpackPrefetch: true, webpackChunkName: "tutorials-gatsbyjs-index" */ 'tutorials/gatsbyjs/index.mdx'),
+  'index.mdx': () =>
+    import(/* webpackPrefetch: true, webpackChunkName: "index" */ 'index.mdx'),
+  'gatsbyjs/index.mdx': () =>
+    import(/* webpackPrefetch: true, webpackChunkName: "gatsbyjs-index" */ 'gatsbyjs/index.mdx'),
 }

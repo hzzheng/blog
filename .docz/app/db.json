@@ -1,6 +1,6 @@
 {
   "config": {
-    "title": "Zhengchao Blog",
+    "title": "GatsbyJS 中文教程",
     "description": "my personal site",
     "menu": [],
     "ordering": "descending",
@@ -8,18 +8,39 @@
     "repository": "https://github.com/hzzheng/blog",
     "native": false,
     "codeSandbox": true,
-    "themeConfig": {}
+    "themeConfig": {},
+    "src": "./tutorials",
+    "dest": "public/docz",
+    "base": "/docz/",
+    "public": "none"
   },
   "entries": {
-    "tutorials/gatsbyjs/index.mdx": {
-      "name": "GatsbyJS 教程",
-      "id": "db9edd216ac6428428c2b1954ba65316",
-      "filepath": "tutorials/gatsbyjs/index.mdx",
-      "link": "https://github.com/hzzheng/blog/edit/master/tutorials/gatsbyjs/index.mdx",
-      "slug": "tutorials-gatsbyjs-index",
-      "route": "/tutorials-gatsbyjs-index",
+    "index.mdx": {
+      "name": "Home",
+      "route": "/",
+      "menu": "abc",
+      "id": "a591b5d7828e01f52323301a2b73eda9",
+      "filepath": "index.mdx",
+      "link": "https://github.com/hzzheng/blog/edit/master/tutorials/index.mdx",
+      "slug": "index",
       "order": 0,
-      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "hello-world",
+          "value": "Hello, World"
+        }
+      ]
+    },
+    "gatsbyjs/index.mdx": {
+      "name": "GatsbyJS 教程",
+      "menu": "abc",
+      "id": "db9edd216ac6428428c2b1954ba65316",
+      "filepath": "gatsbyjs/index.mdx",
+      "link": "https://github.com/hzzheng/blog/edit/master/tutorials/gatsbyjs/index.mdx",
+      "slug": "gatsbyjs-index",
+      "route": "/gatsbyjs-index",
+      "order": 0,
       "headings": [
         {
           "depth": 1,

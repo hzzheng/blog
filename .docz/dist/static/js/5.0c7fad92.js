@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{"./.docz/app/imports.js":function(n,t,i){"use strict";i.r(t),i.d(t,"imports",function(){return s});var s={"tutorials/index.mdx":function(){return i.e(3).then(i.bind(null,"./tutorials/index.mdx"))},"tutorials/gatsbyjs/index.mdx":function(){return i.e(2).then(i.bind(null,"./tutorials/gatsbyjs/index.mdx"))}}}},0,[2,3]]);
+//# sourceMappingURL=5.1a87f54245082ce7d3d4.js.map
