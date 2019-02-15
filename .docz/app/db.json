@@ -1,0 +1,37 @@
+{
+  "config": {
+    "title": "Zhengchao Blog",
+    "description": "my personal site",
+    "menu": [],
+    "ordering": "descending",
+    "version": "0.1.0",
+    "repository": "https://github.com/hzzheng/blog",
+    "native": false,
+    "codeSandbox": true,
+    "themeConfig": {}
+  },
+  "entries": {
+    "tutorials/gatsbyjs/index.mdx": {
+      "name": "GatsbyJS 教程",
+      "id": "db9edd216ac6428428c2b1954ba65316",
+      "filepath": "tutorials/gatsbyjs/index.mdx",
+      "link": "https://github.com/hzzheng/blog/edit/master/tutorials/gatsbyjs/index.mdx",
+      "slug": "tutorials-gatsbyjs-index",
+      "route": "/tutorials-gatsbyjs-index",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "button",
+          "value": "Button"
+        },
+        {
+          "depth": 2,
+          "slug": "basic-usage",
+          "value": "Basic usage"
+        }
+      ]
+    }
+  }
+}

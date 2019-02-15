@@ -1,8 +1,12 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "globals": {
+    "window": true
+  },
   "rules": {
     "semi": "off",
+    "no-new": "off",
     "comma-dangle": "off",
     "react/no-danger": "off",
     "react/prop-types": "off",
