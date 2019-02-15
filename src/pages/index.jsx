@@ -1,12 +1,18 @@
 import React, { PureComponent } from 'react'
 import { graphql, Link } from 'gatsby'
-import queryString from 'query-string'
 import Layout from '../components/layout'
 import cls from './page.module.scss'
 
 const PAGE_SIZE = 6
 
 class Home extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPage: 0
+    }
+  }
+
   getPaginationData() {
     const {
       data: {
@@ -24,6 +30,12 @@ class Home extends PureComponent {
     return indexs
   }
 
+  handlePagination(currentPage) {
+    this.setState({
+      currentPage
+    })
+  }
+
   renderPagination() {
     const indexs = this.getPaginationData()
     return (
@@ -31,8 +43,12 @@ class Home extends PureComponent {
         <span>Previous</span>
         <ul>
           {indexs.map((c, index) => (
-            <li key={c}>
-              <Link to={`/?p=${index + 1}`}>{index + 1}</Link>
+            <li
+              key={c}
+              onClick={() => this.handlePagination(index)}
+              onKeyDown={() => {}}
+            >
+              {index + 1}
             </li>
           ))}
         </ul>
@@ -45,18 +61,13 @@ class Home extends PureComponent {
     const {
       data: { allMarkdownRemark }
     } = this.props
-    const search = queryString.parse(window.location.search)
-    let pageIndex = search.p - 1
-    // eslint-disable-next-line
-    if (!pageIndex || isNaN(pageIndex)){
-      pageIndex = 0
-    }
+    const { currentPage } = this.state
 
     return (
       <Layout>
         <div className={cls.list}>
           {allMarkdownRemark.edges.filter((_, index) => {
-            const skip = pageIndex * PAGE_SIZE
+            const skip = currentPage * PAGE_SIZE
             return index >= skip && index < skip + PAGE_SIZE
           }).map(({ node }) => {
             const { frontmatter, excerpt, fields, id } = node
