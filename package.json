@@ -5,9 +5,9 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
+    "build": "gatsby build & yarn docz:build",
     "develop": "gatsby develop",
-    "start": "npm run develop",
+    "start": "yarn develop",
     "serve": "gatsby serve",
     "docz:dev": "docz dev",
     "docz:build": "docz build"

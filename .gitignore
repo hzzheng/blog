@@ -59,7 +59,7 @@ typings/
 public
 
 # docz default dist
-# .docz/
+.docz/
 
 # Mac files
 .DS_Store
