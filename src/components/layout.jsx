@@ -14,8 +14,8 @@ export default ({ children }) => (
       <section className={cls.content}>{children}</section>
       <aside>
         <section className={cls.profile}>
-          <img src="/profile.png" alt="profile" />
-          <div>I am a ...... developer in Google........</div>
+          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/avatar/profile4.jpg?q-sign-algorithm=sha1&q-ak=AKIDhDE2nJirGpiW8wps53iQWMyMXhc54ouh&q-sign-time=1550501896;1550502796&q-key-time=1550501896;1550502796&q-header-list=&q-url-param-list=&q-signature=5abb80d42f16ce6564df9d0903840530911544d2" alt="profile" />
+          <div>我是郑超，前端开发，喜欢阅读和写代码，偶尔翻译技术文章。可以通过下面👇的方式联系我</div>
         </section>
         <section className={cls.contact}>
           <h4>Contact</h4>
