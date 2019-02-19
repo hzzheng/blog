@@ -1,7 +1,8 @@
 ---
-title: '理解React中的children'
-date: '2018-12-10'
-origin: 'https://mxstbr.blog/2017/02/react-children-deepdive/'
+title: "理解React中的children"
+date: "2018-12-10"
+origin: "https://mxstbr.blog/2017/02/react-children-deepdive/"
+tags: ["react"]
 ---
 
 React 的核心是组件。你可以像嵌套 HTML 标签一样嵌套组件，所以写 JSX 并不难。当我刚开始学 React 的时候，我觉得关于 children 我只要会用 props.children 就可以了。我承认，我天真了。

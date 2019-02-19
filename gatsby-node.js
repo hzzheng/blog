@@ -1,4 +1,6 @@
 const path = require('path')
+const _ = require('lodash')
+
 const {
   createFilePath
 } = require('gatsby-source-filesystem')
@@ -38,6 +40,9 @@ exports.createPages = ({
       allMarkdownRemark {
         edges {
           node {
+            frontmatter {
+              tags
+            }
             fields {
               slug
             }
@@ -46,7 +51,8 @@ exports.createPages = ({
       }
     }
   `).then((result) => {
-    result.data.allMarkdownRemark.edges.forEach(({
+    const posts = result.data.allMarkdownRemark.edges
+    posts.forEach(({
       node
     }) => {
       createPage({
@@ -54,6 +60,23 @@ exports.createPages = ({
         component: path.resolve('./src/templates/post.jsx'),
         context: {
           slug: node.fields.slug,
+        },
+      })
+    })
+
+    let tags = []
+    _.each(posts, (edge) => {
+      if (_.get(edge, 'node.frontmatter.tags')) {
+        tags = tags.concat(edge.node.frontmatter.tags)
+      }
+    })
+    tags = _.uniq(tags)
+    tags.forEach((tag) => {
+      createPage({
+        path: `/tags/${_.kebabCase(tag)}`,
+        component: path.resolve('./src/templates/tags.jsx'),
+        context: {
+          tag,
         },
       })
     })

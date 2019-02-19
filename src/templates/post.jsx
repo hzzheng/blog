@@ -33,7 +33,7 @@ class postPage extends PureComponent {
     } = post
 
     return (
-      <Layout>
+      <Layout data={data}>
         <div className={cls.post}>
           <h2>{title}</h2>
           <small>{date}</small>
@@ -57,6 +57,12 @@ export default postPage
 
 export const query = graphql`
   query($slug: String!) {
+    allMarkdownRemark {
+      group(field: frontmatter___tags) {
+        fieldValue
+        totalCount
+      }
+    }
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       frontmatter {

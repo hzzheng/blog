@@ -105,8 +105,9 @@ class Home extends PureComponent {
   }
 
   render() {
+    const { data } = this.props
     return (
-      <Layout>
+      <Layout data={data}>
         <div className={cls.list}>
           {this.getFilteredPosts().map(({ node }) => {
             const { frontmatter, excerpt, fields, id } = node
@@ -133,6 +134,10 @@ export default Home
 export const query = graphql`
   query {
     allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+      group(field: frontmatter___tags) {
+        fieldValue
+        totalCount
+      }
       edges {
         node {
           id
