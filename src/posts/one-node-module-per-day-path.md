@@ -2,6 +2,7 @@
 title: "每天一个Node模块：Path"
 date: "2018-01-22"
 origin: "https://nodejs.org/dist/latest-v8.x/docs/api/path.html"
+tags: ["node"]
 ---
 
 #### 注：node v8.11.1

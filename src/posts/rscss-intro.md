@@ -1,6 +1,7 @@
 ---
 title: "RSCSS，简单有效的CSS命名规范"
 date: "2017-10-27"
+tags: ["css"]
 ---
 
 > Reasonable System for CSS Stylesheet Structure.

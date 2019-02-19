@@ -1,6 +1,7 @@
 ---
 title: "免费启用HTTPS"
 date: "2017-11-20"
+tags: ["https"]
 ---
 
 昨天花了一些时间将之前的Ghost博客改用灵活强大的Gatsby重新搭建，顺带启用了HTTPS。HTTPS使用的是[Let’s Encrypt](https://letsencrypt.org/)提供的免费方案。具体的配置步骤如下：
