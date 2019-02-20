@@ -7,6 +7,11 @@ import cls from './layout.module.scss'
 
 export default ({ children, data }) => (
   <div>
+    <header>
+      <div className={cls.nav}>
+        <Link to="/"><span className="iconfont icon-home" /></Link>
+      </div>
+    </header>
     <div className={cls.container}>
       <Helmet>
         <title>CNOTE</title>
@@ -48,7 +53,6 @@ export default ({ children, data }) => (
               <li key={tag.fieldValue}>
                 <Link to={`/tags/${_.kebabCase(tag.fieldValue)}/`}>
                   {tag.fieldValue}
-                  {' '}
                   {/* {tag.totalCount} */}
                 </Link>
               </li>

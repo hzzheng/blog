@@ -117,9 +117,24 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
         padding: 0 8px;
         border-radius: 4px;
         background-color: rgba(28, 160, 134, 0.1);
+
+        a {
+          color: #a6a6a6;
+        }
       }
     }
   }
+}
+
+header {
+  border-bottom: $border;
+  .nav {
+    width: 1024px;
+    margin: 0 auto;
+  }
+  a {
+    background-image: none;
+  };
 }
 
 footer {
