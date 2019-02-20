@@ -9,7 +9,10 @@ export default ({ children, data }) => (
   <div>
     <header>
       <div className={cls.nav}>
-        <Link to="/"><span className="iconfont icon-home" /></Link>
+        <Link to="/">
+          <span className="iconfont icon-home" />
+          CNOTE
+        </Link>
         <div className={cls.links}>
           {/* <a href="/doc/gatsbyjs">GatsbyJS 教程</a> */}
         </div>
