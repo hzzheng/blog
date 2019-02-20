@@ -2,7 +2,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
 
 .container {
   display: flex;
-  margin: 32px auto;
+  margin: 16px auto;
   max-width: 1024px;
   overflow: hidden;
 
@@ -127,6 +127,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
 }
 
 header {
+  height: 48px;
   border-bottom: $border;
   .nav {
     width: 1024px;

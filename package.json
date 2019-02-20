@@ -5,12 +5,10 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build & yarn docz:build",
+    "build": "gatsby build",
     "develop": "gatsby develop",
     "start": "yarn develop",
-    "serve": "gatsby serve",
-    "docz:dev": "docz dev",
-    "docz:build": "docz build"
+    "serve": "gatsby serve"
   },
   "dependencies": {
     "gatsby": "^2.0.118",
@@ -40,8 +38,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "docz": "^0.13.7",
-    "docz-theme-default": "^0.13.7",
     "eslint": "^5.13.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
