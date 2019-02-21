@@ -21,14 +21,14 @@ export default ({ children, data }) => (
     <div className={cls.container}>
       <Helmet>
         <title>CNOTE</title>
-        <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css?q-sign-algorithm=sha1&q-ak=AKIDhDE2nJirGpiW8wps53iQWMyMXhc54ouh&q-sign-time=1550682291;1550683191&q-key-time=1550682291;1550683191&q-header-list=&q-url-param-list=&q-signature=e00b847aaa945b372b5e31383f8c8842e8945fe6" />
+        <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
       </Helmet>
       <section className={cls.content}>{children}</section>
       <aside>
         <section className={cls.profile}>
-          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg?q-sign-algorithm=sha1&q-ak=AKIDhDE2nJirGpiW8wps53iQWMyMXhc54ouh&q-sign-time=1550682327;1550683227&q-key-time=1550682327;1550683227&q-header-list=&q-url-param-list=&q-signature=90495db4bd0426a5802db78c174c6de6a4156a53" alt="profile" />
+          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
           <div className={cls.desc}>
             我叫郑超，前端开发，喜欢阅读和写代码，偶尔翻译和写作技术文章。可以通过下面
             <span role="img" aria-label="下面">
