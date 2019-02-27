@@ -39,3 +39,20 @@ tags: ["node"]
 - Buffer是Node.js中用于处理二进制数据的类，与IO相关的操作均基于Buffer。[官方文档](https://nodejs.org/dist/latest-v10.x/docs/api/buffer.html)。理解ES6的TypedArray。
 - String Decoder。将Buffer转成string。
 - Stream。可以参考之前翻译过的[文章](https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93)。
+- 理解pipe的用法和[实现](https://cnodejs.org/topic/56ba030271204e03637a3870)。
+- 了解Console.log的实现，基于process.stout。
+- 熟悉fs模块的使用。[官方文档](https://nodejs.org/dist/latest-v11.x/docs/api/fs.html)。
+- 理解标准输入输出，理解shell和进程，ssh的使用和实现等。
+
+## 6. NetWork
+- TCP/IP。推荐阅读[TCP/IP详解 卷一](https://www.amazon.cn/TCP-IP%E8%AF%A6%E8%A7%A3%E5%8D%B71-%E5%8D%8F%E8%AE%AE-W-Richard-Stevens/dp/B00116OTVS/)，[图解TCP/IP](https://book.douban.com/subject/24737674/)，[Wireshark网络分析就这么简单](https://book.douban.com/subject/26268767/)。
+- 熟悉HTTP/HTTPS/HTTP2。理解[RESTful架构](https://www.restapitutorial.com/)。
+- 理解DNS解析，Zlib压缩等。
+- 理解RPC，了解Thrift，[gRPC](https://grpc.io/docs/quickstart/node.html)。
+
+## 7. OS
+- 熟悉OS、Path等模块。[官方文档](https://nodejs.org/dist/latest-v10.x/docs/api/os.html)。
+- 推荐阅读[深入理解计算机系统](https://nodejs.org/dist/latest-v10.x/docs/api/os.html)，[性能之巅](https://book.douban.com/subject/26586598/)。
+
+## 8. 错误处理/调试
+- 
