@@ -52,10 +52,10 @@ export default ({ children, data }) => (
           </div>
         </section>
         <section className={cls.search}>
-          <div className={cls.searchwrapper}>
+          {/* <div className={cls.searchwrapper}>
             <input placeholder="搜索文章..." />
             <span className="iconfont icon-search" />
-          </div>
+          </div> */}
           <ul className={cls.tags}>
             {data.allMarkdownRemark.group.map(tag => (
               <li key={tag.fieldValue}>

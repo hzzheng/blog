@@ -25,6 +25,15 @@
   }
 }
 
+.tag {
+  width: 600px;
+  margin: 120px auto;
+
+  h1 {
+    padding-bottom: 2rem;
+  }
+}
+
 @media screen and (max-width: 950px) {
   .post {
     padding: 0 16px;

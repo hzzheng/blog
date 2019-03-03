@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import cls from './templates.module.scss'
 
 const Tags = ({ pageContext, data }) => {
   const { tag } = pageContext
-  const { edges, totalCount } = data.allMarkdownRemark
-  const tagHeader = `${totalCount} post${totalCount === 1 ? '' : 's'} tagged with "${tag}"`
+  const { edges } = data.allMarkdownRemark
+  const tagHeader = `${tag}:`
 
   return (
-    <div>
+    <div className={cls.tag}>
       <h1>{tagHeader}</h1>
       <ul>
         {edges.map(({ node }) => {
