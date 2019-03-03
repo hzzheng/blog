@@ -14,15 +14,15 @@ export default ({ children, data }) => (
           CNOTE
         </Link>
         <div className={cls.links}>
-          <a href="/doc/gatsbyjs">GatsbyJS 教程</a>
-          <a href="/about">关于我</a>
+          {/* <a href="/doc/gatsbyjs">GatsbyJS 教程</a>
+          <a href="/about">关于我</a> */}
         </div>
       </div>
     </header>
     <div className={cls.container}>
       <Helmet>
         <title>CNOTE</title>
-        <link rel="shortcut icon" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
