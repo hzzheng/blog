@@ -10,17 +10,19 @@ export default ({ children, data }) => (
     <header>
       <div className={cls.nav}>
         <Link to="/">
-          <span className="iconfont icon-home" />
+          {/* <span className="iconfont icon-home" /> */}
           CNOTE
         </Link>
         <div className={cls.links}>
-          {/* <a href="/doc/gatsbyjs">GatsbyJS 教程</a> */}
+          <a href="/doc/gatsbyjs">GatsbyJS 教程</a>
+          <a href="/about">关于我</a>
         </div>
       </div>
     </header>
     <div className={cls.container}>
       <Helmet>
         <title>CNOTE</title>
+        <link rel="shortcut icon" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico" type="image/x-icon"/>
         <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
@@ -30,7 +32,7 @@ export default ({ children, data }) => (
         <section className={cls.profile}>
           <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
           <div className={cls.desc}>
-            我叫郑超，前端开发，喜欢阅读和写代码，偶尔翻译和写作技术文章。可以通过下面
+            可以通过
             <span role="img" aria-label="下面">
               👇
             </span>
