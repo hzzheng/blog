@@ -5,7 +5,7 @@ origin: "https://medium.freecodecamp.org/node-js-child-processes-everything-you-
 tags: ["node"]
 ---
 
-![](https://chuguan.me/static/child_process.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/child_process.png)
 
 就单进程而言，Node.js的单线程非阻塞执行表现良好。然而，单CPU单进程的方式不足以处理应用程序日益增长的工作负载。
 
@@ -105,7 +105,7 @@ child.stdout.on('data', (data) => {
 
 在上面的例子中，子进程执行了`wc`命令，这个命令在Linux系统中用于统计行数、单词数、以及字符数。然后我们把主进程的`stdin`（可读流）导向子进程的`stdin`（可写流）。这样做的结果是，我们可以在标准输入键入一些内容，然后按`Ctrl+D`，键入的内容会被作为`wc`命令的输入使用。
 
-![](https://chuguan.me/static/child_process_demo_0.gif)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/child_process_demo_0.gif)
 
 多个进程的标准输入输出可以相互之间导流，就像我们在使用Linux命令时做的一样。比如，我们可以把`find`命令的`stdout`导向`wc`命令的`stdin`去计算当前目录下所有文件的数量：
 
@@ -215,7 +215,7 @@ child.unref();
 
 上面的例子通过`detached`和`stdio`的设置独立运行`timer.js`脚本，即便父进程终止退出子进程依然能够在后台运行。
 
-![](https://chuguan.me/static/child_process_demo_1.gif)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/child_process_demo_1.gif)
 
 #### execFile函数
 
@@ -273,7 +273,7 @@ setInterval(() => {
 
 当我们执行`parent.js`文件的时候，它首先传递`{ hello: 'world'}`对象给子进程并且被打印出来。然后，子进程每隔一秒会向父进程发送递增的计数器并且也被打印出来。
 
-![](https://chuguan.me/static/child_process_demo_2.gif)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/child_process_demo_2.gif)
 
 我们继续写一个关于`fork`函数的更实际有用的例子。
 

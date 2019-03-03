@@ -6,7 +6,7 @@ tags: ["node"]
 ---
 
 
-![](https://chuguan.me/static/stream.jpg)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream.jpg)
 Node.js的streams向来被认为难以使用，更难于理解。不过现在有一个好消息告诉你，看过这篇文章后前面的话就可以收回了。
 
 在过去的几年里，很多开发者为了能够更容易地使用streams，写了很多的模块。但在这篇文章里，我只关注原生的Node.js stream API。
@@ -21,7 +21,7 @@ Streams是数据的集合，就像数组和字符串一样。不同的地方在
 
 除了可以处理大块的数据以外，streams还赋予了我们组合代码的能力。就像我们可以通过管道pipe的方式组合强大的Linux命名，在Node里也可以通过streams实现一样的效果。
 
-![](https://chuguan.me/static/stream-01.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-01.png)
 
 ```javascript
 const grep = ... // A stream for the grep output
@@ -31,7 +31,7 @@ grep.pipe(wc)
 
 许多Node内置的模块都实现了stream接口：
 
-![](https://chuguan.me/static/stream-02.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-02.png)
 
 上面列举了一些或可读或可写streams的Node.js原生对象。其中有一些streams既可读也可写，比如TCP sockets, zib 和 crypto streams。
 
@@ -85,11 +85,11 @@ server.listen(8000);
 
 当我运行服务器后，内存的使用正常，只有8.7MB:
 
-![](https://chuguan.me/static/stream-03.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-03.png)
 
 然后，我请求了服务器，观察这个时候的内存使用变化：
 
-![](https://chuguan.me/static/stream-04.gif)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-04.gif)
 
 天了噜，内存消耗直接跳到了434.8MB。
 
@@ -113,7 +113,7 @@ server.listen(8000);
 
 现在当你请求服务器时，神奇的事情发生了。观察内存的使用情况：
 
-![](https://chuguan.me/static/stream-05.gif)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-05.gif)
 
 
 发生了什么？
@@ -188,7 +188,7 @@ readable.on('end', () => {
 
 下面是可读/可写流重要事件和方法的列表：
 
-![](https://chuguan.me/static/stream-06.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-06.png)
 
 事件和函数某种程度上是相关的，因为它们通常一起使用。
 
@@ -221,7 +221,7 @@ readable.on('end', () => {
 
 如果要手动在两种模式之间切换，我们可以使用resume()和pause()方法。
 
-![](https://chuguan.me/static/stream-07.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-07.png)
 
 
 当我们使用pipe方法消费可读流的时候，我们并不需要考虑这些模式，因为pipe已经自动处理了。
@@ -432,7 +432,7 @@ process.stdin
 
 然后我们继续pipe到arrayToObject流。我们需要`writableObjectMode`标识使得这个流能接收一个对象。它同时把数组转成的对象push到了可读流数据中，这是为什么还需要加`readableObjectMode`标识的原因。最后的`objectToString`流接收这个对象，然后转成字符串并push到它的可读流部分，当然为了能接收对象，我们也需要给它设置`writableObjectMode`。
 
-![](https://chuguan.me/static/stream-08.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/stream-08.png)
 
 #### Node内置的转换流
 

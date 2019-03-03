@@ -15,7 +15,7 @@ tags: ["css"]
 
 以组件化的方式思考。把UI上每一块内容抽象成一个“component”，如下图所示：
 
-![](https://chuguan.me/static/component-example.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/component-example.png)
 
 #### 如何命名组件
 
@@ -29,7 +29,7 @@ tags: ["css"]
 
 元素包含在组件之内，如下图所示：
 
-![](https://chuguan.me/static/component-elements.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/component-elements.png)
 
 #### 如何命名元素
 
@@ -80,7 +80,7 @@ tags: ["css"]
 
 组件和元素都有可能存在变体，如下图所示：
 
-![](https://chuguan.me/static/component-modifiers.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/component-modifiers.png)
 
 #### 如何命名变体
 
@@ -114,7 +114,7 @@ tags: ["css"]
 
 ### 四、嵌套组件-Nested components
 
-![](https://chuguan.me/static/component-nesting.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/component-nesting.png)
 
 ```html
 <div class='article-link'>
@@ -187,7 +187,7 @@ tags: ["css"]
 
 ### 五、布局设计-Layouts
 
-![](https://chuguan.me/static/layouts.png)
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/layouts.png)
 
 #### 避免一些布局属性
 
