@@ -73,3 +73,15 @@ tags: ["node"]
 - 熟悉querystring的使用。
 - 熟悉util的一些工具方法。
 - 熟悉[常用模块](https://www.npmjs.com/browse/depended)的使用。
+
+## 11. 存储
+- 理解[数据库范式](http://www.cnblogs.com/CareySon/archive/2010/02/16/1668803.html)。
+- 熟悉SQL的相关概念，主键、外键、索引等。
+- 熟悉Mysql、MongoDB的使用。
+- 理解数据库模式M/M、M/S等，理解事务、数据一致性等概念。
+- 理解redis、memcached，了解zookeeper、kafka、hadoop、spark、storm等。
+
+## 12. 安全
+- 熟悉[crypto](https://nodejs.org/dist/latest-v10.x/docs/api/crypto.html)模块的使用。
+- 理解HTTPS的认证过程，了解TLS/SSL。
+- 理解常见的Web安全问题以及防御策略，XSS、CSRF、CSP、SQL注入等。
