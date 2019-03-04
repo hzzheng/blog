@@ -55,4 +55,21 @@ tags: ["node"]
 - 推荐阅读[深入理解计算机系统](https://nodejs.org/dist/latest-v10.x/docs/api/os.html)，[性能之巅](https://book.douban.com/subject/26586598/)。
 
 ## 8. 错误处理/调试
-- 
+- 理解常见的错误类型，JS错误、系统错误、自定义错误、断言错误。
+- 理解Node.js中处理错误的集中方式，callback(err, data)、throw/try/catch、EventEmitter的error事件。
+- 理解异步调用的函数，错误栈可能会丢失，比如在setImmediate中的异步调用。
+- 理解[防御性编程](http://blog.jobbole.com/101651/)。
+- 知道什么时候[Let it crash](http://wiki.c2.com/?LetItCrash)。
+- 理解uncaughtException、unhandledRejection的使用。
+- 知道如何debug，console.log、node-inspector、 built-in debugger、debug module、vscode debug。
+
+## 9. 测试
+- 理解为什么要写测试。
+- 理解单元测试、集成测试、基准测试、压力测试等。
+- 理解测试相关的一些概念，[测试覆盖率](https://www.infoq.cn/article/test-coverage-rate-role)、[Mock](https://martinfowler.com/articles/mocksArentStubs.html)等。
+
+## 10. util
+- 理解url的组成。
+- 熟悉querystring的使用。
+- 熟悉util的一些工具方法。
+- 熟悉[常用模块](https://www.npmjs.com/browse/depended)的使用。
