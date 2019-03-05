@@ -20,7 +20,7 @@ iTerm2是Mac下的一款终端工具，可能也是最好用的一款终端工�
 
 ## HotKeys
 
-1. 切分成多个pane：⌘+d书评切分，⌘+shift+d垂直切分； [图一]
+1. 切分成多个pane：⌘+d水平切分，⌘+shift+d垂直切分； [图一]
 2. 按顺序切换pane: ⌘+[, ⌘+]；
 3. 按方向切换pane: ⌘+option+方向键；
 4. 高亮当前光标：⌘+/；[图二]
@@ -29,7 +29,7 @@ iTerm2是Mac下的一款终端工具，可能也是最好用的一款终端工�
 7. 清除当前行：ctrl+u；
 8. 跳到行首：ctrl+a；
 9. 跳到行尾：ctrl+e；
-10. 删除光标到之后的文本：ctrl+k；
+10. 删除光标之后的文本：ctrl+k；
 11. 删除光标之前的单词：ctrl+w；
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/pane-split.png)
