@@ -56,7 +56,7 @@ tags: ["node"]
 
 ## 8. 错误处理/调试
 - 理解常见的错误类型，JS错误、系统错误、自定义错误、断言错误。
-- 理解Node.js中处理错误的集中方式，callback(err, data)、throw/try/catch、EventEmitter的error事件。
+- 理解Node.js中处理错误的几种方式，callback(err, data)、throw/try/catch、EventEmitter的error事件。
 - 理解异步调用的函数，错误栈可能会丢失，比如在setImmediate中的异步调用。
 - 理解[防御性编程](http://blog.jobbole.com/101651/)。
 - 知道什么时候[Let it crash](http://wiki.c2.com/?LetItCrash)。
