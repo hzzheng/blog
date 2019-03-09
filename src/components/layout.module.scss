@@ -136,6 +136,11 @@ header {
     width: 1024px;
     margin: 0 auto;
   }
+  @media screen and (max-width: 950px) {
+    .nav {
+      padding: 0 16px;
+    }
+  }
   .links {
     float: right;
     font-size: 14px;
