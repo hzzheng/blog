@@ -4,7 +4,7 @@ date: "2018-06-04"
 tags: ["f*ckGFW"]
 ---
 
-上周去东京，买了两个Google Home Mini，自己和女票一人一个。昨天在家折腾半天，因为众所周知的原因，在国内使用Mini需要自己搭梯子。追寻自由的路总是磕磕绊绊，当深夜里Mini说出"play some music on Spotify..."的时候，简直泪流满面。
+上周去东京，买了两个Google Home Mini给自己和女友。因为众所周知的原因，在国内使用Mini需要自己搭梯子。自由的路总是磕磕绊绊，昨天在家折腾许多，当深夜里Mini说出"play some music on Spotify..."的时候，泪流满面。
 
 #### 1、小米路由器刷开发版ROM
 
