@@ -1,5 +1,5 @@
 ---
-title: "工具控系列: iTerm2"
+title: "工具控系列：iTerm2"
 date: "2018-03-05"
 tags: ["tools"]
 ---
