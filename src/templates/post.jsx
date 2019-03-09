@@ -41,7 +41,7 @@ class postPage extends PureComponent {
             <div className={cls.origin}>
               该文翻译自：
               <a href={origin} target="_blank">
-                原文链接
+                {origin}
               </a>
             </div>
           )}
