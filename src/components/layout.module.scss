@@ -124,6 +124,9 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       }
     }
   }
+  code {
+    font-size: 1em;
+  }
 }
 
 header {
@@ -170,9 +173,6 @@ footer {
   }
 }
 
-code {
-  font-size: 1rem;
-}
 // code[class*="language-"],
 // pre[class*="language-"] {
 //   background: #f7f7f9;
