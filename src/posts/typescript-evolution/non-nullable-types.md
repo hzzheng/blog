@@ -1,11 +1,11 @@
 ---
 title: "Typescript 2.0: Non-Nullable类型"
-date: "2018-03-09"
+date: "2019-03-09"
 tags: ["typescript", "typescript-evolution"]
 origin: "https://mariusschulz.com/blog/typescript-2-0-non-nullable-types"
 ---
 
-[Typescirpt 2.0](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/)发布了许多新的特性。在这篇文章中，我们来一起**non-nulable**类型。它是对类型系统的重要改进，旨在避免一整类在编译时因为可能为空值引发的报错。
+[Typescirpt 2.0](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/)发布了许多新的特性。在这篇文章中，我们一起学习**non-nulable**类型。它是对类型系统的重要改进，旨在避免一整类在编译时因为可能为空值引发的报错。
 
 ### `null`和`undefined`
 
@@ -33,7 +33,7 @@ isMarried = undefined; // OK
 
 <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/typescript-number-domain-with-null-and-undefined.png" width="349">
 
-对于对象、数组和函数类型也是类似的。在之前的类型系统中没有一种方式可以表达一个具体的变量是non-nullable的，即不能为空的。幸运的是，Typescript 2.0解决了这个问题。
+对于对象、数组和函数类型也是类似的。所以在之前的类型系统中没有一种方式可以表达一个具体的变量是non-nullable的，即不能为空的。幸运的是，Typescript 2.0解决了这个问题。
 
 ### 严格的Null检测
 
@@ -87,7 +87,7 @@ name = null;      // OK
 name = undefined; // Error
 ```
 
-注意`undefined`不能复制给`name`，因为联合类型中并没有包含`undefined`类型。
+注意`undefined`不能赋值给`name`，因为联合类型中并没有包含`undefined`类型。
 
 这种处理空值方式的一个大好处是，某个类型哪些成员可能为空变得非常显式，能够自我解释。举一个`User`类型的例子：
 
@@ -183,4 +183,4 @@ function doSomething(callback?: () => void) {
 
 ### 总结
 
-Non-nullable类型是对Typescript类型系统基础且有价值的补充。它们使我们可以精确地控制那些变量和属性是可能为空的。可能为空对象的属性访问或者函数调用通过type guard的方式能够确保类型安全，从而避免编译时许多空值引起的错误。
+Non-nullable类型是对Typescript基础类型系统很重要的补充。它们使我们可以精确地控制那些变量和属性是可能为空的。可能为空的对象的属性访问或者函数调用通过type guard的方式能够确保类型安全，从而避免编译时许多空值引起的错误。
