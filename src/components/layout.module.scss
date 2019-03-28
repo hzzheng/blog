@@ -1,11 +1,9 @@
 $border: 1px solid rgba(28, 160, 134, 0.1);
 
-.container {
-  display: flex;
-  margin: 16px auto;
-  max-width: 1024px;
+html, body {
   overflow: hidden;
-
+}
+.container {
   .content {
     flex: 1;
     min-height: 980px;
@@ -16,20 +14,10 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
   }
   
   aside {
-    box-sizing: border-box;
-    width: 304px;
-    height: 600px;
-    padding: 0 40px;
-    border-left: $border;
+    display: none;
 
     a {
       background-image: none;
-    }
-  }
-
-  @media screen and (max-width: 720px) {
-    aside {
-      display: none;
     }
   }
   
@@ -170,6 +158,24 @@ footer {
     padding-left: 32px;
     background-image: none;
     color: #a6a6a6;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .container {
+    display: flex;
+    margin: 16px auto;
+    max-width: 1024px;
+    overflow: hidden;
+    
+    aside {
+      display: block;
+      box-sizing: border-box;
+      width: 304px;
+      height: 600px;
+      padding: 0 40px;
+      border-left: $border;
+    }
   }
 }
 
