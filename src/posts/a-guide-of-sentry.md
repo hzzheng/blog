@@ -6,15 +6,15 @@ tags: ["sentry"]
 
 本指南包含以下几个部分：
 
--  如何上手
--  如何上报事件
--  如何设置 Context
--  如何设置 Breadcrumbs
--  如何收集用户反馈
--  如何设置 Release
--  如何设置事件分组
--  如何设置 SourceMaps
----
+- 如何上手
+- 如何上报事件
+- 如何设置 Context
+- 如何设置 Breadcrumbs
+- 如何收集用户反馈
+- 如何设置 Release
+- 如何设置事件分组
+- 如何设置 SourceMaps
+
 
 ### 如何上手
 
@@ -36,7 +36,7 @@ npm install @sentry/node@5.1.0
 
 然后在你的项目中添加如下代码：
 
-```node
+```javascript
 const Sentry = require('@sentry/node');
 // 注意替换成你项目的dsn
 Sentry.init({ dsn: 'https://fdefeaabf2a243f695629d8b4e1a05b2@sentry.io/1448458' });
@@ -55,7 +55,7 @@ Sentry.init({ dsn: 'https://fdefeaabf2a243f695629d8b4e1a05b2@sentry.io/1448458' 
 #### 1. 捕获事件
 Sentry SDK会自动上报fatal errors。你也可以手动上报错误。示例代码如下：
 
-```node
+```javascript
 try {
     aFunctionThatMightFail();
 } catch (err) {
@@ -64,7 +64,7 @@ try {
 ```
 
 你也可以使用`captureMessage`上报一段文本：
-```node
+```javascript
 Sentry.captureMessage('Something went wrong');
 ```
 
@@ -72,7 +72,7 @@ Sentry.captureMessage('Something went wrong');
 
 可以对上报的事件做一些自定义处理，在init的时候添加`beforeSend`配置项，示例代码如下：
 
-```node
+```javascript
 Sentry.init({
   beforeSend(event) {
     // Modify the event here
@@ -97,7 +97,7 @@ Sentry.init({
 
 当前用户信息。设置用户的示例代码如下：
 
-```node
+```javascript
 Sentry.configureScope((scope) => {
   scope.setUser({"email": "john.doe@example.com"});
 });
@@ -109,7 +109,7 @@ Sentry.configureScope((scope) => {
 
 可以给事件设置标签，在Sentry后台可以通过tags过滤事件。示例代码如下：
 
-```node
+```javascript
 Sentry.configureScope((scope) => {
   scope.setTag("page_locale", "de-at");
 });
@@ -119,7 +119,7 @@ Sentry.configureScope((scope) => {
 
 可以通过`level`设置事件的严重程度。可选值包括'fatal', 'error', 'warning', 'info', 和 'debug'。默认'error'。示例代码如下：
 
-```node
+```javascript
 Sentry.configureScope((scope) => {
   scope.setLevel('warning');
 });
@@ -133,7 +133,7 @@ Sentry可以通过`fingerprints`来决定如何将事件分组成issues。具体
 
 你也可以设置自定义的key/value数据，这些数据会和事件一起存储起来。示例代码如下：
 
-```node
+```javascript
 Sentry.configureScope((scope) => {
   scope.setExtra("character_name", "Mighty Fighter");
 });
@@ -141,7 +141,7 @@ Sentry.configureScope((scope) => {
 
 以上设置在项目中是全局可见的，你也可以设置local scopes。如果你只需要在某个事件上报的时候设置一些信息，可以像下面这样做：
 
-```node
+```javascript
 Sentry.withScope(scope => {
   scope.setTag("my-tag", "my value");
   scope.setLevel('warning');
@@ -162,7 +162,7 @@ Sentry中Breadcrumbs指的是某个事件触发的路径，它会记录事件触
 你可以通过SDK API手动记录。每个Breadcrumb可以包含这些字段：Message、Data、Category、Level、Type。
 
 示例代码如下：
-```node
+```javascript
 Sentry.addBreadcrumb({
   category: 'auth',
   message: 'Authenticated user ' + user.email,
@@ -173,7 +173,7 @@ Sentry.addBreadcrumb({
 #### 2. 过滤 Breadcrumbs
 
 和过滤事件一样，你也可以在每次记录Breadcrumb之前，做一些自定义处理，或者干脆忽略这个Breadcrumb（返回null）。示例代码如下：
-```node
+```javascript
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({
@@ -188,7 +188,7 @@ Sentry.init({
 
 当错误发生的时候，如果你想从用户那儿了解究竟发生了什么，你可以通过Sentry提供的用户反馈组件来获取用户主动提供的相关信息。示例代码如下：
 
-```node
+```javascript
 Sentry.showReportDialog({ eventId: '{{ sentry_event_id }}' })
 ```
 
@@ -206,7 +206,7 @@ Sentry.showReportDialog({ eventId: '{{ sentry_event_id }}' })
 
 在init中设置release，值可以是任意的字符串，可以用git SHA，需要注意的是，这个值在一个organization（组织）内需要是唯一的。示例代码如下：
 
-```node
+```javascript
 Sentry.init({
   release: "my-project-name@2.3.12"
 })
@@ -235,7 +235,7 @@ Sentry.init({
 
 下面介绍使用 sentry-cli 这种方式创建release并关联commits，示例代码：
 
-```node
+```javascript
 # Assumes you're in a git repository
 export SENTRY_AUTH_TOKEN=...
 export SENTRY_ORG=my-org
@@ -288,7 +288,7 @@ Sentry会根据一些信息对相似的事件进行分组，并产生一个isssu
 
 除了默认的分组策略，你也可以通过设置fingerprints自定义分组，这个值会随着事件一起发送到Sentry后台。示例代码如下：
 
-```node
+```javascript
 Sentry.configureScope((scope) => {
   scope.setFingerprint(['my-view-function']);
 });
@@ -300,7 +300,7 @@ Sentry.configureScope((scope) => {
 
 比如你的应用会请求RPC接口或者外部的API服务，他们的报错信息基本是一样的，所以Sentry默认会将这些报错分为一组，但你可以通过fingerprints将他们分开，示例代码如下：
 
-```node
+```javascript
 class MyRPCError extends Error {
   constructor(message, functionName, errorCode) {
     super(message);
@@ -335,7 +335,7 @@ Sentry.init({
 
 有时候很多group太小，并且这些group其实是同一个大类的错误，可以用fingerprints合并成一个group，示例代码如下：
 
-```node
+```javascript
 class DatabaseConnectionError extends Error {}
 
 Sentry.init({
@@ -368,7 +368,7 @@ yarn add --dev @sentry/webpack-plugin
 
 然后在webpack.config.js中添加如下代码：
 
-```node
+```javascript
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 module.exports = {
