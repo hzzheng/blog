@@ -1,5 +1,11 @@
 $border: 1px solid rgba(28, 160, 134, 0.1);
 
+.page {
+  position: relative;
+  padding-bottom: 44px;
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   margin: 16px auto;
@@ -160,6 +166,9 @@ header {
 }
 
 footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   padding: 16px 0;
   border-top: $border;
   text-align: center;

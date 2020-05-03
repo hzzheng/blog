@@ -6,7 +6,7 @@ import _ from 'lodash'
 import cls from './layout.module.scss'
 
 export default ({ children, data }) => (
-  <div>
+  <div className={cls.page}>
     <header>
       <div className={cls.nav}>
         <Link to="/">
@@ -69,6 +69,6 @@ export default ({ children, data }) => (
         </section>
       </aside>
     </div>
-    <footer>郑超的独立博客 © 2019 Powered By GatsbyJS</footer>
+    <footer>郑超的独立博客 © 2020 Powered By GatsbyJS</footer>
   </div>
 )
