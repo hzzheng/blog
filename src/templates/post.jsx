@@ -39,7 +39,7 @@ class postPage extends PureComponent {
           <small>{date}</small>
           {origin && (
             <div className={cls.origin}>
-              该文翻译自：
+              本文翻译自：
               <a href={origin} target="_blank">
                 {origin}
               </a>

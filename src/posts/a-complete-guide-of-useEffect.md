@@ -2,6 +2,7 @@
 title: useEffect 完整指南
 date: "2019-03-18"
 origin: "https://overreacted.io/a-complete-guide-to-useeffect/"
+tags: ["react"]
 ---
 
 你用[Hooks](https://reactjs.org/docs/hooks-intro.html)写了一些组件，甚或写了一个小型应用。你可能很满意，使用它的API很舒服并且在这个过程中获得了一些小技巧。你甚至可能写了一些 [custom Hooks](https://reactjs.org/docs/hooks-custom.html)去抽离重复的逻辑（精简掉了300行代码），并且得意地展示给你的同事看，“干得漂亮”，他们如是说。
