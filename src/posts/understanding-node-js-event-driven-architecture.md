@@ -1,11 +1,15 @@
 ---
-title: 理解 Node 的事件驱动架构
+title: 理解 Node.js 的事件驱动架构
 date: "2017-07-18"
 origin: "https://www.freecodecamp.org/news/understanding-node-js-event-driven-architecture-223292fcbc2d/"
 tags: ["node"]
 ---
 
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/node%20event-driven-architecture/1_Nozl2qd0SV8Uya2CEkF_mg.jpeg)
+
 大部分的Node对象，比如 HTTP的requests、responses 对象, 以及streams，都实现了 EventEmitter 模块，所以它们都提供了触发和监听事件的功能。
+
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/node%20event-driven-architecture/1_74K5OhiYt7WTR0WuVGeNLQ.png)
 
 事件驱动的本质可以从Node.js一些常用函数的回调风格这种最简单形式中看出来。比如，`fs.readFile`函数，传入该函数的回调会被作为事件处理器，在适当的时候（Node.js 准备好调用这个回调的时候）被触发。
 
@@ -118,4 +122,171 @@ const readFileAsArray = function(file, cb = () => {}) {
 在上面的例子中，为了避免使用者通过 promise 的方式消费这个函数而导致报错，我们需要给回调参数一个默认值，也即一个空函数。
 
 ### 通过 async/await 来使用 promise
+
+相比回调，promise 使代码更易理解更易维护。generator 函数也能使异步代码更容易书写和阅读。不过，现在更推荐使用 async 函数来处理异步，它可以让我们像写同步代码一样来写异步代码，这对可读性的提升是巨大的。
+
+下面演示了如何通过 async/await 的方式来使用 `readFileArray` 函数：
+
+```javascript
+async function countOdd () {
+  try {
+    const lines = await readFileAsArray('./numbers');
+    const numbers = lines.map(Number);
+    const oddCount = numbers.filter(n => n%2 === 1).length;
+    console.log('Odd numbers count:', oddCount);
+  } catch(err) {
+    console.error(err);
+  }
+}
+
+countOdd();
+```
+
+创建 async 函数很简单，只需要在普通函数前面加上 `async` 关键字。在 async 函数中，通过`await` 调用 `readFileArray` 函数可以得到 lines 变量。然后继续执行，好像 `readFileArray` 是同步调用一样。 
+
+最后我们执行这个异步函数，上面的这种写法非常简单且易读。至于错误处理，我们需要把相关的异步调用放到 try/catch 语句中。
+
+有了 async/await 语法，我们不再需要使用任何特殊的API（比如 .then 和 .catch）。我们只需要在相应位置添加 async/await 即可。
+
+我们可以对任意支持 promise 接口的函数使用 async/await 语法。但不支持回调风格的异步函数（比如 setTimeout）。
+
+### EventEmitter 模块
+
+在 Node 中，EventEmitter 模块可以使对象之间的通信更容易。EventEmitter 是 Node 异步事件驱动架构的核心。许多 Node 的内置模块都继承自 EventEmitter。
+
+原理是很简单的：触发器对象触发命名事件，而已经注册了该命名事件的监听器会被调用。所以，触发器对象基本上有两个主要的功能：
+
+- 触发命名事件
+- 注册和注销监听器函数
+
+要使用 EventEmitter，我们只需要创建一个继承自 EventEmitter 的类就可以了。
+
+```javascript
+class MyEmitter extends EventEmitter {
+
+}
+```
+
+监听器对象就是我们实例化这个类得到的对象。
+
+```javascript
+const myEmitter = new MyEmitter();
+```
+
+ 在这些监听器对象生命周期的任意时刻，我们都可以通过 emit 函数来触发一个命名事件。
+
+```javascript
+myEmitter.emit('something-happened');
+```
+
+触发一个事件往往是某种状况已经发生的信号。这种状况通常是触发器对象状态的变更。我们可以通过 `on` 方法来注册监听器函数，这些函数会在触发器对象触发相应事件的时候被调用。
+
+### 事件 !== 异步
+
+我们来看一个例子：
+
+```javascript
+const EventEmitter = require('events');
+
+class WithLog extends EventEmitter {
+  execute(taskFunc) {
+    console.log('Before executing');
+    this.emit('begin');
+    taskFunc();
+    this.emit('end');
+    console.log('After executing');
+  }
+}
+
+const withLog = new WithLog();
+
+withLog.on('begin', () => console.log('About to execute'));
+withLog.on('end', () => console.log('Done with execute'));
+
+withLog.execute(() => console.log('*** Executing task ***'));
+```
+
+`WithLog` 类是一个事件触发器。它定义类一个实例方法 `execute`。该方法接收一个任务函数，并且在执行这个任务函数前后加了打印语句，以及触发了一些事件。
+
+为了查看执行顺序，我们需要注册一些监听器，最后再调用 `excute`。
+
+下面是打印输出：
+
+```javascript
+Before executing
+About to execute
+*** Executing task ***
+Done with execute
+After executing
+```
+
+需要提醒的是，输出都是同步发生的。上面的代码中并没有任何异步的内容。
+
+- 我们首先打印 `Before executing`
+- 然后 `begin` 事件触发并打印 `About to exccute`
+- 执行任务函数，打印 `*** Executing task ***`
+- 再然后触发 `end` 事件并打印 `Done with execute`
+- 最后打印 `After executing`
+
+和平淡无奇的回调一样，不要假设事件就意味着同步或者异步代码。
+
+这点很重要，因为如果我们传入一个异步函数 `taskFunc` 给 `execute`，那么事件触发的时机就是不准确的。
+
+我们可以通过 `setImmediate` 调用来模拟这种情况：
+
+```javascript
+withLog.execute(() => {
+  setImmediate(() => {
+    console.log('*** Executing task ***')
+  });
+});
+```
+
+现在的输出是这样的：
+
+```javscript
+Before executing
+About to execute
+Done with execute
+After executing
+*** Executing task ***
+```
+
+这是错误的。异步调用之后执行的代码，在任务执行完成之前就打印了 `Done with execute` 和 `After executing`，这显然不准确。
+
+在异步调用后才触发事件需要结合使用回调或者 promise。下面的例子会证明这一点。
+
+相比普通的回调函数，使用事件的一个好处是我们可以注册很多监听器，这些监听器在事件触发时都能被调用。如果想用回调函数达到同样的效果，我们需要在回调中写更多的逻辑。事件是一种非常棒的机制，比如它能让外部的插件基于应用的核心来构建功能。你可以认为事件是一种钩子，允许围绕状态的变化来书写自己的故事。
+
+### 异步事件
+
+我们把上面的同步代码转换成更有用的异步代码：
+
+```javascript
+const fs = require('fs');
+const EventEmitter = require('events');
+
+class WithTime extends EventEmitter {
+  execute(asyncFunc, ...args) {
+    this.emit('begin');
+    console.time('execute');
+    asyncFunc(...args, (err, data) => {
+      if (err) {
+        return this.emit('error', err);
+      }
+
+      this.emit('data', data);
+      console.timeEnd('execute');
+      this.emit('end');
+    });
+  }
+}
+
+const withTime = new WithTime();
+
+withTime.on('begin', () => console.log('About to execute'));
+withTime.on('end', () => console.log('Done with execute'));
+
+withTime.execute(fs.readFile, __filename);
+```
 
