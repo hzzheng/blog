@@ -13,7 +13,7 @@ tags: ["node"]
 
 事件驱动的本质可以从Node.js一些常用函数的回调风格这种最简单形式中看出来。比如，`fs.readFile`函数，传入该函数的回调会被作为事件处理器，在适当的时候（Node.js 准备好调用这个回调的时候）被触发。
 
-我们先从这种最简单的形式开始探索。
+我们先从这种最简单的形式开始讨论。
 
 ### Node，你准备好了就 Call 我吧
 
@@ -23,7 +23,7 @@ tags: ["node"]
 
 有一点需要强调，回调并不意味异步，一个函数既可以同步也可以异步调用回调函数。
 
-举个例子，这儿有个宿主函数 `fileSize` 接受一个回调参数 `cb`，并且会根据条件来同步或者异步调用这个回调。
+举个例子，这儿有个宿主函数 `fileSize` 接收一个回调参数 `cb`，并且会根据条件来同步或者异步调用这个回调。
 
 ```javascript
 function fileSize (fileName, cb) {
@@ -75,9 +75,9 @@ readFileAsArray('./numbers.txt', (err, lines) => {
 });
 ```
 
-上面的代码首先从文件中读取内容获得一个字符串数组，然后将数组中的字符串转位数字并计算奇数个数。
+上面的代码首先从文件中读取内容获得一个字符串数组，然后将数组中的字符串转为数字并计算奇数个数。
 
-这是不折不扣的 Node 回调风格。这个回调函数的第一个参数是 `err` 错误对象，`err` 可以为 null。并且回调函数本身又作为宿主函数的最后一个参数传入。你应该永远这样做，因为使用者很可能会这样去预期，也即，宿主函数接收回调作为最后一个参数，并且这个回调函数接收一个错误对象作为它的第一个参数。
+这是不折不扣的 Node 回调风格。这个回调函数的第一个参数是可以为 null 的 `err` 错误对象，并且回调函数本身又作为宿主函数的最后一个参数传入。你应该永远这样做，因为使用者很可能会这样去预期，也即，宿主函数接收回调作为最后一个参数，并且这个回调函数接收一个错误对象作为它的第一个参数。
 
 ### 现代 Javascript 中回调函数的替代品
 
@@ -167,13 +167,13 @@ class MyEmitter extends EventEmitter {
 }
 ```
 
-监听器对象就是我们实例化这个类得到的对象。
+触发器对象就是我们实例化这个类得到的对象。
 
 ```javascript
 const myEmitter = new MyEmitter();
 ```
 
- 在这些监听器对象生命周期的任意时刻，我们都可以通过 emit 函数来触发一个命名事件。
+ 在这些触发器对象生命周期的任意时刻，我们都可以通过 emit 函数来触发一个命名事件。
 
 ```javascript
 myEmitter.emit('something-happened');
@@ -206,7 +206,7 @@ withLog.on('end', () => console.log('Done with execute'));
 withLog.execute(() => console.log('*** Executing task ***'));
 ```
 
-`WithLog` 类是一个事件触发器。它定义类一个实例方法 `execute`。该方法接收一个任务函数，并且在执行这个任务函数前后加了打印语句，以及触发了一些事件。
+`WithLog` 类是一个事件触发器。它定义了一个实例方法 `execute`。该方法接收一个任务函数，并且在执行这个任务函数前后加了打印语句，以及触发了一些事件。
 
 为了查看执行顺序，我们需要注册一些监听器，最后再调用 `excute`。
 
@@ -228,7 +228,7 @@ After executing
 - 再然后触发 `end` 事件并打印 `Done with execute`
 - 最后打印 `After executing`
 
-和平淡无奇的回调一样，不要假设事件就意味着同步或者异步代码。
+和平淡无奇的回调一样，不要假设事件就意味着同步或者异步。
 
 这点很重要，因为如果我们传入一个异步函数 `taskFunc` 给 `execute`，那么事件触发的时机就是不准确的。
 
@@ -384,7 +384,7 @@ Error: ENOENT: no such file or directory, open ''
 
 所以第二个 execute 调用会受影响根本不会被执行。
 
-如果我们注册来一个监听器来处理 `error` 事件，node 进程的行为会被改变。如下所示：
+如果我们注册了一个监听器来处理 `error` 事件，node 进程的行为会被改变。如下所示：
 
 ```javascript
 withTime.on('error', (err) => {
@@ -400,7 +400,7 @@ withTime.on('error', (err) => {
 execute: 4.276ms
 ```
 
-需要注意的是，如果代码是基于 promise 的话，node 的行为会不一样，它只会打印处警告信息。这种行为最终应该会改变。
+需要注意的是，如果代码是基于 promise 的话，node 的行为会不一样，它只会打印警告信息。这种行为最终应该会改变。
 
 ```javascript
 UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): Error: ENOENT: no such file or directory, open ''
@@ -429,7 +429,7 @@ process.on('uncaughtException', (err) => {
 
 ### 监听器顺序
 
-如果我们给相同的事件注册了很多监听器，那么这些监听器会按照注册时间顺序执行。也即，第一个注册的监听器会被第一个触发调用。
+如果我们给相同的事件注册了很多监听器，那么这些监听器会按照注册的时间顺序执行。也即，第一个注册的监听器会被第一个触发调用。
 
 ```javascript
 
@@ -447,7 +447,7 @@ withTime.execute(fs.readFile, __filename);
 
 上面的代码中，"Length" 行会比 "Characters" 行先打印，因为这正是我们注册监听器的顺序。
 
-如果你像注册一个新监听器，但希望被第一个调用，你也可以使用 `prependListener` 方法：
+如果你想注册一个新监听器，但希望被第一个调用，你也可以使用 `prependListener` 方法：
 
 ```javascript
 withTime.on('data', (data) => {
@@ -463,6 +463,6 @@ withTime.execute(fs.readFile, __filename);
 
 上面 "Characters" 行会被先打印。
 
-最后，如果你像移除一个监听器，你可以使用 `removeListener` 方法。
+最后，如果你想移除一个监听器，你可以使用 `removeListener` 方法。
 
 谢谢阅读。
