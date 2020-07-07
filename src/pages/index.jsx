@@ -23,7 +23,6 @@ class Home extends PureComponent {
       const skip = currentPage * PAGE_SIZE
       return index >= skip && index < skip + PAGE_SIZE
     })
-
     return posts
   }
 
