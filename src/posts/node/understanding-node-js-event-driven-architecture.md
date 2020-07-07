@@ -290,3 +290,179 @@ withTime.on('end', () => console.log('Done with execute'));
 withTime.execute(fs.readFile, __filename);
 ```
 
+`WithTime` 的 execute 方法会执行一个异步函数 `asyncFunc`，并且会通过 `console.time` 和 `console.timeEnd` 来记录执行时间。上面的代码除了正确地触发了执行前后相应的事件，还触发了在异步调用中常用的 `error/data` 事件。
+
+我们通过传入 `file.readFile` 这个异步函数来测试 `withTime`。现在我们可以通过监听 `data` 事件来获取文件数据，而非通过回调。
+
+当我们执行上面的代码，我们可以得到正确的事件触发顺序，就像期望的一样，我们还得到了异步函数执行的时间：
+
+```javascript
+About to execute
+execute: 4.507ms
+Done with execute
+```
+
+以上的实现结合了事件触发器和回调函数。如果 `asyncFunc` 支持 promise 的话，我们也可以通过 `async/await` 来实现相同的功能：
+
+```javascript
+class WithTime extends EventEmitter {
+  async execute(asyncFunc, ...args) {
+    this.emit('begin');
+    try {
+      console.time('execute');
+      const data = await asyncFunc(...args);
+      this.emit('data', data);
+      console.timeEnd('execute');
+      this.emit('end');
+    } catch(err) {
+      this.emit('error', err);
+    }
+  }
+}
+```
+
+我不知道你怎么看，对我来说上面的代码比基于回调的代码或者基于 `.then/.catch` 的代码要易读的多。`async/await` 让我们更接近 Javascript 语言本身，我们认为这很棒。
+
+### 事件参数和错误
+
+上面的示例中，我们还触发来两个带参数的事件。
+
+error 事件触发的时候传递了一个错误对象。
+
+```javascript
+this.emit('error', err);
+```
+
+data 事件触发的时候传递了一个数据对象。
+
+```javascript
+this.emit('data', data);
+```
+
+我们可以根据需要传入任意多的参数给命名事件，并且这些参数会被所有注册的事件监听器接收到。
+
+举个例子，注册了 data 事件的监听器会得到一个 data 参数，这个参数正是事件触发的时候传入的数据对象。
+
+```javascript
+withTime.on('data', (data) => {
+  // do something with data
+});
+```
+
+`error` 事件是比较特殊的一种事件。在上面基于回调的例子中，我们如果不设置监听器处理这个错误事件，那么 node 进程就会退出。
+
+为了证明这一点，我们可以传入不正确的参数来执行 execute 方法：
+
+```javascript
+class WithTime extends EventEmitter {
+  execute(asyncFunc, ...args) {
+    console.time('execute');
+    asyncFunc(...args, (err, data) => {
+      if (err) {
+        return this.emit('error', err); // Not Handled
+      }
+
+      console.timeEnd('execute');
+    });
+  }
+}
+
+const withTime = new WithTime();
+
+withTime.execute(fs.readFile, ''); // BAD CALL
+withTime.execute(fs.readFile, __filename);
+```
+
+第一次执行 execute 方法会报错，node 进程会崩溃退出：
+
+```javascript
+events.js:163
+      throw er; // Unhandled 'error' event
+      ^
+Error: ENOENT: no such file or directory, open ''
+```
+
+所以第二个 execute 调用会受影响根本不会被执行。
+
+如果我们注册来一个监听器来处理 `error` 事件，node 进程的行为会被改变。如下所示：
+
+```javascript
+withTime.on('error', (err) => {
+  // do something with err, for example log it somewhere
+  console.log(err)
+});
+```
+
+如果像上面这样做，那么第一次执行 execute 方法触发的错误会被捕获，从而不会导致 node 进程崩溃退出。第二个 execute 调用也会被正常执行。
+
+```javascript
+{ Error: ENOENT: no such file or directory, open '' errno: -2, code: 'ENOENT', syscall: 'open', path: '' }
+execute: 4.276ms
+```
+
+需要注意的是，如果代码是基于 promise 的话，node 的行为会不一样，它只会打印处警告信息。这种行为最终应该会改变。
+
+```javascript
+UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): Error: ENOENT: no such file or directory, open ''
+DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+```
+
+另外一种处理异常的方式是在全局的 `process` 对象上注册 `uncaughtException` 事件。不过，这种在全局捕获错误的方式并不好。
+
+关于 `uncaughtException` 的标准建议是避免使用它，但如果一定要用（比如报告发生了什么，或者做一些清理工作），那你应该还是要让进程退出：
+
+```javascript
+process.on('uncaughtException', (err) => {
+  // something went unhandled.
+  // Do any cleanup and exit anyway!
+
+  console.error(err); // don't do just that!
+
+  // FORCE exit the process too.
+  process.exit(1);
+});
+```
+
+此外，如果多个错误事件同时触发，意味着 `uncaughtException` 监听器函数会被调用很多次，这对于一些清理代码可能是个问题。比如可能会执行多次数据库连接断开操作。
+
+`EventEmitter` 暴露了一个 `once` 方法。这个方法只会触发调用监听器函数一次，而非每次事件发生都执行。所以这个方法适合和 `uncaughtException` 配合使用，因为这样在第一次触发事件的时候清理代码会被执行，并且进程会顺利退出。
+
+### 监听器顺序
+
+如果我们给相同的事件注册了很多监听器，那么这些监听器会按照注册时间顺序执行。也即，第一个注册的监听器会被第一个触发调用。
+
+```javascript
+
+withTime.on('data', (data) => {
+  console.log(Length: ${data.length});
+});
+
+
+withTime.on('data', (data) => {
+  console.log(Characters: ${data.toString().length});
+});
+
+withTime.execute(fs.readFile, __filename);
+```
+
+上面的代码中，"Length" 行会比 "Characters" 行先打印，因为这正是我们注册监听器的顺序。
+
+如果你像注册一个新监听器，但希望被第一个调用，你也可以使用 `prependListener` 方法：
+
+```javascript
+withTime.on('data', (data) => {
+  console.log(Length: ${data.length});
+});
+
+withTime.prependListener('data', (data) => {
+  console.log(Characters: ${data.toString().length});
+});
+
+withTime.execute(fs.readFile, __filename);
+```
+
+上面 "Characters" 行会被先打印。
+
+最后，如果你像移除一个监听器，你可以使用 `removeListener` 方法。
+
+谢谢阅读。
