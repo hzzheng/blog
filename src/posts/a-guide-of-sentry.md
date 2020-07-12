@@ -1,6 +1,6 @@
 ---
 title: "Sentry 简明指南"
-date: "2019-04-10"
+date: "2019-01-10"
 tags: ["sentry"]
 ---
 
