@@ -67,6 +67,10 @@ export default ({ children, data }) => (
             ))}
           </ul>
         </section>
+        <section className={cls.qrcode}>
+          <div>欢迎关注公众号<br /> [前端每周翻译]</div>
+          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/qrcode.bmp" alt="我的微信公众号"/>
+        </section>
       </aside>
     </div>
     <footer>郑超的独立博客 © 2020 Powered By GatsbyJS</footer>
