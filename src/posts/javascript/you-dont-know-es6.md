@@ -22,8 +22,8 @@ Understanding ECMAScript 6》](https://leanpub.com/understandinges6/read#leanpub
 
 ### 字符串
 
-1. Javascript 可以采用 \uxxxx 形式表示一个字符，其中 xxxx 表示字符的码点。但是，这种表示法只限于 \u0000 --- \uFFFF之间的字符。超过这个范围的字符，必须用2个双字节的形式表示。ES6对这一点作出了改进，只要将码点放入打括号就能正确解读该字符。
-2. Javascript 内部，字符以 UTF-16 的格式存储，每个字符固定2个字节。对于那些需要4个字节的字符（Unicode 码点大于 \uFFFF）,Javascript 会认为它们是2个字符。ES6 提供了 codePointAt 方法，能够正确处理4个字符储存的字符。codePointAt 方法是测试一个字符由2个字节还是4个字节组成的最简单方法。
+1. Javascript 可以采用 \uxxxx 形式表示一个字符，其中 xxxx 表示字符的码点。但是，这种表示法只限于 \u0000 --- \uFFFF之间的字符。超过这个范围的字符，必须用2个双字节的形式表示。ES6对这一点作出了改进，只要将码点放入大括号就能正确解读该字符。
+2. Javascript 内部，字符以 UTF-16 的格式存储，每个字符固定2个字节。对于那些需要4个字节的字符（Unicode 码点大于 \uFFFF），Javascript 会认为它们是2个字符。ES6 提供了 codePointAt 方法，能够正确处理4个字节储存的字符。codePointAt 方法是测试一个字符由2个字节还是4个字节组成的最简单方法。
 
 ```javascript
 function is32Bit(c) {
@@ -31,7 +31,7 @@ function is32Bit(c) {
 } 
 ```
 3. ES5 提供了 String.fromCharCode 方法，用于从码点返回对应字符。但这个方法不能识别 32 位的 UTF-16 字符（Unicode 码点大于 \uFFFF）。ES6 提供的 String.fromCodePoint 解决了这个问题。
-4. ES6 为字符串添加了遍历接口，可以用 for...of 循环。这种遍历方式最大的优点是可以识别大于 0xFFFF 的码点。而传统的for循环做不到。
+4. ES6 为字符串添加了遍历接口，可以用 for...of 循环。这种遍历方式最大的优点是可以识别大于 0xFFFF 的码点。而传统的 for 循环做不到。
 5. startsWith，endsWith，includes 三个方法都支持第二个参数，表示开始搜索的位置。
 6. 标签模板其实不是模板，而是函数调用的一种特殊形式。
 
@@ -45,8 +45,8 @@ function is32Bit(c) {
 1. ES6 提供了二进制和八进制数值的新写法，分别用前缀0b 和 0o 表示。
 2. Number.isFinite 和 Num.isNaN 和之前的全局方法的不同在于，它们不会对传入的非数值进行数值转换。这样做的目的，是为了减少全局性方法，使语言逐步模块化。
 3. 极小常量 Number.EPSILON 可以检查浮点运算可以接受的误差范围。
-4. Javascript 能够准确表示的证书范围在正负 2的53 方，ES6 引入了 Number.MAX_SAFE_INTEGER 和 Number.MINI_SAFE_INTEGER 两个常量来表示范围的上下限。
-5. Math 的扩展：Math.trunc 会去除一个数的小数部分，Math.sign 会放回一个数是正数还是负数还是零。
+4. Javascript 能够准确表示的整数范围在正负 2的53 方，ES6 引入了 Number.MAX\_SAFE\_INTEGER 和 Number.MINI\_SAFE\_INTEGER 两个常量来表示范围的上下限。
+5. Math 的扩展：Math.trunc 会去除一个数的小数部分，Math.sign 会返回一个数是正数还是负数还是零。
 
 ### 数组
 1. Array.from 方法用于将两类对象转为真正的数组：类似数组的对象和可遍历的对象。
@@ -99,7 +99,7 @@ function clone(origin) {
 4. Symbol.for 和 Symbol 的不同在于，前者会被登记在全局中供搜索，所以不是每次都会返回一个新的 Symbol 类型的值。
 5. Symbol.hasInstance 属性指向一个内部方法，对象使用 instanceof 运算符时会调用这个方法。
 6. 对象的 Symbol.toPrimitive 属性指向一个方法，对象被转为原始类型的值时会调用这个方法。
-7. 对象的 Symbol.toStringTag 可以用于定制[Object Array] 中 object 后面的字符串。
+7. 对象的 Symbol.toStringTag 可以用于定制[object Array] 中 object 后面的字符串。
 
 ### Proxy & Reflect
 1. Proxy 实际上重载了点运算符，即用自己的定义覆盖了语言的原始定义。
@@ -233,7 +233,7 @@ for (let [key, value] of entries(obj)) {
 ```
 
 ### Generator
-1. 执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除来是状态机，还是一个遍历器对象生成函数。
+1. 执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除了是状态机，还是一个遍历器对象生成函数。
 2. 可以通过 next 方法在 Generator 运行的不同阶段注入不同的值，从而调整函数行为。
 3. 用 Generator 函数实现斐波那契数列：
 
@@ -360,7 +360,7 @@ function run(gen) {
 
 ### Class
 1. 类内部定义的所有方法都是不可枚举的。
-2. ES5 的继承实质上是先创造子类的实例对象this，然后再将父类的方法添加到this上，ES6完全不同，而是先创建父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。
-3. 父类的静态方法可以被子类继承。静态方法也可以从super对象上调用。
+2. ES5 的继承实质上是先创造子类的实例对象 this，然后再将父类的方法添加到 this 上，ES6完全不同，而是先创建父类的实例对象 this（所以必须先调用 super 方法），然后再用子类的构造函数修改 this。
+3. 父类的静态方法可以被子类继承。静态方法也可以从 super 对象上调用。
 4. new.target 这个属性可用于确定构造函数是怎么调用的。
-5. 
+
