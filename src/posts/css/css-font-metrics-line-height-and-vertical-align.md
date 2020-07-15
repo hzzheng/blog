@@ -7,7 +7,7 @@ origin: "https://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-ali
 
 `line-height` 和 `vertical-align` 是简单的 CSS 属性。如此简单以至于我们大多数人都自信已经完全理解它们以及如何使用它们。但真的并非如此。它们真的很复杂，也许是最难以理解的属性，因为它们是某个很少为人所知的 CSS 特性——行内格式化上下文（inline formatting context）——的主要组成部分。
 
-举个例子，`line-height` 可以被设置为一个具体的长度，或者无单位的值，不过它的默认值是 `normal`。但， `normal` 究竟是什么？我们经常会读到说它应该是1，或可能是1.2，但就连[ CSS 规范对于这一点也没有清晰的说明](https://www.w3.org/TR/CSS2/visudet.html#propdef-line-height)。我们知道无单位的 `line-height` 是相对 `font-size` 的，但问题是不同的字体族 `font-size: 100px` 的表现并不一致，所以 `line-height` 是永远相同还是不同的呢？它取值真的在 1 和 1.2 之间吗？然说说到 `vertical-align`，它对于 `line-height` 又意味着什么呢？
+举个例子，`line-height` 可以被设置为一个具体的长度，或者无单位的值，不过它的默认值是 `normal`。但， `normal` 究竟是什么？我们经常会读到说它应该是1，或可能是1.2，但就连[ CSS 规范对于这一点也没有清晰的说明](https://www.w3.org/TR/CSS2/visudet.html#propdef-line-height)。我们知道无单位的 `line-height` 是相对 `font-size` 的，但问题是不同的字体族 `font-size: 100px` 的表现并不一致，所以 `line-height` 是永远相同还是不同的呢？它取值真的在 1 和 1.2 之间吗？然后说到 `vertical-align`，它对于 `line-height` 又意味着什么呢？
 
 让我们一起来深入理解并不那么简单的 CSS 机制...
 
@@ -75,7 +75,7 @@ p  { font-size: 100px }
 <i>4. Catamaran 字体：UPM —Units Per Em— 和基于 font-size: 100px 的像素值</i>
 </figcaption>
 
-再继续深入之前，需要先提及一下这个里面涉及的一个知识点。当一个 `<p>` 元素渲染在屏幕上的时候，它可以由许多行组成，这取决于它的宽度。每一行又由一个或多个行内元素（HTML 标签或者普通的文本内容）组成，被视为一个行盒（line-box）。行盒的高度取决于它的子元素的高度。浏览器会计算每一个行内元素的高度，然后得到行盒的高度（从它子元素的最高点到子元素的最低点）。结果是，一个行盒总是足够高以容纳它所有的子元素（默认情况）。
+在继续深入之前，需要先提及一下这里面涉及的一个知识点。当一个 `<p>` 元素渲染在屏幕上的时候，它可以由许多行组成，这取决于它的宽度。每一行又由一个或多个行内元素（HTML 标签或者普通的文本内容）组成，被视为一个行盒（line-box）。行盒的高度取决于它的子元素的高度。浏览器会计算每一个行内元素的高度，然后得到行盒的高度（从它子元素的最高点到子元素的最低点）。结果是，一个行盒总是足够高以容纳它所有的子元素（默认情况）。
 
  > 每一个 HTML 元素其实都是一堆行盒。如果你知道了每一个行盒的高度，那么你就知道了这个元素的高度。
 
@@ -201,7 +201,7 @@ p {
 }
 ```
 
-一个 `<p>` 标签下有两个相邻的 `<span>` 的标签，并且继承了相同的 `font-family`，`font-size` 和固定的 `line-height`。基线是对齐的，并且行盒的高度等于他们的 `line-height`。
+一个 `<p>` 标签下有两个相邻的 `<span>` 标签，并且继承了相同的 `font-family`，`font-size` 和固定的 `line-height`。基线是对齐的，并且行盒的高度等于他们的 `line-height`。
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/10.png)
 
