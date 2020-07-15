@@ -7,13 +7,13 @@ origin: "https://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-ali
 
 `line-height` 和 `vertical-align` 是简单的 CSS 属性。如此简单以至于我们大多数人都自信已经完全理解它们以及如何使用它们。但真的并非如此。它们真的很复杂，也许是最难以理解的属性，因为它们是某个很少为人所知的 CSS 特性——行内格式化上下文（inline formatting context）——的主要组成部分。
 
-举个例子，`line-height` 可以被设置为一个具体的长度，或者无单位的值，不过它的默认值是 `normal`。但， `normal` 究竟是什么？我们经常会读到说它应该是1，或可能是1.2，但就连[ CSS 规范对于这一点也没有清晰的说明](https://www.w3.org/TR/CSS2/visudet.html#propdef-line-height)。我们知道无单位的 `line-height` 是相对 `font-size` 的，但问题是不同的字体族 `font-size: 100px` 的表现并不一致，所以 `line-height` 是永远相同还是不同的呢？它取值真的在1和1.2之间吗？然说说到 `vertical-align`，它对于 `line-height` 又意味着什么呢？
+举个例子，`line-height` 可以被设置为一个具体的长度，或者无单位的值，不过它的默认值是 `normal`。但， `normal` 究竟是什么？我们经常会读到说它应该是1，或可能是1.2，但就连[ CSS 规范对于这一点也没有清晰的说明](https://www.w3.org/TR/CSS2/visudet.html#propdef-line-height)。我们知道无单位的 `line-height` 是相对 `font-size` 的，但问题是不同的字体族 `font-size: 100px` 的表现并不一致，所以 `line-height` 是永远相同还是不同的呢？它取值真的在 1 和 1.2 之间吗？然说说到 `vertical-align`，它对于 `line-height` 又意味着什么呢？
 
 让我们一起来深入理解并不那么简单的 CSS 机制...
 
 ### 让我们先来谈一谈 `font-size`
 
-看下面这个简单的 HTML 代码，一个 <p> 标签包含了3个 <span> 标签，并且每一个的 `font-family` 都不同：
+看下面这个简单的 HTML 代码，一个 `<p>` 标签包含了3个 `<span>` 标签，并且每一个的 `font-family` 都不同：
 
 ```html
 <p>
@@ -50,7 +50,7 @@ p  { font-size: 100px }
 
 - 一个字体定义了它的 [`em-square`](http://designwithfontforge.com/en-US/The_EM_Square.html)(也叫 UPM，units per em)，它代表一种容器，每个字符都在其中绘制。这个方形（square）使用相对单位，并且通常设置为 1000 单位。不过它也可能是 1024，2048 或其他数值。
 
-- 基于这个相对单位，字体的规格被确定下来，包括 ascender（字体基线以上部分），descender（字体基线以下部分），capital height（大写字母高度），x-height（小写 x 高度）等。[注：这个几个术语以下文章都使用英文本身，不再翻译]
+- 基于这个相对单位，字体的规格被确定下来，包括 ascender（字体基线以上部分），descender（字体基线以下部分），capital height（大写字母高度），x-height（小写 x 高度）等。[注：这几个术语以下文章都使用英文本身，不再翻译]
 
 - 在浏览器中，相对单位会进行缩放来适应需要的字号。
 
@@ -93,7 +93,7 @@ p  { font-size: 100px }
 
 它会产生3个行盒：
 
-- 第一个和最后一个包含了一个匿名的行内元素（文本呢绒）
+- 第一个和最后一个包含了一个匿名的行内元素（文本内容）
 - 第二个包含了两个匿名行内元素，以及三个 `<span>`
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/5.png)
@@ -111,7 +111,7 @@ p  { font-size: 100px }
 
 到现在为止，我介绍了两个概念：content-area (内容区域) 和 line-box（行盒），我说过一个行盒的高度是根据子元素的高度计算得到的，但我并没有说是根据子元素的 content-area 高度。这两种说法有很大的区别。
 
-虽然听上去有点奇怪，一个行内元素其实有两个不同的高度：content-area 高度以及 virtual-area (虚拟区域)高度（我发明了 virtual-area 这个术语，因为它是不可见的，在规范中找不到它的影子）。
+虽然听上去有点奇怪，一个行内元素其实有两个不同的高度：content-area 高度以及 virtual-area (虚拟区域)高度（我发明了 virtual-area 这个术语，因为它是不可见的，在规范中也找不到它的影子）。
 
 - content-area 的高度是由字体规格（上面已经提到）决定的
 - virtual-area 的高度是 `line-height`，这个就是用于计算行盒高度的高度
@@ -122,7 +122,7 @@ p  { font-size: 100px }
 <i>6. 行内元素有两个不同的高度</i>
 </figcaption>
 
-这也就是说，广泛流行的 `line-height` 高度就是两个基线间距离的这种看法是错误的。在 CSS 中，并不如此。
+这也就是说，广泛流行的 `line-height` 高度是两个基线间距离的这种说法是错误的。在 CSS 中，并不如此。
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/7.png)
 
@@ -132,7 +132,7 @@ p  { font-size: 100px }
 
 virtual-area 和 content-area 计算后的高度差被称为 leading。leading 的一半被添加在 content-area 之上，另一半添加在其之下。所以，content-area 永远在 virtual-area 正中间。
 
-根据它的计算值，`line-height`(content-area) 可能等于，大于或小于 content-area 的高度。当小于 content-area 高度的时候，leading 是负的，所以行盒在视觉上要比它的子元素低。
+根据它的计算值，`line-height`（virtual-area） 可能等于，大于或小于 content-area 的高度。当小于 content-area 高度的时候，leading 是负的，这个时候行盒在视觉上要比它的子元素低。
 
 除了上面提到的，还有一些其他的行内元素：
 
@@ -145,13 +145,13 @@ virtual-area 和 content-area 计算后的高度差被称为 leading。leading �
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/8.png)
 
 <figcaption style="text-align: center; margin-top: -20px; color: #a6a6a6; padding-bottom: 20px;">
-<i>8. 内联替代性元素，inline-block/inline-* 元素以及其他特殊的行内块状元素，他们的 content-area 等于他们的高度，或者等于line-height </i>
+<i>8. 替代性行内元素，inline-block/inline-* 元素以及其他特殊的行内块状元素，它们的 content-area 等于他们的高度，或者等于line-height </i>
 </figcaption>
 
 
 不过，我们的问题还是没有解决：`line-height` 的 `normal` 值究竟是多少呢？答案和 content-area 高度的计算一样，需要从字体规格中找。
 
-所以我们会到 FontForge。Catamaran 字体的 `em-square` 是 1000，但是我们可以看到很多 ascender/descender 值：
+所以我们回到 FontForge。Catamaran 字体的 `em-square` 是 1000，但是我们可以看到很多 ascender/descender 值：
 
 - generals Ascent/Descent：ascender 是 770 ， descender 是 230. 用于字符绘画 (表格 “OS/2”)
 - metrics Ascent/Descent：ascender 是 1100， descender 是 540. 用于 content-area 高度（表格 “hhea” 和 表格 “OS/2”）
@@ -227,7 +227,7 @@ span:last-child {
 
 这可能给[赞成使用无单位 `line-height` 值提供了某种理由](https://allthingssmitty.com/2017/01/30/nope-nope-nope-line-height-is-unitless/)，但有些时候你可能需要修复更多的问题来创建一个完美的[垂直方向的美感](https://scotch.io/tutorials/aesthetic-sass-3-typography-and-vertical-rhythm#baseline-grids-and-vertical-rhythm)（vertical rhytm）。老实说，不管你怎么选择，对于行内对齐你总会遇到一些问题。
 
-再看一个例子。一个 `<p>` 标签，`line-height: 200px`，包含来一个 `<span>` 标签，并继承了 `line-height`
+再看一个例子。一个 `<p>` 标签，`line-height: 200px`，包含了一个 `<span>` 标签，并继承了 `line-height`
 
 ```html
 <p>
@@ -259,7 +259,7 @@ span {
 
 基线对齐方式看来问题很多，那 `vertical-align: middle` 能解决问题吗？你在规范中可以读到，`middle` “会将盒子（box）的垂直中点与父级盒子（parent box）的基线位置加上父级 x-height 一半高度的和对齐”。基线的比例是不同的，x-height 的比例也不相同，所以 `middle` 对齐显然也不靠谱。更糟糕的是，在大部分情况下，`middle` 并不是真的 "在中点"。太多的因素会产生影响，并且还没办法通过 CSS 来设置（x-height，ascender/descender 比例等）。
 
-顺带提一下，有其他4个值在某些场景下可能有用的：
+顺带提一下，有其他4个值在某些场景下可能有用：
 
 - `vertical-align: top / bottom`，对齐于行盒的的顶部或底部。
 - `vertical-align: text-top / text-bottom`，对齐于 content-area 的顶部或底部
@@ -378,31 +378,10 @@ span::before {
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/17.png)
 
 <figcaption style="text-align: center; margin-top: -20px; color: #a6a6a6; padding-bottom: 20px;">
-<i>17. 图标和 B 高度相等 </i>
+<i>16. 不同的 line-height，但文本永远在正中间 </i>
 </figcaption>
 
-需要注意的是，这个测试仅仅为了演示而已。你不能依靠这个来布局。原因有很多：
-
-- 除非字体规格是固定不变的，但其实在浏览中的计算[并非如此](https://www.brunildo.org/test/normal-lh-plot.html)⁠\⁠(ツ)⁠/⁠¯。
-- 如果字体没有被加载，备用的字体很可能有不一样的字体规格，处理这么多的规格变量会变得不可控制
 
 
-### 最后小结
 
-我们学到来：
-
-- 行内格式化上下文真的很难理解
-- 所有的行内元素都有 2 个高度：
-    - content-area （基于字体规格）
-    - virtual-area （基于 `line-hegiht`）
-    - 毫无可能视觉化这两个高度（如果你是 devtool 的开发者，并且想改善这种情况，那就真的太棒了）
-- `line-height: normal` 基于字体规格
-- `line-height: n` 可能会造成 virtual-area 比 content-area 小
-- `vertical-align` 是不可靠的
-- 行盒的高度计算是基于它子元素的 `line-height` 和 `vertical-align` 属性
-- 我们没办法通过 CSS 轻易得到或设置字体规格
-
-
-但是，我仍然深爱 CSS ：）
-
-
+*（欢迎转载，但请保留文章地址）*
