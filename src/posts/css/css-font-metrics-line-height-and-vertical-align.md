@@ -378,8 +378,32 @@ span::before {
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/css-font-metrics-line-height-and-vertical-align%22/17.png)
 
 <figcaption style="text-align: center; margin-top: -20px; color: #a6a6a6; padding-bottom: 20px;">
-<i>16. 不同的 line-height，但文本永远在正中间 </i>
+<i>17. 图标和 B 高度相等 </i>
 </figcaption>
+
+需要注意的是，这个实验仅仅为了演示而已。你不能依靠这个来布局。原因有很多：
+
+- 除非字体规格是固定不变的，但其实在浏览中的计算[并非如此](https://www.brunildo.org/test/normal-lh-plot.html)⁠\⁠(ツ)⁠/⁠¯。
+- 如果字体没有被加载，备用的字体很可能有不一样的字体规格，处理这么多的规格变量会变得不可控制
+
+
+### 最后小结
+
+我们学到了：
+
+- 行内格式化上下文真的很难理解
+- 所有的行内元素都有 2 个高度：
+    - content-area （基于字体规格）
+    - virtual-area （基于 `line-hegiht`）
+    - 毫无可能视觉化这两个高度（如果你是 devtool 的开发者，并且想改善这种情况，那就真的太棒了）
+- `line-height: normal` 基于字体规格
+- `line-height: n` 可能会造成 virtual-area 比 content-area 小
+- `vertical-align` 是不可靠的
+- 行盒的高度计算是基于它子元素的 `line-height` 和 `vertical-align` 属性
+- 我们没办法通过 CSS 轻易得到或设置字体规格
+
+
+但是，我仍然深爱 CSS ：）
 
 
 
