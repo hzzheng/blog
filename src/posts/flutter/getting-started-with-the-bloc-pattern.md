@@ -215,6 +215,97 @@ class LocationBloc implements Bloc {
 
 ### 你的第二个 BLoC
 
+在 BLoC 目录下新建一个文件，名为 location_query_bloc.dart，并添加以下代码：
+
+```dart
+class LocationQueryBloc implements Bloc {
+  final _controller = StreamController<List<Location>>();
+  final _client = ZomatoClient();
+  Stream<List<Location>> get locationStream => _controller.stream;
+
+  void submitQuery(String query) async {
+    // 1
+    final results = await _client.fetchLocations(query);
+    _controller.sink.add(results);
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+  }
+}
+```
+
+`//1` 的位置是 BLoC 的输入，这个方法接收一个字符串，然后使用初始化项目中的 `ZomatoClient` 类从 API 请求位置信息。这个地方使用了 Dart 的 `async/await` 语法使得代码更加简洁。返回的结果会发布给 stream。
+
+这个 BLoC 和前面的一个几乎一样，只不过封装了一个 API 调用，而不仅仅是存储和提供给位置信息。
+
+#### 把 BloCs 注入到 Widget 树中
+
+现在你有了两个 BLoC，你需要一种方式把它们注入到 Flutter 的 widget 树中。Flutter 中习惯叫这些类型的 widget 为 provider。一个 provider 就是一个存储数据并且提供数据给它所有后代 widget 的 widget。
+
+通常这是 `InheritedWidget` 做的事情，但因为 BLoC 需要销毁，所以选择了 `StatefulWidget` 提供这种服务。语法会稍微复杂一些，但结果是一样的。
+
+在 BLoC 目录下创建一个文件叫 bloc_provider.dart，并添加以下内容：
+
+```dart
+// 1
+class BlocProvider<T extends Bloc> extends StatefulWidget {
+  final Widget child;
+  final T bloc;
+
+  const BlocProvider({Key key, @required this.bloc, @required this.child})
+      : super(key: key);
+
+  // 2
+  static T of<T extends Bloc>(BuildContext context) {
+    final type = _providerType<BlocProvider<T>>();
+    final BlocProvider<T> provider = findAncestorWidgetOfExactType(type);
+    return provider.bloc;
+  }
+
+  // 3
+  static Type _providerType<T>() => T;
+
+  @override
+  State createState() => _BlocProviderState();
+}
+
+class _BlocProviderState extends State<BlocProvider> {
+  // 4
+  @override
+  Widget build(BuildContext context) => widget.child;
+
+  // 5
+  @override
+  void dispose() {
+    widget.bloc.dispose();
+    super.dispose();
+  }
+}
+```
+
+从上面代码中可以看到：
+
+1. `BlocProvider` 是一个支持泛型的类。泛型 `T` 被约束为一个实现了 Bloc 接口的对象。这意味着，provider 只能存储 BLoC 对象。
+
+2. `of` 方法允许 widget 树中的后代 widget 通过当前的构建上下文（build context）来检索获取 `BlocProvider`。这在 Flutter 中是非常通用的模式。
+
+3. 这是一种获取泛型类型引用的方式。
+
+4. 这个 widget 的 `build` 方法完全委托给了它的 child。它本身没有做任何渲染的事情。
+
+5. 最后，provider 之所以继承 `StatefuleWidget` 的唯一原因就是为了能够访问到 `dispose` 方法。当这个 widget 从树中移除时，Flutter，会调用这个 dispose 方法，进而关闭这个 stream。
+
+### 连接位置页面
+
+
+
+
+*（欢迎转载，但请保留文章地址）*
+
+
+
 
 
 
