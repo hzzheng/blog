@@ -28,7 +28,7 @@ BLoC 代表 Business Logic Components（业务逻辑组件）的意思。BLoC �
 
 ### 正式开始
 
-通过 Download Materials 按钮下载初始化项目，然后用你最喜欢的 IDE 打开。在这个教程中，我会使用 Android Studio，但如果你喜欢你也可以使用 Visual Studio Code。确保运行了 `flutter packages get` 命令来下载最新版本的 http 包，这可以通过命令行或者 IDE 弹窗提示来操作。
+通过 Download Materials (请到原文中下载) 按钮下载初始化项目，然后用你最喜欢的 IDE 打开。在这个教程中，我会使用 Android Studio，但如果你喜欢你也可以使用 Visual Studio Code。确保运行了 `flutter packages get` 命令来下载最新版本的 http 包，这可以通过命令行或者 IDE 弹窗提示来操作。
 
 初始化项目包含了一些基本的样板代码和从网络下载的文件。当你打开这个项目，它应该像下面这样：
 
@@ -733,6 +733,190 @@ Widget build(BuildContext context) {
   );
 }
 ```
+
+我们需要一个餐馆详情页来添加餐馆到最喜欢的列表中。
+
+在 UI 目录下，创建一个 restaurant_details_screen.dart 文件。这个页面的大部分都是静态布局代码：
+
+```dart
+class RestaurantDetailsScreen extends StatelessWidget {
+  final Restaurant restaurant;
+
+  const RestaurantDetailsScreen({Key key, this.restaurant}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(restaurant.name)),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildBanner(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  restaurant.cuisines,
+                  style: textTheme.subtitle.copyWith(fontSize: 18),
+                ),
+                Text(
+                  restaurant.address,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w100),
+                ),
+              ],
+            ),
+          ),
+          _buildDetails(context),
+          _buildFavoriteButton(context)
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBanner() {
+    return ImageContainer(
+      height: 200,
+      url: restaurant.imageUrl,
+    );
+  }
+
+  Widget _buildDetails(BuildContext context) {
+    final style = TextStyle(fontSize: 16);
+
+    return Padding(
+      padding: EdgeInsets.only(left: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Price: ${restaurant.priceDisplay}',
+            style: style,
+          ),
+          SizedBox(width: 40),
+          Text(
+            'Rating: ${restaurant.rating.average}',
+            style: style,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 1
+  Widget _buildFavoriteButton(BuildContext context) {
+    final bloc = BlocProvider.of<FavoriteBloc>(context);
+    return StreamBuilder<List<Restaurant>>(
+      stream: bloc.favoritesStream,
+      initialData: bloc.favorites,
+      builder: (context, snapshot) {
+        List<Restaurant> favorites =
+            (snapshot.connectionState == ConnectionState.waiting)
+                ? bloc.favorites
+                : snapshot.data;
+        bool isFavorite = favorites.contains(restaurant);
+
+        return FlatButton.icon(
+          // 2
+          onPressed: () => bloc.toggleRestaurant(restaurant),
+          textColor: isFavorite ? Theme.of(context).accentColor : null,
+          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+          label: Text('Favorite'),
+        );
+      },
+    );
+  }
+}
+```
+
+在这个代码中：
+
+1. 这个 widget 使用了 favorites stream 来判断当前餐馆是否是最喜欢之一，然后渲染相应的 widget。
+2. toggleRestaurant 在 FavoriteBloc 已经实现，所以 UI 中不需要知道当前餐馆的状态。它只需要负责添加或从列表中删除就可以了。
+
+在 restaurant_tile.dart 文件的 onTap 方法中添加路由导航到新页面。
+
+```dart
+onTap: () {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) =>
+          RestaurantDetailsScreen(restaurant: restaurant),
+    ),
+  );
+},
+```
+
+构建并运行应用，尝试一下新功能。
+
+用户应该可以查看最喜欢餐馆的列表，并且可以添加也可以移除餐馆。我们在没有添加更多代码的情况下就能做到将餐馆从最喜欢的列表中移除，这正是 stream 在实际应用中的强大之处。
+
+<img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/09-Restaurant-Details-2-563x500.png" style="width: 80%;margin-left: 10%;" />
+
+### 更新地理位置
+
+如果用户想要修改他们搜索的地理位置该如何做呢？现在，你如果想要修改位置，应用只能重启。
+
+但你已经在应用中使用了一系列的 stream，添加这个功能应该是小菜一碟，就像蛋糕上面的一粒小樱桃。
+
+在餐馆页面，添加一个浮动操作按钮，点击以模态框形式展示地理位置页面。
+
+```dart
+ ...
+    body: _buildSearch(context),
+    floatingActionButton: FloatingActionButton(
+      child: Icon(Icons.edit_location),
+      onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => LocationScreen(
+                // 1
+                isFullScreenDialog: true,
+              ),
+          fullscreenDialog: true)),
+    ),
+  );
+}
+```
+
+`// 1` 处，你设置了 isFullScreenDialog 为 true，这个属性你之前已经添加到位置页面。
+
+然后在 LocationScreen 的 ListTile 中，你添加了 onTap 方法来使用这个 flag。
+
+```dart
+onTap: () {
+  final locationBloc = BlocProvider.of<LocationBloc>(context);
+  locationBloc.selectLocation(location);
+  if (isFullScreenDialog) {
+    Navigator.of(context).pop();
+  }
+},
+```
+
+之所以要这样做是为了确保当它作为一个模态框展示的时候能够被移除。如果没有这些代码，当 ListTile 被点击的时候，不会发生任何事。位置 stream 会更新，但 UI 不会有响应。
+
+最后我们再来构建和运行一次应用。你现在应该有了一个浮动操作按钮，当点按的时候，会以模态框的形式展示位置页面。
+
+### 接下去该学什么
+
+恭喜你掌握了 BLoC 模式。BLoC 是一种简单的却强大的模式，可以控制应用的状态在 widget 树中上下流动。
+
+你可以通过 Download Materials 按钮（请从原文中下载）下载示例代码。如果你想运行最终的项目，确保你在 zomato_client.dart 中添加了你自己的 API key。
+
+一些其他的架构模式也值得研究：
+
+- Provider - https://pub.dev/packages/provider
+- Scoped Model – https://pub.dev/packages/scoped_model
+- RxDart – https://pub.dev/packages/rxdart
+- Redux – https://pub.dev/packages/redux
+
+同时建议看一看 stream 的[官方文档](https://dart.dev/tutorials/language/streams), 以及[Google IO](https://www.youtube.com/watch?v=RS36gBEp8OI) 关于 BLoC 模式的分享。
+
+
+
+
+
 
 
 
