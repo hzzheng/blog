@@ -299,6 +299,450 @@ class _BlocProviderState extends State<BlocProvider> {
 
 ### 连接位置页面
 
+既然用于查到地理位置的 BLoC 层已经完成，那么就开始使用它吧。
+
+首先，在 main.dart 文件中，在 MaterialApp 之上添加位置信息的 BLoC 用来存储应用的状态。最简单的操作就是把鼠标移到 MaterialApp，然后敲击 option+return（PC 上是 Alt+Enter），在弹出的菜单中，选择 `Wrap with a new widget`。
+
+> 注意：这个代码片段受到了 Didier Boelens 这篇极棒[文章](https://www.didierboelens.com/2018/08/reactive-programming-streams-bloc/)的启发。这个 widget 并没有做优化，并且理论上是可以改进的。考虑到本篇文章的目的，我们会继续使用这种相对稚拙但在大多数场景中完全可接受的方式。如果你之后在应用的生命周期中发现它会引起性能上的问题，那么可以在 [Flutter BLoC](https://pub.dev/packages/flutter_bloc) 这个包中找到更完备的解决方案。
+
+包裹一个 LocationBloc 类型的 BlocProvider，并且赋值给 bloc 属性一个 LocationBloc。
+
+```dart
+return BlocProvider<LocationBloc>(
+  bloc: LocationBloc(),
+  child: MaterialApp(
+    title: 'Restaurant Finder',
+    theme: ThemeData(
+      primarySwatch: Colors.red,
+    ),
+    home: MainScreen(),
+  ),
+)
+```
+
+在 material app 之上添加 widget 是一种很好的方式，可以提供数据给多个页面使用。
+
+
+在 main_screen.dart 这个主页面，你需要做一些类似的事情。在 LocationScreen 上敲击 option+return，在弹窗中选择 “Wrap with StreamBuilder”。像下面这样更新代码：
+
+```dart
+return StreamBuilder<Location>(
+  // 1
+  stream: BlocProvider.of<LocationBloc>(context).locationStream,
+  builder: (context, snapshot) {
+    final location = snapshot.data;
+
+    // 2
+    if (location == null) {
+      return LocationScreen();
+    }
+    
+    // This will be changed this later
+    return Container();
+  },
+);
+```
+
+StreamBuilder 是使得 BLoC 模式如此诱人的秘密武器。它会自动监听来自 stream 的事件。当接收到一个新的事件时，builder 方法会被执行，并且会更新 widget 树。有了 StreamBuilder 和 BLoC 模式，在这篇文章中就不再需要调用 setState() 了。
+
+从上面的代码中可以看到：
+
+1. 对于 stream 属性，使用了 of 方法来获取 LocationBloc，并且把它的 stream 添加到了这个 StreamBuilder 中。
+
+2. 刚开始 stream 没有数据，这是完全正常的。如果 stream 没有任何数据，应用会返回一个 LocationScreen。否则，暂时会返回一个空白容器。
+
+接下来，更新 location_screen.dart 中的代码，使用你之前创建的 LocationQueryBloc。不要忘记使用 IDE 的 widget 包裹工具，它会使得代码更新变得更容易。
+
+```dart
+@override
+Widget build(BuildContext context) {
+  // 1
+  final bloc = LocationQueryBloc();
+
+  // 2
+  return BlocProvider<LocationQueryBloc>(
+    bloc: bloc,
+    child: Scaffold(
+      appBar: AppBar(title: Text('Where do you want to eat?')),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), hintText: 'Enter a location'),
+              
+              // 3
+              onChanged: (query) => bloc.submitQuery(query),
+            ),
+          ),
+          // 4
+          Expanded(
+            child: _buildResults(bloc),
+          )
+        ],
+      ),
+    ),
+  );
+}
+```
+
+这里：
+
+1. 首先，在 build 方法顶部初始化了一个新的 LocationQueryBloc。
+2. 然后这个 BLoC 被存储在 BlocProvider 中管理它的生命周期。
+3. 更新 TextField 的 onChanged 方法来提交输入给 LocationQueryBloc。这会引发调用 Zomato，然后发布找到的位置信息给相应的 stream。
+4. 把 bloc 传给 _buildResults 方法。
+
+给 LocationScreen 添加一个布尔字段来标识当前页面是否是一个全屏的对话框，并包含了 LocationScreen：
+
+```dart
+class LocationScreen extends StatelessWidget {
+  final bool isFullScreenDialog;
+  const LocationScreen({Key key, this.isFullScreenDialog = false})
+      : super(key: key);
+  ...      
+```
+
+这个布尔值仅仅是一个简单的标识（默认是 false），用于位置信息被点击时更新导航行为。
+
+现在更新 _buildResults 方法，增加一个 stream builder 来展示结果列表。你可以使用 “Wrap with StreamBuilder” 命令来更快地更新代码。
+
+```dart
+Widget _buildResults(LocationQueryBloc bloc) {
+  return StreamBuilder<List<Location>>(
+    stream: bloc.locationStream,
+    builder: (context, snapshot) {
+
+      // 1
+      final results = snapshot.data;
+    
+      if (results == null) {
+        return Center(child: Text('Enter a location'));
+      }
+    
+      if (results.isEmpty) {
+        return Center(child: Text('No Results'));
+      }
+    
+      return _buildSearchResults(results);
+    },
+  );
+}
+
+Widget _buildSearchResults(List<Location> results) {
+  // 2
+  return ListView.separated(
+    itemCount: results.length,
+    separatorBuilder: (BuildContext context, int index) => Divider(),
+    itemBuilder: (context, index) {
+      final location = results[index];
+      return ListTile(
+        title: Text(location.title),
+        onTap: () {
+          // 3
+          final locationBloc = BlocProvider.of<LocationBloc>(context);
+          locationBloc.selectLocation(location);
+
+          if (isFullScreenDialog) {
+            Navigator.of(context).pop();
+          }
+        },
+      );
+    },
+  );
+}
+```
+
+从上面的代码中可以看到：
+
+1. stream 可能会返回三种状态。首先，可能没有数据，这意味着用户还没有输入。其次，可能是一个空列表，意味着 Zomato 找不到你输入的地址。最后，可能返回一个餐馆列表，这意味着一切完美。
+2. 这是顺利得到列表的情况，应用会展示一个位置列表。这个函数和普通的声明式 FLutter 代码没有什么区别。
+3. 在 onTap 函数中，应用从 widget 树顶层中检索得到 LocationBloc，告诉它用户选择了一个地理位置。现在点击某个列表项会引起整个页面黑屏。
+
+赶紧动手自己试试吧。这个应用现在应该能够从 Zomato 得到位置信息然后通过列表展示出来。
+
+<img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/07-location-screen-finished-2-281x500.png" style="width: 50%;margin-left: 25%;" />
+
+很棒！进展不错。
+
+### 餐馆页面
+
+应用的第二页面是一个餐馆页面，会基于搜索结果展示一个餐馆列表。它也会有自己的 BLoC 对象来管理状态。
+
+在 BLoC 目录下新建 restaurant_bloc.dart，添加以下代码：
+
+```dart
+class RestaurantBloc implements Bloc {
+  final Location location;
+  final _client = ZomatoClient();
+  final _controller = StreamController<List<Restaurant>>();
+
+  Stream<List<Restaurant>> get stream => _controller.stream;
+  RestaurantBloc(this.location);
+
+  void submitQuery(String query) async {
+    final results = await _client.fetchRestaurants(location, query);
+    _controller.sink.add(results);
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+  }
+}
+```
+
+这个 LocationQueryBloc 几乎是一样的。不同的仅仅是 API 调用以及返回的数据类型。
+
+现在在 UI 目录下创建 restaurant_screen.dart 文件来使用这个新的 BLoC：
+
+```dart
+class RestaurantScreen extends StatelessWidget {
+  final Location location;
+
+  const RestaurantScreen({Key key, @required this.location}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(location.title),
+      ),
+      body: _buildSearch(context),
+    );
+  }
+
+  Widget _buildSearch(BuildContext context) {
+    final bloc = RestaurantBloc(location);
+
+    return BlocProvider<RestaurantBloc>(
+      bloc: bloc,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'What do you want to eat?'),
+              onChanged: (query) => bloc.submitQuery(query),
+            ),
+          ),
+          Expanded(
+            child: _buildStreamBuilder(bloc),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStreamBuilder(RestaurantBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.stream,
+      builder: (context, snapshot) {
+        final results = snapshot.data;
+
+        if (results == null) {
+          return Center(child: Text('Enter a restaurant name or cuisine type'));
+        }
+    
+        if (results.isEmpty) {
+          return Center(child: Text('No Results'));
+        }
+    
+        return _buildSearchResults(results);
+      },
+    );
+  }
+
+  Widget _buildSearchResults(List<Restaurant> results) {
+    return ListView.separated(
+      itemCount: results.length,
+      separatorBuilder: (context, index) => Divider(),
+      itemBuilder: (context, index) {
+        final restaurant = results[index];
+        return RestaurantTile(restaurant: restaurant);
+      },
+    );
+  }
+}
+```
+
+新增一个单独的文件 restaurant_tile.dart 来展示这些餐馆的细节：
+
+```dart
+class RestaurantTile extends StatelessWidget {
+  const RestaurantTile({
+    Key key,
+    @required this.restaurant,
+  }) : super(key: key);
+
+  final Restaurant restaurant;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: ImageContainer(width: 50, height: 50, url: restaurant.thumbUrl),
+      title: Text(restaurant.name),
+      trailing: Icon(Icons.keyboard_arrow_right),
+    );
+  }
+}
+```
+
+这个代码和位置页面的应该很相似，几乎是一样的。不同的地方只是它展示的是餐馆而不是地理位置。
+
+修改 main_screen.dart 文件中的 MainScreen，现在当接收到位置信息的时候就返回一个餐馆页面。
+
+```dart
+builder: (context, snapshot) {
+  final location = snapshot.data;
+
+  if (location == null) {
+    return LocationScreen();
+  }
+
+  return RestaurantScreen(location: location);
+},
+```
+重启应用。当你选择来一个地理位置，并且输入了想吃什么就能得到一个餐馆列表：
+
+<img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/08-restaurant-screen-finished-1-281x500.png" style="width: 50%;margin-left: 25%;" />
+
+看起来很美味。有谁准备吃蛋糕吗？
+
+### 最喜欢的餐馆
+
+目前为止，BLoC 模式被用来管理用户谁让，但它可以做更多事情。比如用户想要记录他们最喜欢的餐馆，并且在一个单独的列表中展示，这同样可以通过 BLoC 模式解决。
+
+在 BLoC 目录下，创建一个新文件 favorite_bloc.dart，定义一个 BLoC 来存储最喜欢餐馆列表：
+
+```dart
+class FavoriteBloc implements Bloc {
+  var _restaurants = <Restaurant>[];
+  List<Restaurant> get favorites => _restaurants;
+  // 1
+  final _controller = StreamController<List<Restaurant>>.broadcast();
+  Stream<List<Restaurant>> get favoritesStream => _controller.stream;
+
+  void toggleRestaurant(Restaurant restaurant) {
+    if (_restaurants.contains(restaurant)) {
+      _restaurants.remove(restaurant);
+    } else {
+      _restaurants.add(restaurant);
+    }
+
+    _controller.sink.add(_restaurants);
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+  }
+}
+```
+
+`// 1` 处，BLoC 使用了 Broadcast StreamController，而不是常规的 StreamController。Broadcast stream 允许有多个监听器，而常规的 stream 只允许一个。对于之前的两个 bloc，因为只是一对一的关系，所以并不需要多个 stream 监听。而最喜欢餐馆的这个功能，应用需要在两个地方监听这个 stream，所以 broadcast 是必需的。
+
+> 作为设计 BLoC 的一种通用规则，一开始可以先使用普通的 stream controller，然后后续根据需要再修改成 broadcast stream。如果多个监听器监听同一个常规 stream，Flutter 会抛出一个异常。你可以使用这个作为代码需要被更新的信号。
+
+这个 BLoC 需要被很多页面使用，这意味着它需要放在导航之上。更新 main.dart，将 MaterialApp 用另一个 provider 包裹。
+
+```dart
+return BlocProvider<LocationBloc>(
+  bloc: LocationBloc(),
+  child: BlocProvider<FavoriteBloc>(
+    bloc: FavoriteBloc(),
+    child: MaterialApp(
+      title: 'Restaurant Finder',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: MainScreen(),
+    ),
+  ),
+);
+```
+
+接下来，在 UI 目录下创建一个 favorite_screen.dart 文件。这个文件中的 widget 会展示最喜欢餐馆的列表。
+
+```dart
+class FavoriteScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FavoriteBloc>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Favorites'),
+      ),
+      body: StreamBuilder<List<Restaurant>>(
+        stream: bloc.favoritesStream,
+        // 1
+        initialData: bloc.favorites,
+        builder: (context, snapshot) {
+          // 2
+          List<Restaurant> favorites =
+              (snapshot.connectionState == ConnectionState.waiting)
+                  ? bloc.favorites
+                  : snapshot.data;
+    
+          if (favorites == null || favorites.isEmpty) {
+            return Center(child: Text('No Favorites'));
+          }
+    
+          return ListView.separated(
+            itemCount: favorites.length,
+            separatorBuilder: (context, index) => Divider(),
+            itemBuilder: (context, index) {
+              final restaurant = favorites[index];
+              return RestaurantTile(restaurant: restaurant);
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+在这个 widget 中：
+
+1. 这个地方给 StreamBuilder 增加了初始化数据。StreamBuilders 会立即触发 builder 函数，尽管它还没有数据。这避免了无谓地重绘屏幕，让 Flutter 确信 snapshot 永远有数据。
+
+2. 这个地方应用检查了 stream 的状态，如果还没有连接完成，则使用一个已有的明确的最喜欢餐馆的列表，而不是等待 stream 的新事件。
+
+现在更新餐馆页面的 build 方法，增加一个事件来跳转到最喜欢餐馆页面。
+
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+      appBar: AppBar(
+        title: Text(location.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite_border),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => FavoriteScreen())),
+          )
+        ],
+      ),
+      body: _buildSearch(context),
+  );
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
