@@ -11,16 +11,16 @@ origin: "https://www.raywenderlich.com/4074597-getting-started-with-the-bloc-pat
 
 在应用开发领域，如何设计一个应用的结构通常是最具争议的话题之一。每个人似乎都有他们最喜欢的带有花俏首字母缩写词的架构模式。
 
-iOS 和 Android 开发者擅长使用 Model-View-Controller (MVC)，并且会默认选择这种模式来开发应用。Model 和 View 是分离的，然后通过 Controller 在他们之间传递信息。
+iOS 和 Android 开发者擅长使用 Model-View-Controller (MVC)，并且默认会选择这种模式来开发应用。Model 和 View 是分离的，然后通过 Controller 在它们之间传递信息。
 
 
-然后，Flutter 带来了一种新的和 MVC 不完全兼容的响应式风格。经典模式（MVC）的这个变体兴起于 Flutter 社区——BLoC。
+然而，Flutter 带来了一种新的和 MVC 不完全兼容的响应式风格 - BLoC。它兴起于社区，是经典模式（MVC）的一种变体。
 
-BLoC 代表 Business Logic Components（业务逻辑组件）的意思。BLoC 模式的主旨是应用中的所有事务都应该用事件流（stream of events）来表示：组件（wigets）提交事件；其他组件响应事件。BLoc 处于这个过程的中间，管理相互间的会话。Dart 设置提供了一些语法来处理流，而流本身也是这门语言的内置功能。
+BLoC 代表 Business Logic Components（业务逻辑组件）的意思。BLoC 模式的主旨是应用中的所有事务都应该用事件流（stream of events）来表示：组件（widget）提交事件；其他组件响应事件。BLoCs 处于这个过程的中间，管理相互间的会话。Dart 提供了一些语法来处理流，而流本身也是这门语言的内置功能。
 
-关于这个模式最棒的是，你不需要引入任何插件或者学习自定义的语法。Flutter 提供来你所需要的一切。
+关于这个模式最棒的地方是，你不需要引入任何插件或者学习某种定制的语法。Flutter 提供了你所需要的一切。
 
-在这个教程中，你会创建一个应用来查找餐馆，使用的是 [Zomato](https://www.zomato.com/) 提供的 API。在教程的最后，这个应用可以做下面这些事：
+在这个教程中，你会创建一个应用来查找餐馆，使用的是 [Zomato](https://www.zomato.com/) 提供的 API。在教程的最后，这个应用可以做以下这些事：
 
 1. 用 BLoC 模式包装 API 调用
 2. 搜索餐馆并且异步地展示结果
@@ -28,7 +28,7 @@ BLoC 代表 Business Logic Components（业务逻辑组件）的意思。BLoC �
 
 ### 正式开始
 
-通过 Download Materials (请到原文中下载) 按钮下载初始化项目，然后用你最喜欢的 IDE 打开。在这个教程中，我会使用 Android Studio，但如果你喜欢你也可以使用 Visual Studio Code。确保运行了 `flutter packages get` 命令来下载最新版本的 http 包，这可以通过命令行或者 IDE 弹窗提示来操作。
+通过 Download Materials (请到原文中下载) 按钮下载初始化项目，然后用你最喜欢的 IDE 打开。在这个教程中，我会使用 Android Studio，如果你喜欢你也可以使用 Visual Studio Code。确保运行了 `flutter packages get` 命令来下载最新版本的 http 包，这可以通过命令行或者 IDE 弹窗提示来操作。
 
 初始化项目包含了一些基本的样板代码和从网络下载的文件。当你打开这个项目，它应该像下面这样：
 
@@ -66,22 +66,22 @@ class ZomatoClient {
 
 <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/03-BLoC-layers-1.png" style="width: 50%;margin-left: 25%;" />
 
-这种架构约定并没有和经典的 MVC 有多大的不同。UI/Flutter 层只能和 BLoC 层通信。BLoC 层向 Data 和 UI 层发送事件并且处理业务逻辑。这种结构可以很好地随着应用成长进行扩展。
+这种架构约定并没有和经典的 MVC 有多大的不同。UI/Flutter 层只能和 BLoC 层通信。BLoC 层向 Data 和 UI 层发送事件并且处理业务逻辑。这种结构可以很好地随着应用增强而进行扩展。
 
 #### BLoC 的内部构成
 
-BLoC 模式真的只是围绕 Dart streams 的接口：
+BLoC 模式真的只是围绕 Dart streams 的接口而已：
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/04-BLoC-diagram-1-650x284.png)
 
 Streams，就像 Futures，是由 `dart:async` 这个包提供的。一个 stream 就像一个 Future，和 Future 只能异步地返回一个值不同，stream 可以随着时间推移产生很多的值。如果 Future 是一个最终会被提供的值，那么 stream 就是随着时间推移断断续续提供的一系列的值。
 
-`dart:async` 这个包提供了一个对象叫做 StreamController。StreamController 是管理角色的对象，能够实例化一个 stream 和 一个 sink。sink 是 stream 的对立面。一个 stream 随着时间会输出很多值，而一个 sink 会随着时间输入很多值。
+`dart:async` 这个包提供了一个对象叫做 StreamController。StreamController 是拥有管理角色的对象，能够实例化一个 stream 和一个 sink。sink 是 stream 的对立面。一个 stream 随着时间会输出很多值，而一个 sink 会随着时间输入很多值。
 
-总而言之，BLoC 是处理和储存业务逻辑的对象，通过 sink 来接收输入，通过 stream 来说提供输出。
+总而言之，BLoC 是处理和储存业务逻辑的对象，通过 sink 来接收输入，通过 stream 来提供输出。
 
 
-### 位置页面
+### 地理位置页面
 
 在你能使用应用找到好餐馆之前，你需要先告诉 Zomato 你想在哪里吃饭。在这个部分，你会创建一个简单的页面，包含了一个顶部的搜索框，以及一个用来展示结果的列表。
 
@@ -152,13 +152,13 @@ MaterialApp(
 
 <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/05-empty-restaurant-screen-1-281x500.png" style="width: 50%;margin-left: 25%;" />
 
-看上去更好了。不过它还是没有做任何事情，现在我们来创建一些 BLoC。
+看上去好多了。不过它还是没有做任何事情，现在我们来创建一些 BLoC。
 
 #### 你的第一个 BLoC
 
 在 lib 目录下创建一个叫 BLoC 的文件夹。这个是你所有 BLoC 类的归宿。
 
-在这个文件夹下创建一个叫 `bloc.dart` 的文件，并且添加一下内容：
+在这个文件夹下创建一个叫 `bloc.dart` 的文件，并且添加以下内容：
 
 ```dart
 abstract class Bloc {
@@ -166,7 +166,7 @@ abstract class Bloc {
 }
 ```
 
-你所有的 BLoC 类都会实现这个接口。这个接口除了强迫你增加一个 `dispost` 方法外没有做其他事。一个关于使用 stream 需要牢记在心的点是，在使用完它们自后需要关闭它们，否则会引起内存泄漏。`dispose` 方法就是应用用来检测这一点的地方。
+你所有的 BLoC 类都会实现这个接口。这个接口除了强迫你增加一个 `dispose` 方法外没有做其他事。一个关于使用 stream 需要牢记在心的点是，在使用完它们之后需要关闭它们，否则会引起内存泄漏。`dispose` 方法就是应用用来检测这一点的地方。
 
 第一个 BLoC 会负责处理应用已选择的地理位置。
 
@@ -238,11 +238,11 @@ class LocationQueryBloc implements Bloc {
 
 `//1` 的位置是 BLoC 的输入，这个方法接收一个字符串，然后使用初始化项目中的 `ZomatoClient` 类从 API 请求位置信息。这个地方使用了 Dart 的 `async/await` 语法使得代码更加简洁。返回的结果会发布给 stream。
 
-这个 BLoC 和前面的一个几乎一样，只不过封装了一个 API 调用，而不仅仅是存储和提供给位置信息。
+这个 BLoC 和前面的几乎一样，只不过封装了一个 API 调用，而不仅仅是存储和提供给位置信息。
 
 #### 把 BloCs 注入到 Widget 树中
 
-现在你有了两个 BLoC，你需要一种方式把它们注入到 Flutter 的 widget 树中。Flutter 中习惯叫这些类型的 widget 为 provider。一个 provider 就是一个存储数据并且提供数据给它所有后代 widget 的 widget。
+现在你有了两个 BLoC，你需要一种方式把它们注入到 Flutter 的 widget 树中。Flutter 中习惯叫这些类型的 widget 为 provider。一个 provider 就是一个存储数据并且提供数据给它所有后代的 widget。
 
 通常这是 `InheritedWidget` 做的事情，但因为 BLoC 需要销毁，所以选择了 `StatefulWidget` 提供这种服务。语法会稍微复杂一些，但结果是一样的。
 
@@ -295,13 +295,13 @@ class _BlocProviderState extends State<BlocProvider> {
 
 4. 这个 widget 的 `build` 方法完全委托给了它的 child。它本身没有做任何渲染的事情。
 
-5. 最后，provider 之所以继承 `StatefuleWidget` 的唯一原因就是为了能够访问到 `dispose` 方法。当这个 widget 从树中移除时，Flutter，会调用这个 dispose 方法，进而关闭这个 stream。
+5. 最后，provider 之所以继承 `StatefuleWidget` 的唯一原因就是为了能够访问到 `dispose` 方法。当这个 widget 从树中移除时，Flutter 会调用 dispose 方法，进而关闭这个 stream。
 
 ### 连接位置页面
 
-既然用于查到地理位置的 BLoC 层已经完成，那么就开始使用它吧。
+既然用于查找地理位置的 BLoC 层已经完成，那么就开始使用它吧。
 
-首先，在 main.dart 文件中，在 MaterialApp 之上添加位置信息的 BLoC 用来存储应用的状态。最简单的操作就是把鼠标移到 MaterialApp，然后敲击 option+return（PC 上是 Alt+Enter），在弹出的菜单中，选择 `Wrap with a new widget`。
+首先，在 main.dart 文件中，我们在 MaterialApp 之上添加地理位置的 BLoC 来存储相应的状态。最简单的操作就是把鼠标移到 MaterialApp，然后敲击 option+return（PC 上是 Alt+Enter），在弹出的菜单中，选择 `Wrap with a new widget`。
 
 > 注意：这个代码片段受到了 Didier Boelens 这篇极棒[文章](https://www.didierboelens.com/2018/08/reactive-programming-streams-bloc/)的启发。这个 widget 并没有做优化，并且理论上是可以改进的。考虑到本篇文章的目的，我们会继续使用这种相对稚拙但在大多数场景中完全可接受的方式。如果你之后在应用的生命周期中发现它会引起性能上的问题，那么可以在 [Flutter BLoC](https://pub.dev/packages/flutter_bloc) 这个包中找到更完备的解决方案。
 
@@ -343,7 +343,7 @@ return StreamBuilder<Location>(
 );
 ```
 
-StreamBuilder 是使得 BLoC 模式如此诱人的秘密武器。它会自动监听来自 stream 的事件。当接收到一个新的事件时，builder 方法会被执行，并且会更新 widget 树。有了 StreamBuilder 和 BLoC 模式，在这篇文章中就不再需要调用 setState() 了。
+StreamBuilder 就是那个使得 BLoC 模式如此诱人的秘密武器。它会自动监听来自 stream 的事件。当接收到一个新的事件时，builder 方法会被执行，并且会更新 widget 树。有了 StreamBuilder 和 BLoC 模式，在这篇文章中就不再需要调用 setState() 了。
 
 从上面的代码中可以看到：
 
@@ -390,11 +390,11 @@ Widget build(BuildContext context) {
 这里：
 
 1. 首先，在 build 方法顶部初始化了一个新的 LocationQueryBloc。
-2. 然后这个 BLoC 被存储在 BlocProvider 中管理它的生命周期。
+2. 然后这个 BLoC 被存储在 BlocProvider 中来管理它的生命周期。
 3. 更新 TextField 的 onChanged 方法来提交输入给 LocationQueryBloc。这会引发调用 Zomato，然后发布找到的位置信息给相应的 stream。
 4. 把 bloc 传给 _buildResults 方法。
 
-给 LocationScreen 添加一个布尔字段来标识当前页面是否是一个全屏的对话框，并包含了 LocationScreen：
+给 LocationScreen 添加一个布尔字段来标识当前页面是否是一个全屏的对话框：
 
 ```dart
 class LocationScreen extends StatelessWidget {
@@ -404,7 +404,7 @@ class LocationScreen extends StatelessWidget {
   ...      
 ```
 
-这个布尔值仅仅是一个简单的标识（默认是 false），用于位置信息被点击时更新导航行为。
+这个布尔值仅仅是一个简单的标识（默认是 false），用于位置信息被点击时更改导航行为。
 
 现在更新 _buildResults 方法，增加一个 stream builder 来展示结果列表。你可以使用 “Wrap with StreamBuilder” 命令来更快地更新代码。
 
@@ -457,8 +457,8 @@ Widget _buildSearchResults(List<Location> results) {
 从上面的代码中可以看到：
 
 1. stream 可能会返回三种状态。首先，可能没有数据，这意味着用户还没有输入。其次，可能是一个空列表，意味着 Zomato 找不到你输入的地址。最后，可能返回一个餐馆列表，这意味着一切完美。
-2. 这是顺利得到列表的情况，应用会展示一个位置列表。这个函数和普通的声明式 FLutter 代码没有什么区别。
-3. 在 onTap 函数中，应用从 widget 树顶层中检索得到 LocationBloc，告诉它用户选择了一个地理位置。现在点击某个列表项会引起整个页面黑屏。
+2. 这是顺利得到列表的情况，应用会展示一个位置列表。这个函数和普通的声明式 Flutter 代码没有什么区别。
+3. 在 onTap 函数中，应用从 widget 树顶层中检索得到 LocationBloc，并告诉它用户选择了一个地理位置。现在点击某个列表项会引起整个页面黑屏。
 
 赶紧动手自己试试吧。这个应用现在应该能够从 Zomato 得到位置信息然后通过列表展示出来。
 
@@ -614,7 +614,7 @@ builder: (context, snapshot) {
 
 ### 最喜欢的餐馆
 
-目前为止，BLoC 模式被用来管理用户谁让，但它可以做更多事情。比如用户想要记录他们最喜欢的餐馆，并且在一个单独的列表中展示，这同样可以通过 BLoC 模式解决。
+目前为止，BLoC 模式被用来管理用户输入，但它可以做更多的事情。比如用户想要记录他们最喜欢的餐馆，并且在一个单独的列表中展示，这同样可以通过 BLoC 模式解决。
 
 在 BLoC 目录下，创建一个新文件 favorite_bloc.dart，定义一个 BLoC 来存储最喜欢餐馆列表：
 
@@ -832,7 +832,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
 }
 ```
 
-在这个代码中：
+在上面的代码中：
 
 1. 这个 widget 使用了 favorites stream 来判断当前餐馆是否是最喜欢之一，然后渲染相应的 widget。
 2. toggleRestaurant 在 FavoriteBloc 已经实现，所以 UI 中不需要知道当前餐馆的状态。它只需要负责添加或从列表中删除就可以了。
@@ -852,13 +852,13 @@ onTap: () {
 
 构建并运行应用，尝试一下新功能。
 
-用户应该可以查看最喜欢餐馆的列表，并且可以添加也可以移除餐馆。我们在没有添加更多代码的情况下就能做到将餐馆从最喜欢的列表中移除，这正是 stream 在实际应用中的强大之处。
+用户现在应该可以查看最喜欢餐馆的列表，并且可以添加也可以移除餐馆。我们在没有添加更多代码的情况下就能做到将餐馆从最喜欢的列表中移除，这正是 stream 在实际应用中的强大之处。
 
 <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/getting-started-with-dart/09-Restaurant-Details-2-563x500.png" style="width: 80%;margin-left: 10%;" />
 
 ### 更新地理位置
 
-如果用户想要修改他们搜索的地理位置该如何做呢？现在，你如果想要修改位置，应用只能重启。
+如果用户想要修改他们搜索的地理位置该如何做呢？现在，你如果想要修改位置，只能重启应用。
 
 但你已经在应用中使用了一系列的 stream，添加这个功能应该是小菜一碟，就像蛋糕上面的一粒小樱桃。
 
@@ -900,9 +900,9 @@ onTap: () {
 
 ### 接下去该学什么
 
-恭喜你掌握了 BLoC 模式。BLoC 是一种简单的却强大的模式，可以控制应用的状态在 widget 树中上下流动。
+恭喜你掌握了 BLoC 模式。BLoC 是一种简单却强大的模式，可以控制应用的状态在 widget 树中上下流动。
 
-你可以通过 Download Materials 按钮（请从原文中下载）下载示例代码。如果你想运行最终的项目，确保你在 zomato_client.dart 中添加了你自己的 API key。
+你可以通过 Download Materials 按钮（请从原文中下载）下载示例代码。如果你想运行最终的项目，确保在 zomato_client.dart 中添加了你自己的 API key。
 
 一些其他的架构模式也值得研究：
 
@@ -911,7 +911,7 @@ onTap: () {
 - RxDart – https://pub.dev/packages/rxdart
 - Redux – https://pub.dev/packages/redux
 
-同时建议看一看 stream 的[官方文档](https://dart.dev/tutorials/language/streams), 以及[Google IO](https://www.youtube.com/watch?v=RS36gBEp8OI) 关于 BLoC 模式的分享。
+同时建议看一看 stream 的[官方文档](https://dart.dev/tutorials/language/streams), 以及 [Google IO](https://www.youtube.com/watch?v=RS36gBEp8OI) 上关于 BLoC 模式的分享。
 
 
 
