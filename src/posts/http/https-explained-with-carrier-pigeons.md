@@ -2,6 +2,7 @@
 title: "用信鸽解释 HTTPS"
 date: "2017-08-13"
 tags: ["network", "http", "https"]
+origin: "https://medium.com/free-code-camp/https-explained-with-carrier-pigeons-7029d2193351"
 ---
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/https-explained-with-carrier-pigeons/1_vHF6NNdZX9ziiW_uRYzvAA.png)
