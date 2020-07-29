@@ -1,6 +1,6 @@
 ---
 title: "用信鸽解释 HTTPS"
-date: "2017-08-13"
+date: "2020-07-29"
 tags: ["network", "http", "https"]
 origin: "https://medium.com/free-code-camp/https-explained-with-carrier-pigeons-7029d2193351"
 ---
