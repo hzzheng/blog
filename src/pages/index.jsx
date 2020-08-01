@@ -78,7 +78,7 @@ class Home extends PureComponent {
           type="button"
           onClick={this.handlePrevPagination}
         >
-          Previous
+          Prev
         </button>
         <ul>
           {indexs.map((c, index) => (
