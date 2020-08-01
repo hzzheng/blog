@@ -9,7 +9,9 @@ const API_KEY = 'FCsB1Kpp0h1wOqFV2Wh6mVki'
 class postPage extends PureComponent {
   componentDidMount() {
     const { data: { markdownRemark } } = this.props;
-    const { fields: { slug } } = markdownRemark;
+    const { fields: { slug }, frontmatter } = markdownRemark;
+
+    document.title = frontmatter ? frontmatter.title : 'CNOTE';
 
     setTimeout(() => {
       // 等待依赖的JS加载完成
