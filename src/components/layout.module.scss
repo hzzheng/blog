@@ -193,7 +193,7 @@ footer {
 }
 @media only screen and (max-width: 480px) {
   html {
-    font-size: 87.5%;
+    font-size: 87.5% !important;
   }
 }
 // code[class*="language-"],
