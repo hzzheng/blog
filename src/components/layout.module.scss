@@ -152,7 +152,7 @@ header {
   font-size: 24px;
 
   .nav {
-    width: 1024px;
+    max-width: 1024px;
     margin: 0 auto;
   }
   @media screen and (max-width: 950px) {

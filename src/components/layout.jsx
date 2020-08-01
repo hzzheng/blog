@@ -26,6 +26,7 @@ export default ({ children, data }) => (
         <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <section className={cls.content}>{children}</section>
       <aside>
