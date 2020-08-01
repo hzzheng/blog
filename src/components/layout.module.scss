@@ -191,7 +191,11 @@ footer {
     color: #a6a6a6;
   }
 }
-
+@media only screen and (max-width: 480px) {
+  html {
+    font-size: 87.5%;
+  }
+}
 // code[class*="language-"],
 // pre[class*="language-"] {
 //   background: #f7f7f9;
