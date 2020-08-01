@@ -26,10 +26,12 @@ export default ({ children, data }) => (
         <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73103095-1"></script>
-        <script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73103095-1" />
+        <script type="text/javascript">
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
+          function gtag() {
+            window.dataLayer.push(arguments)
+          }
           gtag('js', new Date());
 
           gtag('config', 'UA-73103095-1');
