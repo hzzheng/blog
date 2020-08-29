@@ -1,7 +1,7 @@
 ---
 title: "如何在国内使用Google Home Mini"
 date: "2018-06-04"
-tags: ["f*ckGFW"]
+tags: ["google"]
 ---
 
 上周去东京，买了两个Google Home Mini给自己和女友。因为众所周知的原因，在国内使用Mini需要自己搭梯子。自由的路总是磕磕绊绊，昨天在家折腾许多，当深夜里Mini说出"play some music on Spotify..."的时候，泪流满面。
