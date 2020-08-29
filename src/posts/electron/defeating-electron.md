@@ -7,7 +7,7 @@ tags: ["electron"]
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/boxing.jpeg)
 <div style="text-align: center; margin-top: -20px; padding-bottom: 20px;">📷 Michael Tarng</div>
 
-你使用的部分桌面应用很可能是用 Electron 开发的，它是一种框架，结合了 Node.js，部分 Chromium，以及一层原生代码。Visual Studio Code，Slack，Atom，WhatsApp，甚至微软的 Visual Studio 安装程序都使用它来构建面向 Windows，macOS，Linux 的桌面应用。我已经基于 Eletron 做了几年开发，曾经写过一个简短的指南，并且深深沉入在它的社区中。
+你使用的部分桌面应用很可能是用 Electron 开发的，它是一种框架，结合了 Node.js，部分 Chromium，以及一层原生代码。Visual Studio Code，Slack，Atom，WhatsApp，甚至微软的 Visual Studio 安装程序都使用它来构建面向 Windows，macOS，Linux 的桌面应用。我已经基于 Electron 做了几年开发，曾经写过一个简短的指南，并且深深沉入在它的社区中。
 
 每当一种技术获得某种青睐，总会有相当多的人站出来谴责说这种技术是糟糕的，它生来就带缺陷，并且所解决的问题并没有提倡者说的那么复杂。Electron 也不例外。但通常用来谴责它的理由（比如内存消耗，总体性能，应用打包体积）显然说不动开发者或者终端用户。
 
@@ -61,7 +61,7 @@ Electron 不但提供了一个平台用于构建应用，使这些应用能够�
 如果你梦想的未来中没有跨平台的应用，那么去呼吁苹果认真对待 macOS 和它的开发环境，呼吁微软认清楚 win32
  没有死，不管他们如何努力想消灭它。
 
- Electron 不是为了和谁竞争。它只是开源社区努力填补这个鸿沟的努力。如果你想战胜 Electron，你也需要去填补；并且你需要比 Electron 做得更好。许多 Electron 维护者投入精力就是为了开发出用户喜欢的桌面应用。你如果能够帮助他们解决困难，提供更好的开发平台，他们会微笑，并且握着你的手，和你说声谢谢。
+ Electron 不是为了和谁竞争。它只是开源社区填补这个鸿沟的努力。如果你想战胜 Electron，你也需要去填补；并且你需要比 Electron 做得更好。许多 Electron 维护者投入精力就是为了开发出用户喜欢的桌面应用。你如果能够帮助他们解决困难，提供更好的开发平台，他们会微笑，并且握着你的手，和你说声谢谢。
 
 
 
