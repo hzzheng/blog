@@ -18,12 +18,12 @@ Flutter 是 Google 开源的跨端开发方案，支持移动端、Web 以及桌
 
 可以从以下几个方面来回答这个问题：
 
-- 接近 Web 的开发体验。因为 Flutter 基于 Dart 语言开发，Dart 是一门既支持 AOT 也支持 JIT 编译的语言，在开发环境下通过 JIT 编译实现的维持状态的热更新（见图 1），比原生开发需要等待几十秒甚至更长时间编译后才能看到效果的体验要好太多。另外，它的声明式、响应式编程风格，通过数据驱动 UI 更新对于习惯了 React 或者 Vue 的前端开发是非常熟悉友好和高效的。以上以及其他配套的工具（比如调试工具）极大提高了开发者的效率。
+- 接近 Web 的开发体验。因为 Flutter 基于 Dart 语言开发，Dart 是一门既支持 AOT 也支持 JIT 编译的语言，在开发环境下通过 JIT 编译实现的维持状态的热更新（见下图），比原生开发需要等待几十秒甚至更长时间编译后才能看到效果的体验要好太多。另外，它的声明式、响应式编程风格，通过数据驱动 UI 更新对于习惯了 React 或者 Vue 的前端开发是非常熟悉友好和高效的。以上以及其他配套的工具（比如调试工具）极大提高了开发者的效率。
   
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/why-flutter-uses-dart/1_c1dM9uhkRj9_fpiDrLJmDw.gif)
 
 <figcaption style="text-align: center; margin-top: -20px; color: #a6a6a6; padding-bottom: 20px;">
-<i>图 1（来源：https://medium.com/hackernoon/why-flutter-uses-dart-dd635a054ebf） </i>
+<i>（来源：https://medium.com/hackernoon/why-flutter-uses-dart-dd635a054ebf） </i>
 </figcaption>
 
 - 接近原生的用户体验。在技术选型的时候，会有一些权衡，因为有时候很难找到完美的解决方案，而是寻求综合而言最合适的。抛开产品架构、交互设计等方面的影响，单纯从技术角度考虑，影响用户体验的因素主要包括 UI 是否足够精致，动画是否足够流畅，交互响应是否足够快等。这方面，Flutter 做得足够好，因为 Flutter 自带渲染引擎（Skia）以及 UI 控件库（Material UI & Cuperino）, 并且可以高度定制化，可以实现非常精致的UI。又因为 Dart 支持 AOT 编译，发布的时候会编译成原生代码，没有 JSBridge 的通信消耗，很大程度提升了应用运行的性能。有一个国外团队对相关技术栈做了基准测试，具体可以阅读本节的附录文章。
@@ -286,11 +286,57 @@ Flutter 提供了大量的官方 Widget，想了解更多强烈建议学习附�
 
 #### 布局
 
+Flutter 最早是 Chrome 团队成员的实验项目，所以对布局一开始就有一些特殊的思考。为了避免传统 CSS 布局存在的相互覆盖、解析性能问题，在经过一些实验后，Flutter 团队通过以下方式简化了布局，并提升了性能：
+
+1. 没有去定义一套可以适用于所有 widget 的布局规则集，而是每个 widget 都可以有自己的相对简单的布局模型；
+2. 因为每个 widget 都有自己相对小的布局规则集，所以可以进行更深度的优化；
+3. 为了进一步简化布局，把几乎所有规则都转换成了 widget。
+
+Flutter 中的布局也是通过 Widget 实现的。除了上一小节中介绍的 Center、Column，常用的布局 Widget 还包括 Row、Stack、Expanded、ConstrainedBox、Align、Container等。出于篇幅考虑，不可能对所有布局组件一一介绍，有兴趣的同学可以阅读附录中相关资料进一步学习。这里以常用的 Expanded 为例来展示 Flutter 灵活的布局能力。
+
+因为出于 Chrome 团队，Flutter 布局借鉴了很多 CSS 布局思想。Expanded 可以使用 flex 来进行布局，示例代码如下：
+
+```dart
+Row(
+  children: <Widget>[
+    Expanded(
+      child: Container(
+        decoration: const BoxDecoration(color: Colors.red),
+      ),
+      flex: 3,
+    ),
+    Expanded(
+      child: Container(
+        decoration: const BoxDecoration(color: Colors.green),
+      ),
+      flex: 2,
+    ),
+    Expanded(
+      child: Container(
+        decoration: const BoxDecoration(color: Colors.blue),
+      ),
+      flex: 1,
+    ),
+  ],
+),
+```
+
+最终显示效果：
+
+<div style="text-align: center;">
+  <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-layout.png" width=400>
+</div>
 
 
 > 相关资源
 
 1. Flutter Layout Cheat Sheet https://medium.com/flutter-community/flutter-layout-cheat-sheet-5363348d037e
+2. Layouts in Flutter https://flutter.dev/docs/development/ui/layout
+
+
+#### 动画
+
+
 
 #### 手势
 
