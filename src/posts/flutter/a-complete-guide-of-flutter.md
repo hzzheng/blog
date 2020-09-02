@@ -175,7 +175,7 @@ ios 和 android 目录下是相关平台的工程文件，lib 是我们的开发
 
 #### Widget
 
-Widget 是 Flutter 中非常重要的概念，可以说 Flutter 中的一切都是 Widget，比如 UI 组件、布局、动画、路由等等。以下是初始化项目 main.dart 中的样板代码（删除了注释）：
+Widget 是 Flutter 中非常重要的概念，可以说 Flutter 中一切都是 Widget，比如 UI 组件、布局、动画等等。以下是初始化项目 main.dart 中的样板代码（删除了大量注释）：
 
 ```dart
 import 'package:flutter/material.dart';
@@ -191,19 +191,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -213,15 +201,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -234,47 +213,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -291,17 +241,26 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
 
 ```
 
+我们可以看到入口函数 main 中调用了 MyApp，而 MyApp 即是应用的根 Widget。它是一个类，继承了 StatelessWidget。
+
+Widget 根据是否包含状态可以分为 StatelessWidget 和 StatefulWidget，有过 React 开发经验的同学看到这里应该会很熟悉，和 React 中无状态组件一样，StatelessWidget 相对性能更好，适合开发展示型的组件。
+
+MyApp 中有一个 build 方法，组件每次渲染都会调用，类似 React 中的 render 函数。build 方法返回的也是 Widget，这里返回了一个 MaterialApp（因为我们引入了 flutter/material.dart）。它是 Flutter 官方提供的 Widget，用于开发 Material 风格的应用。更多关于 Material Widget 的内容可以参考本节附录中的官方 Widget 列表。
+
+MaterialApp 接受很多配置参数，其中 home 是应用的入口页面，这里是 MyHomePage 这个 Widget。它继承了StatefulWidget 
+
+
+
 
 #### 布局
 
-#### 动画
 
 #### 手势
 
