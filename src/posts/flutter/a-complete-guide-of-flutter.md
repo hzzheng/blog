@@ -490,7 +490,68 @@ GestureDetector 包裹了 Container，监听 onTap，点击后调用 setState �
 
 #### 路由
 
-#### HTTP 以及包管理
+在 Flutter 中实现路由跳转非常简单。如果之前有前端开发经验也会感觉似曾相识。这是 Flutter 容易上手的原因之一——借鉴了其他 UI 编程技术中的实践，使得开发者可以复用经验，降低学习成本。
+
+MaterialApp 封装了路由相关的功能。在 Flutter 中可以将路由简单分成直接路由和命名路由，我们先来看直接路由的例子：
+
+```dart
+Navigator.push(context, MaterialPageRoute(
+  builder: (context) => Page2()
+));
+```
+
+上面的代码代码中，调用 Navigator.push 来进行路由导航，第一个参数是上下文对象，第二个是一个 MaterialPageRoute 实例，其中有一个 builder 方法，返回的正是导航的目标页面 Page2。
+
+命名路由，需要在 MaterialApp 的 routes 属性中配置，以下是简单的示例：
+
+```dart
+void main() {
+  runApp(MaterialApp(
+    home: Landing(),
+    routes: <String, WidgetBuilder>{
+      '/page2': (BuildContext context) => Page2(),
+      '/page3': (BuildContext context) => Page3()
+    },
+  ));
+}
+```
+然后通过以下的方式来进行导航：
+
+```dart
+onPressed: (() => Navigator.of(context).pushNamed('/page2')),
+```
+
+上面的代码表示，在某个 Widget 的 onPressed 事件回调函数中，调用 pushNamed 方法跳转到 Page2。
+
+可以通过以下的方式进行路由回退：
+
+```dart
+Navigator.pop(context);
+```
+
+另外，路由导航返回的是一个 Future，类似 JS 中的 Promise，是 Dart 异步编程中非常重要的概念。同样可以用 await 语法将异步编程转换成同步的写法，以下是简单的示例：
+
+```dart
+ var navigationResult = await Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => Page2()));
+ 
+ if(navigationResult == 'my_value') {
+  print('I have received results from the navigation');
+ }
+ 
+ // 通过第二个参数返回 navigationResult
+ Navigator.pop(context, 'my_value');
+```
+
+> 相关资源
+
+1. Flutter Cookbook Navigation https://flutter.dev/docs/cookbook/navigation
+2. Flutter Navigation Cheatsheet — A Guide to Named Routing https://medium.com/flutter-community/flutter-navigation-cheatsheet-a-guide-to-named-routing-dc642702b98c
+3. Flutter: Routes and Navigation https://medium.com/flutter-community/flutter-routes-and-navigation-69f128a9ea8f
+
+#### HTTP
+
+#### 包管理
 
 #### 状态管理
 
