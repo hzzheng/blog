@@ -600,6 +600,19 @@ print(await http.read('https://example.com/foobar.txt'));
 
 #### 状态管理
 
+Flutter 状态管理的方案非常多，普遍被推荐和使用的有 Provider、Scoped Model、BLoC 模式等。我之前有翻译过一篇 “BLoC 模式入门”，感兴趣的同学可以通过附录链接阅读。因为要介绍清楚每种状态管理方案都需要一篇单独的文章，所以不再继续深入，读者可以直接阅读附录中的三篇文章学习。
+
+> 相关资源
+
+1. BLoC 模式入门 https://chaosflutter.com/posts/flutter/getting-started-with-the-bloc-pattern/
+2. Flutter: Pragmatic State Management Using Provider https://medium.com/flutter-community/flutter-pragmatic-state-management-using-provider-5c1129f9b5bb
+3. Flutter Architecture - ScopedModel implementation Guide https://www.filledstacks.com/post/flutter-architecture-scoped-model-implementation-guide/
 
 
 #### 下一步
+
+这篇文章旨在提供 Flutter 开发的 “最少必要知识”，并且就每个知识主题提供相关资料方便读者进一步深入学习。同时它也是我最近一年断断续续学习 Flutter 的总结，随着自己相关知识和使用经验的积累，我会持续完善这篇文章，尽量保证文章的知识正确性和时效性。最后，我列出了一些系统性学习 Flutter 的资料和课程，有兴趣的同学可以阅读观看。
+
+- 官方文档 https://flutter.dev/docs
+- Awesome Flutter https://github.com/Solido/awesome-flutter
+- The Complete 2020 Flutter Development Bootcamp with Dart https://www.udemy.com/course/flutter-bootcamp-with-dart/
