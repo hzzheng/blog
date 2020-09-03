@@ -444,6 +444,50 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 
 #### 手势
 
+好的交互体验离不开灵活方便的手势操作。Flutter 对此有非常好的支持。如果使用 Material 组件，很多 Widget 本身已经实现了响应 tap 等手势操作。比如上文中提到的 FloatingActionButton，可以支持 onPressed 监听。另外如果你想实现 Material UI 中非常酷炫的 “ink splash” 效果，可以使用 InkWell 这个类。
+
+GestureDetector 是 Flutter 中实现手势操作最重要的类，它本身也是一个 Widget。它支持非常多的手势监听，比如 tap、pan、scale、drag 等，具体可以参考附录中的文档。下面以一个简单的例子来演示如何使用 GestureDetector 做手势监听。
+
+```dart
+Container(
+  alignment: FractionalOffset.center,
+  color: Colors.white,
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          Icons.lightbulb_outline,
+          color: _lights ? Colors.yellow.shade600 : Colors.black,
+          size: 60,
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _lights = true;
+          });
+        },
+        child: Container(
+          color: Colors.yellow.shade600,
+          padding: const EdgeInsets.all(8),
+          child: const Text('TURN LIGHTS ON'),
+        ),
+      ),
+    ],
+  ),
+)
+```
+GestureDetector 包裹了 Container，监听 onTap，点击后调用 setState 修改 _lights 状态，使灯泡变亮。
+
+> 相关资源
+
+1. Taps, drags, and other gestures https://flutter.dev/docs/development/ui/advanced/gestures
+2. GestureDetector class https://api.flutter.dev/flutter/widgets/GestureDetector-class.html
+3. Flutter Deep Dive: Gestures https://medium.com/flutter-community/flutter-deep-dive-gestures-c16203b3434f
+
+
 #### 路由
 
 #### HTTP 以及包管理
