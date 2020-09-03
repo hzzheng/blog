@@ -549,10 +549,57 @@ Navigator.pop(context);
 2. Flutter Navigation Cheatsheet — A Guide to Named Routing https://medium.com/flutter-community/flutter-navigation-cheatsheet-a-guide-to-named-routing-dc642702b98c
 3. Flutter: Routes and Navigation https://medium.com/flutter-community/flutter-routes-and-navigation-69f128a9ea8f
 
-#### HTTP
+#### HTTP 
 
-#### 包管理
+在 Flutter 中实现 Http 请求可以使用官方 dart:io 库中提供的 HttpClient 类，也可以使用第三方的库，比如 http，以下分别做简单介绍。
+
+- 使用 HttpClient
+
+```dart
+HttpClient client = new HttpClient();
+client.getUrl(Uri.parse("http://www.example.com/"))
+    .then((HttpClientRequest request) {
+      // Optionally set up headers...
+      // Optionally write to the request object...
+      // Then call close.
+      ...
+      return request.close();
+    })
+    .then((HttpClientResponse response) {
+      // Process the response.
+      ...
+    });
+```
+以上可以分为两个过程，首先 getUrl 方法返回的是是一个 Future 对象，所以可以用 then 方式调用，在回调中可以设置 request 对象，最后返回的 request.close() 也是一个 Future，所以继续调用 then 方法，该方法的回调函数参数即是请求响应对象。
+
+- 使用第三方库 http
+
+使用第三方库，首先需要在项目配置文件 pubspec.yaml 中添加依赖，如下所示：
+
+```yaml
+dependencies:
+  http: ^0.12.2
+```
+使用方式可以参考 pub.dev 上 http 的文档：
+
+```dart
+import 'package:http/http.dart' as http;
+
+var url = 'https://example.com/whatsit/create';
+var response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
+print('Response status: ${response.statusCode}');
+print('Response body: ${response.body}');
+
+print(await http.read('https://example.com/foobar.txt'));
+```
+
+> 相关资源
+
+1. dart:io 文档 https://api.dart.dev/stable/2.9.2/dart-io/dart-io-library.html
+2. http 三方库 https://pub.dev/packages/http
 
 #### 状态管理
+
+
 
 #### 下一步
