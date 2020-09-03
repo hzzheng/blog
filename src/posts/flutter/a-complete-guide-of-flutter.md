@@ -335,16 +335,118 @@ Row(
 
 
 #### 动画
-在
 
+Flutter 中的动画是相对不容易理解的部分。下图是官方提供的导航图，教你如何选择正确的动画实现方式。有耐心的同学可以先自己看一下。
+
+![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-animation.png)
+
+按照动画的实现方式，大体可以分为以下几类：
+- Implicit Animations。Flutter 封装了很多的 Animated Widget，这些 Widget 都实现了 ImplicitlyAnimatedWidget 这个抽象类，使用这些类你不需要关心动画具体是如何实现的，只需要给对应的 Widget 设置需要的属性，修改属性会自动产生动画。这些动画类包括 AnimatedCrossFade, AnimatedContainer, AnimatedPadding, AnimatedAlign, AnimatedPositioned, AnimatedPositionedDirectional, AnimatedOpacity, AnimatedDefaultTextStyle, AnimatedPhysicalModel 等。下面以官方的 Demo 为例说明如何使用 AnimatedOpacity 来实现文本的渐入效果。
+
+```dart
+import 'package:flutter/material.dart';
+
+class FadeInDemo extends StatefulWidget {
+  _FadeInDemoState createState() => _FadeInDemoState();
+}
+
+class _FadeInDemoState extends State<FadeInDemo> {
+  double opacityLevel = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: <Widget>[
+      MaterialButton(
+        child: Text(
+          'Show details',
+          style: TextStyle(color: Colors.blueAccent),
+        ),
+        onPressed: () => setState(() {
+          opacityLevel = 1.0;
+        }),
+      ),
+      AnimatedOpacity(
+        duration: Duration(seconds: 3),
+        opacity: opacityLevel,
+        child: Column(
+          children: <Widget>[
+            Text('Type: Owl'),
+            Text('Age: 39'),
+            Text('Employment: None'),
+          ],
+        ),
+      )
+    ]);
+  }
+}
+
+```
+点击 MaterialButton 按钮，AnimatedOpacity 的 child，也就是三个 Text 文本的透明度会从 0 渐变成 1，产生渐入的效果。很简单对吧，这正是 Implicit Animations 的使用场景，通过牺牲更精细地控制使简单动画的实现更容易。
+
+- Explicit Animations。如果需要更精细地控制，则需要使用 Animation、AnimationController、Tween 等动画类来实现，或者可以使用已经封装好的各种 “FooTransition” Widget，比如可以用 ScaleTransition 实现放大缩小的动画效果，具体用法和效果可以参看附录中的 Demo 演示。这里以一个简单的代码示例，来说明如何使用 Animation、AnimationController、Tween 实现一个 logo 从 0 到 300 宽高的动画。
+
+```dart
+import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+
+void main() => runApp(LogoApp());
+
+class LogoApp extends StatefulWidget {
+  _LogoAppState createState() => _LogoAppState();
+}
+
+class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
+  Animation<double> animation;
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animation = Tween<double>(begin: 0, end: 300).animate(controller)
+    ..addListener(() { 
+      setState(() {});
+    );
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        height: animation.value,
+        width: animation.value,
+        child: FlutterLogo(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}
+```
+
+上面的代码很容易理解，Animation 维护了动画的值（animation.value）和状态(dismissed、 completed 等)，AnimationController 负责控制动画（controller.forward 等），Tween 提供了动画的范围，这里是 double 类型的 0 到 300，通过 addListener 监听数值变化，然后调用 setState 去更新视图。其中 .. 是 Dart 中的语法，可以实现链式的调用。
+
+此外，你也可以使用 AnimatedWidget、AnimatedBuilder 来实现自动监听动画值进而重新渲染视图。具体做法可以阅读附录中的官方教程。最后值得一提的是，在 dispose 方法中调用了 controller.dispose()，确保页面销毁后释放动画相关资源，避免内存泄漏。
+
+- 第三方库和底层类 CustomPainter。如果以上的方式都不能满足你的需求，可以去 pub.dev 寻找适合的第三方库（比如 Lottie），或者使用底层的 CustomPainter 来实现。
+
+> 相关资源
+
+1. Flutter Animations Demo https://flutter-animations-cheat-sheet.codemagic.app/#/
+2. Introduction to animations https://flutter.dev/docs/development/ui/animations
+3. Animation deep dive https://medium.com/flutter/animation-deep-dive-39d3ffea111f
 
 #### 手势
 
 #### 路由
 
-#### HTTP
-
-#### 仓库和三方包
+#### HTTP 以及包管理
 
 #### 状态管理
 
