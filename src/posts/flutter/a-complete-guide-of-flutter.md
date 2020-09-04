@@ -288,11 +288,11 @@ Flutter 提供了大量的官方 Widget，想了解更多强烈建议学习附�
 
 Flutter 最早是 Chrome 团队成员的实验项目，所以对布局一开始就有一些特殊的思考。为了避免传统 CSS 布局存在的相互覆盖、解析性能问题，在经过一些实验后，Flutter 团队通过以下方式简化了布局，并提升了性能：
 
-1. 没有去定义一套可以适用于所有 widget 的布局规则集，而是每个 widget 都可以有自己的相对简单的布局模型；
-2. 因为每个 widget 都有自己相对小的布局规则集，所以可以进行更深度的优化；
-3. 为了进一步简化布局，把几乎所有规则都转换成了 widget。
+1. 没有去定义一套可以适用于所有 Widget 的布局规则集，而是每个 Widget 都可以有自己的相对简单的布局模型；
+2. 因为每个 Widget 都有自己相对小的布局规则集，所以可以进行更深度的优化；
+3. 为了进一步简化布局，把几乎所有规则都转换成了 Widget。
 
-Flutter 中的布局也是通过 Widget 实现的。除了上一小节中介绍的 Center、Column，常用的布局 Widget 还包括 Row、Stack、Expanded、ConstrainedBox、Align、Container等。出于篇幅考虑，不可能对所有布局组件一一介绍，有兴趣的同学可以阅读附录中相关资料进一步学习。这里以常用的 Expanded 为例来展示 Flutter 灵活的布局能力。
+Flutter 中的布局也是通过 Widget 实现的。除了上一小节中介绍的 Center、Column，常用的布局 Widget 还包括 Row、Stack、Expanded、ConstrainedBox、Align、Container 等。出于篇幅考虑，不可能对所有布局组件一一介绍，有兴趣的同学可以阅读附录中的相关资料进一步学习。这里以常用的 Expanded 为例来展示 Flutter 灵活的布局能力。
 
 因为出于 Chrome 团队，Flutter 布局借鉴了很多 CSS 布局思想。Expanded 可以使用 flex 来进行布局，示例代码如下：
 
@@ -381,9 +381,9 @@ class _FadeInDemoState extends State<FadeInDemo> {
 }
 
 ```
-点击 MaterialButton 按钮，AnimatedOpacity 的 child，也就是三个 Text 文本的透明度会从 0 渐变成 1，产生渐入的效果。很简单对吧，这正是 Implicit Animations 的使用场景，通过牺牲更精细地控制使简单动画的实现更容易。
+点击 MaterialButton 按钮，AnimatedOpacity 的 child，也就是三个 Text 文本的透明度会从 0 渐变成 1，产生渐入的效果。很简单对吧，这正是 Implicit Animations 的使用场景，通过牺牲更精细的控制使简单动画的实现更容易。
 
-- Explicit Animations。如果需要更精细地控制，则需要使用 Animation、AnimationController、Tween 等动画类来实现，或者可以使用已经封装好的各种 “FooTransition” Widget，比如可以用 ScaleTransition 实现放大缩小的动画效果，具体用法和效果可以参看附录中的 Demo 演示。这里以一个简单的代码示例，来说明如何使用 Animation、AnimationController、Tween 实现一个 logo 从 0 到 300 宽高的动画。
+- Explicit Animations。如果需要更精细的控制，则需要使用 Animation、AnimationController、Tween 等动画类来实现，或者可以使用已经封装好的各种 “FooTransition” Widget，比如可以用 ScaleTransition 实现放大缩小的动画效果，具体用法可以参看附录中的 Demo 演示。这里以一个简单的代码示例，来说明如何使用 Animation、AnimationController、Tween 实现一个 logo 从 0 到 300 宽高的动画。
 
 ```dart
 import 'package:flutter/animation.dart';
@@ -430,9 +430,9 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
 }
 ```
 
-上面的代码很容易理解，Animation 维护了动画的值（animation.value）和状态(dismissed、 completed 等)，AnimationController 负责控制动画（controller.forward 等），Tween 提供了动画的范围，这里是 double 类型的 0 到 300，通过 addListener 监听数值变化，然后调用 setState 去更新视图。其中 .. 是 Dart 中的语法，可以实现链式的调用。
+上面的代码很容易理解，Animation 维护了动画的值（animation.value）和状态(dismissed、 completed 等)，AnimationController 负责控制动画（controller.forward 等），Tween 提供了动画的范围，这里是 double 类型的 0 到 300。通过 addListener 监听数值变化，然后调用 setState 去更新视图。其中 .. 是 Dart 中的语法，可以实现链式的调用。
 
-此外，你也可以使用 AnimatedWidget、AnimatedBuilder 来实现自动监听动画值进而重新渲染视图。具体做法可以阅读附录中的官方教程。最后值得一提的是，在 dispose 方法中调用了 controller.dispose()，确保页面销毁后释放动画相关资源，避免内存泄漏。
+此外，你也可以使用 AnimatedWidget、AnimatedBuilder 来实现自动监听动画值进而重新渲染视图。具体做法可以参考附录中的官方教程。最后值得一提的是，在 dispose 方法中调用了 controller.dispose()，确保页面销毁后释放动画相关资源，避免内存泄漏。
 
 - 第三方库和底层类 CustomPainter。如果以上的方式都不能满足你的需求，可以去 pub.dev 寻找适合的第三方库（比如 Lottie），或者使用底层的 CustomPainter 来实现。
 
