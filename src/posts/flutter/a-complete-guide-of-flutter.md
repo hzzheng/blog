@@ -4,7 +4,7 @@ date: "2020-09-01"
 tags: ["flutter"]
 ---
 
-本文的写作目的是为了方便有一定 UI 编程经验的开发者快速上手 Flutter 开发移动应用，并且对 Flutter 开发的相关主题形成全貌的认识。在每个主题之后，会附有相关的资源链接，方便有兴趣的同学按图索骥深入学习。在文章的最后，整理了一些学习资料，如果想更系统性地学习 Flutter 推荐阅读。
+本文的写作目的是为了方便有一定 UI 编程经验的开发者快速上手 Flutter 开发移动应用，并且对 Flutter 开发的相关主题形成全貌的认识。在每个主题之后，会附有相关的资源链接，方便有兴趣的同学按图索骥深入学习。在文章的最后，整理了一些学习资料，如果想更系统地学习 Flutter 推荐阅读。
 
 #### What & Why
 
@@ -500,9 +500,9 @@ Navigator.push(context, MaterialPageRoute(
 ));
 ```
 
-上面的代码代码中，调用 Navigator.push 来进行路由导航，第一个参数是上下文对象，第二个是一个 MaterialPageRoute 实例，其中有一个 builder 方法，返回的正是导航的目标页面 Page2。
+上面的代码中，调用 Navigator.push 来进行路由导航，第一个参数是上下文对象，第二个参数是一个 MaterialPageRoute 实例，其中有一个 builder 方法，返回的正是导航的目标页面 Page2。
 
-命名路由，需要在 MaterialApp 的 routes 属性中配置，以下是简单的示例：
+命名路由，需要在 MaterialApp 的 routes 属性中配置，如下所示：
 
 ```dart
 void main() {
@@ -551,7 +551,7 @@ Navigator.pop(context);
 
 #### HTTP 
 
-在 Flutter 中实现 Http 请求可以使用官方 dart:io 库中提供的 HttpClient 类，也可以使用第三方的库，比如 http，以下分别做简单介绍。
+在 Flutter 中实现 http 请求可以使用官方 dart:io 库中提供的 HttpClient 类，也可以使用第三方的库，比如 http，以下分别做简单介绍。
 
 - 使用 HttpClient
 
@@ -570,11 +570,11 @@ client.getUrl(Uri.parse("http://www.example.com/"))
       ...
     });
 ```
-以上可以分为两个过程，首先 getUrl 方法返回的是是一个 Future 对象，所以可以用 then 方式调用，在回调中可以设置 request 对象，最后返回的 request.close() 也是一个 Future，所以继续调用 then 方法，该方法的回调函数参数即是请求响应对象。
+可以分为两个过程，首先 getUrl 方法返回的是一个 Future 对象，所以可以调用 then 方法，在 then 的回调中设置 request 对象，最后返回 request.close() 。然后，request.close() 返回的也是一个 Future，所以继续调用 then 方法，该方法回调函数的参数即是请求响应对象。
 
 - 使用第三方库 http
 
-使用第三方库，首先需要在项目配置文件 pubspec.yaml 中添加依赖，如下所示：
+使用第三方库，首先需要在项目配置文件 pubspec.yaml 中添加依赖：
 
 ```yaml
 dependencies:
@@ -596,11 +596,11 @@ print(await http.read('https://example.com/foobar.txt'));
 > 相关资源
 
 1. dart:io 文档 https://api.dart.dev/stable/2.9.2/dart-io/dart-io-library.html
-2. http 三方库 https://pub.dev/packages/http
+2. http 第三方库 https://pub.dev/packages/http
 
 #### 状态管理
 
-Flutter 状态管理的方案非常多，普遍被推荐和使用的有 Provider、Scoped Model、BLoC 模式等。我之前有翻译过一篇 “BLoC 模式入门”，感兴趣的同学可以通过附录链接阅读。因为要介绍清楚每种状态管理方案都需要一篇单独的文章，所以不再继续深入，读者可以直接阅读附录中的三篇文章学习。
+Flutter 状态管理的方案非常多，普遍被推荐和使用的有 Provider、Scoped Model、BLoC 等。我之前有翻译过一篇 “BLoC 模式入门”，感兴趣的同学可以通过附录链接阅读。因为要介绍清楚每种状态管理方案都需要一篇单独的文章，所以不再继续深入，读者可以直接阅读附录中的三篇文章学习。
 
 > 相关资源
 
