@@ -254,22 +254,22 @@ Widget 根据是否包含状态可以分为 StatelessWidget 和 StatefulWidget�
 
 MyApp 中有一个 build 方法，组件每次渲染都会调用，类似 React 中的 render 函数。build 方法返回的也是 Widget，这里返回了一个 MaterialApp（因为我们引入了 flutter/material.dart）。它是 Flutter 官方提供的 Widget，用于开发 Material 风格的应用。更多关于 Material Widget 的内容可以参考本节附录中的官方 Widget 列表。
 
-MaterialApp 接受很多配置参数，其中 home 是应用的入口页面，这里是 MyHomePage 这个 Widget。它继承了StatefulWidget，所以内部可以有状态。此处它维护了一个 _counter 状态，每次点击 FloatingActionButton 这个 Widget 会调用 _incrementCounter 方法，进而调用 setState 更新 _counter 的值。看到这里，熟悉 React 的你是不是🈶️会心一笑。
+MaterialApp 接受很多配置参数，其中 home 是应用的入口页面，这里是 MyHomePage 这个 Widget。它继承了StatefulWidget，所以内部可以有状态。此处它维护了一个 _counter 状态，每次点击 FloatingActionButton 这个 Widget 会调用 _incrementCounter 方法，进而调用 setState 更新 _counter 的值。看到这里，熟悉 React 的你是不是莞尔一笑。
 
-MyHomePage 的 build 方法中，包含了很多 Widget。我们一个个来看：
+MyHomePage 的 build 方法中，包含了很多 Widget。我们一个一个来看：
 
-- 首先它返回的是一个 Scaffold，它提供了页面开发的脚手架，通过 appBar、body 等参数来自定义页面特定区块的内容。
+- 首先它返回的是一个 Scaffold，这个 Widget 提供了页面开发的脚手架，通过 appBar、body 等参数来定义页面特定区块的内容。
 - AppBar 用来定义应用的顶部区域，比如可以通过 title 属性定义页面标题，通过 actions 定义标题之后的操作等。
 - Text 文本组件。
 - Center 布局组件，可以使它的 child 居中对齐。
-- Column 也是布局组件，可以使它的 children 在垂直方向上下排布；
+- Column 也是布局组件，可以使它的 children 在垂直方向上下排布。
 - FloatingActionButton 浮动按钮组件，浮动在页面右下角。
 
-选择模拟器后，可以点击右侧的三角按钮运行应用，如下所示：
+在 Android Studio 中，选择模拟器后，可以点击右侧的三角按钮运行应用，如下所示：
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-run.png)
 
-从下图中可以看到各种 Widget 对应的显示效果：
+从下图中可以看到各种 Widget 的显示效果：
 
 <div style="text-align: center;">
   <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-demo.png" width=400>
