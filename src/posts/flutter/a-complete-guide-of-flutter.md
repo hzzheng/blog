@@ -149,7 +149,7 @@ flutter doctor
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-plugin.png)
 
-安装完成以后在 Android Studio 启动欢迎窗口会多出一个 “Start a new Flutter project” 入口，点击可以快速创建一个 Flutter 应用，如下图所示：
+安装完成以后在 Android Studio 启动欢迎窗口会多出一个 “Start a new Flutter project” 入口，点击可以快速创建一个 Flutter 应用。
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-init.png)
 
