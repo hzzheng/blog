@@ -167,7 +167,7 @@ flutter doctor
 
 ios 和 android 目录下是相关平台的工程文件，lib 是我们的开发目录，其中 main.dart 是入口文件。该文件中有一个 main 函数，是应用启动的入口。
 
-另外，pubspec.yml 这个文件很重要，它是项目的配置文件，类似于前端开发中的 package.json，可以设置应用名，版本，依赖，本地资源声明等，如下图所示：
+另外，pubspec.yml 这个文件很重要，它是项目的配置文件，类似于前端开发中的 package.json，可以设置应用名、版本、依赖、本地资源声明等。
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/a-complete-guide-of-flutter/flutter-config.png)
 
