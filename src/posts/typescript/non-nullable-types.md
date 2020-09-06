@@ -1,5 +1,5 @@
 ---
-title: "Non-Nullable类型"
+title: "Typescript 中的 Non-Nullable类型"
 date: "2019-03-09"
 tags: ["typescript", "typescript-evolution"]
 origin: "https://mariusschulz.com/blog/typescript-2-0-non-nullable-types"
