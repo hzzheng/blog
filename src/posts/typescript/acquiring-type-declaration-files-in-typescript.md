@@ -5,8 +5,7 @@ tags: ['typescript', 'typescript-evolution']
 origin: 'https://mariusschulz.com/blog/acquiring-type-declaration-files-in-typescript'
 ---
 
-本文是 Typescript Evolution 系列的第 3 篇，原作者已经更新到了 40 多篇。该系列从 Typescript 2.0 开始，对每次语言更新新增的重要特性都做了通俗易懂的介 top
-top 绍，等不及翻译的同学建议直接阅读系列原文。
+本文是 Typescript Evolution 系列的第 3 篇，原作者已经更新到了 40 多篇。该系列从 Typescript 2.0 开始，对每次语言更新新增的重要特性都做了通俗易懂的介绍，等不及翻译的同学建议直接阅读系列原文。
 
 ---
 
