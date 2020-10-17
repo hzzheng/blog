@@ -15,7 +15,7 @@ export default ({ children, data }) => (
         </Link>
         <div className={cls.links}>
           <a href="/weekly">前端周刊</a>
-          <a href="/typescript-evolution">TS 演化系列</a>
+          <a href="/ts-evolution">TS 演化系列</a>
         </div>
       </div>
     </header>
@@ -29,50 +29,56 @@ export default ({ children, data }) => (
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <section className={cls.content}>{children}</section>
-      <aside>
-        <section className={cls.profile}>
-          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
-          <div className={cls.desc}>
-            可以通过
-            <span role="img" aria-label="下面">
-              👇
-            </span>
-            的方式联系我
-          </div>
-        </section>
-        <section className={cls.contact}>
-          <h4>Contact</h4>
-          <div>
-            <a href="mailto:zhchaozju@gmail.com">Email</a>
-            <a href="https://twitter.com/zhchaozju" target="_blank">
-              Twitter
-            </a>
-            <a href="https://github.com/hzzheng" target="_blank">
-              Github
-            </a>
-          </div>
-        </section>
-        <section className={cls.search}>
-          {/* <div className={cls.searchwrapper}>
-            <input placeholder="搜索文章..." />
-            <span className="iconfont icon-search" />
-          </div> */}
-          <ul className={cls.tags}>
-            {data.allMarkdownRemark.group.map(tag => (
-              <li key={tag.fieldValue}>
-                <Link to={`/tags/${_.kebabCase(tag.fieldValue)}/`}>
-                  {tag.fieldValue}
-                  {/* {tag.totalCount} */}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className={cls.qrcode}>
-          <div>欢迎关注公众号<br /> [前端每周翻译]</div>
-          <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/qrcode.bmp" alt="我的微信公众号"/>
-        </section>
-      </aside>
+      { data && (
+        <aside>
+          <section className={cls.profile}>
+            <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
+            <div className={cls.desc}>
+              可以通过
+              <span role="img" aria-label="下面">
+                👇
+              </span>
+              的方式联系我
+            </div>
+          </section>
+          <section className={cls.contact}>
+            <h4>Contact</h4>
+            <div>
+              <a href="mailto:zhchaozju@gmail.com">Email</a>
+              <a href="https://twitter.com/zhchaozju" target="_blank">
+                Twitter
+              </a>
+              <a href="https://github.com/hzzheng" target="_blank">
+                Github
+              </a>
+            </div>
+          </section>
+          <section className={cls.search}>
+            {/* <div className={cls.searchwrapper}>
+              <input placeholder="搜索文章..." />
+              <span className="iconfont icon-search" />
+            </div> */}
+            <ul className={cls.tags}>
+              {data.allMarkdownRemark.group.map(tag => (
+                <li key={tag.fieldValue}>
+                  <Link to={`/tags/${_.kebabCase(tag.fieldValue)}/`}>
+                    {tag.fieldValue}
+                    {/* {tag.totalCount} */}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className={cls.qrcode}>
+            <div>
+              欢迎关注公众号
+              <br />
+              [前端每周翻译]
+            </div>
+            <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/qrcode.bmp" alt="我的微信公众号"/>
+          </section>
+        </aside>
+      )}
     </div>
     <footer>郑超的独立博客 © 2020 Powered By GatsbyJS</footer>
   </div>

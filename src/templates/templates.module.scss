@@ -26,11 +26,14 @@
 }
 
 .tag {
-  width: 600px;
-  margin: 120px auto;
-
+  text-align: center;
   h1 {
     padding-bottom: 2rem;
+  }
+  ul {
+    margin: 0;
+    list-style: none;
+    font-size: 16px;
   }
 }
 

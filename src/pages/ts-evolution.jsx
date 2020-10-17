@@ -108,13 +108,18 @@ class Home extends PureComponent {
     return (
       <Layout data={data}>
         <div className={cls.list}>
-          {this.getFilteredPosts().map(({ node }) => {
+          {this.getFilteredPosts().map(({ node }, index) => {
             const { frontmatter, excerpt, fields, id } = node
 
             return (
               <div key={id}>
                 <h3>
-                  <Link to={fields.slug}>{frontmatter.title}</Link>
+                  <Link to={fields.slug}>
+                    【第
+                    {index + 1}
+                    篇】
+                    {frontmatter.title}
+                  </Link>
                 </h3>
                 <div className={cls.excerpt}>{excerpt}</div>
                 <div className={cls.date}>{frontmatter.date}</div>
@@ -133,8 +138,8 @@ export default Home
 export const query = graphql`
   query {
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { nin: ["ts-evolution", "weekly"] } } }
+      sort: { fields: [frontmatter___date] }
+      filter: { frontmatter: { tags: { in: ["ts-evolution"] } } }
     ) {
       group(field: frontmatter___tags) {
         fieldValue

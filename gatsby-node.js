@@ -1,23 +1,15 @@
 const path = require('path')
 const _ = require('lodash')
 
-const {
-  createFilePath
-} = require('gatsby-source-filesystem')
+const { createFilePath } = require('gatsby-source-filesystem')
 
-exports.onCreateNode = ({
-  node,
-  getNode,
-  actions
-}) => {
-  const {
-    createNodeField
-  } = actions
+exports.onCreateNode = ({ node, getNode, actions }) => {
+  const { createNodeField } = actions
   if (node.internal.type === 'MarkdownRemark') {
     const slug = createFilePath({
       node,
       getNode,
-      basePath: 'pages'
+      trailingSlash: false
     })
 
     createNodeField({
@@ -28,13 +20,8 @@ exports.onCreateNode = ({
   }
 }
 
-exports.createPages = ({
-  graphql,
-  actions
-}) => {
-  const {
-    createPage
-  } = actions
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions
   return graphql(`
     {
       allMarkdownRemark {
@@ -52,15 +39,13 @@ exports.createPages = ({
     }
   `).then((result) => {
     const posts = result.data.allMarkdownRemark.edges
-    posts.forEach(({
-      node
-    }) => {
+    posts.forEach(({ node }) => {
       createPage({
         path: node.fields.slug,
         component: path.resolve('./src/templates/post.jsx'),
         context: {
-          slug: node.fields.slug,
-        },
+          slug: node.fields.slug
+        }
       })
     })
 
@@ -76,16 +61,14 @@ exports.createPages = ({
         path: `/tags/${_.kebabCase(tag)}`,
         component: path.resolve('./src/templates/tags.jsx'),
         context: {
-          tag,
-        },
+          tag
+        }
       })
     })
   })
 }
 
-exports.onCreateWebpackConfig = ({
-  actions
-}) => {
+exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       extensions: ['.jsx', '.js', '.json']

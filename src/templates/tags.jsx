@@ -1,27 +1,31 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
+import Layout from '../components/layout'
 import cls from './templates.module.scss'
+
 
 const Tags = ({ pageContext, data }) => {
   const { tag } = pageContext
   const { edges } = data.allMarkdownRemark
-  const tagHeader = `${tag}:`
+  const tagHeader = `${tag.toUpperCase()}`
 
   return (
-    <div className={cls.tag}>
-      <h1>{tagHeader}</h1>
-      <ul>
-        {edges.map(({ node }) => {
-          const { title } = node.frontmatter
-          const { slug } = node.fields
-          return (
-            <li key={slug}>
-              <Link to={slug}>{title}</Link>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+    <Layout>
+      <div className={cls.tag}>
+        <h1>{tagHeader}</h1>
+        <ul>
+          {edges.map(({ node: { frontmatter, fields } }) => {
+            const { title, date } = frontmatter
+            const { slug } = fields
+            return (
+              <li key={slug}>
+                <Link to={slug}>{`${title} [${date}]`}</Link>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </Layout>
   )
 }
 
@@ -39,10 +43,12 @@ export const pageQuery = graphql`
         node {
           frontmatter {
             title
+            date
           }
           fields {
             slug
           }
+          excerpt(pruneLength: 140, truncate: true)
         }
       }
     }

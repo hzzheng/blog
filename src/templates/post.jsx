@@ -60,7 +60,7 @@ export default postPage
 
 export const query = graphql`
   query($slug: String!) {
-    allMarkdownRemark {
+    allMarkdownRemark(filter: { frontmatter: { tags: { nin: ["ts-evolution"] } } }) {
       group(field: frontmatter___tags) {
         fieldValue
         totalCount

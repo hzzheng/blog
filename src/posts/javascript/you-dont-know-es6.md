@@ -1,7 +1,7 @@
 ---
 title: "你不知道的 ECMAScript 6"
 date: "2018-12-15"
-tags: ["sentry"]
+tags: ["javascript"]
 ---
 
 ECMAScript 6 可以说是 Javascript 语言标准最重要的一次更新。它包含的内容非常多，我相信有相当多的前端程序员并没有很系统地学习过 ES6。比如你是否有完整地阅读过扎老师的[《

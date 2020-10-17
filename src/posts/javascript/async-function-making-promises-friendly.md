@@ -1,7 +1,7 @@
 ---
 title: "轻松理解async函数"
 date: "2017-04-09"
-tags: ["async"]
+tags: ["async", "javascript"]
 ---
 
 Async函数是ES2017规范的一部分。刚刚发布的Node7.6.0版本开始支持该语法，不用加flag也能运行。Chrome55版本之后以及大部分现代浏览器也都已经支持。对于不支持的浏览器和Node环境，可以通过Babel转译成ES3/ES5的语法运行。

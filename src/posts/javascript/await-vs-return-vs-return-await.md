@@ -2,7 +2,7 @@
 title: "区分await、return以及return await"
 date: "2017-12-28"
 origin: "https://jakearchibald.com/2017/await-vs-return-vs-return-await/"
-tags: ["async"]
+tags: ["async", "javascript"]
 ---
 
 当我们写async函数的时候，需要注意await、return以及return await的区别，并作出正确的选择。

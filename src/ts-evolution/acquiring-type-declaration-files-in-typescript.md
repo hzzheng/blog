@@ -1,7 +1,7 @@
 ---
 title: 'Typescript 中如何获取类型声明文件'
 date: '2020-09-20'
-tags: ['typescript', 'typescript-evolution']
+tags: ['ts-evolution']
 origin: 'https://mariusschulz.com/blog/acquiring-type-declaration-files-in-typescript'
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Typescript 中基于控制流的类型分析"
 date: "2020-09-13"
-tags: ["typescript", "typescript-evolution"]
+tags: ["ts-evolution"]
 origin: "https://mariusschulz.com/articles/control-flow-based-type-analysis-in-typescript"
 ---
 

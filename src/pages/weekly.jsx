@@ -114,7 +114,9 @@ class Home extends PureComponent {
             return (
               <div key={id}>
                 <h3>
-                  <Link to={fields.slug}>{frontmatter.title}</Link>
+                  <Link to={fields.slug}>
+                    {frontmatter.title}
+                  </Link>
                 </h3>
                 <div className={cls.excerpt}>{excerpt}</div>
                 <div className={cls.date}>{frontmatter.date}</div>
@@ -134,7 +136,7 @@ export const query = graphql`
   query {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { nin: ["ts-evolution", "weekly"] } } }
+      filter: { frontmatter: { tags: { in: ["weekly"] } } }
     ) {
       group(field: frontmatter___tags) {
         fieldValue
