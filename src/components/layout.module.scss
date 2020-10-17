@@ -20,13 +20,14 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       background-image: none;
     }
   }
-  
+
   aside {
     box-sizing: border-box;
     width: 304px;
     height: 600px;
     padding: 0 40px;
-    border-left: $border;
+    // border-left: $border;
+    // border-right: $border;
 
     a {
       background-image: none;
@@ -38,10 +39,10 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       display: none;
     }
   }
-  
+
   .profile {
     text-align: center;
-    
+
     img {
       width: 160px;
       height: 160px;
@@ -52,7 +53,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       font-size: 12px;
     }
   }
-  
+
   .contact {
     text-align: center;
     padding-bottom: 1.25rem;
@@ -92,7 +93,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       color: rgba(0, 0, 0, 0.8);
       border-bottom: 1px solid rgba(28, 160, 134, 0.6);
       transition: all 0.3s;
-      
+
       &:focus {
         width: 224px;
         margin-left: -112px;
@@ -112,7 +113,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
         color: rgb(28, 160, 134);
       }
     }
-    
+
     .tags {
       list-style: none;
 
@@ -130,7 +131,7 @@ $border: 1px solid rgba(28, 160, 134, 0.1);
       }
     }
   }
-  
+
   .qrcode {
     text-align: center;
 
@@ -151,11 +152,14 @@ header {
   border-bottom: $border;
   font-size: 24px;
   font-weight: 600;
-  font-family: 'Dancing Script', cursive;
 
   .nav {
     max-width: 1024px;
     margin: 0 auto;
+
+    span {
+      padding-right: 12px;
+    }
   }
   @media screen and (max-width: 950px) {
     .nav {
@@ -164,17 +168,17 @@ header {
   }
   .links {
     float: right;
-    font-size: 14px;
+    font-size: 16px;
 
     a {
-      font-weight: 300;
+      font-weight: 500;
       padding-left: 32px;
     }
   }
   a {
     text-shadow: none;
     background-image: none;
-  };
+  }
 }
 
 footer {
@@ -186,7 +190,7 @@ footer {
   text-align: center;
   font-size: 12px;
   color: #a6a6a6;
-  
+
   a {
     padding-left: 32px;
     background-image: none;

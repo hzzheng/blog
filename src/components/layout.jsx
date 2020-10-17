@@ -10,12 +10,12 @@ export default ({ children, data }) => (
     <header>
       <div className={cls.nav}>
         <Link to="/">
-          {/* <span className="iconfont icon-home" /> */}
+          <span className="iconfont icon-home" />
           CNOTE
         </Link>
         <div className={cls.links}>
-          {/* <a href="/doc/gatsbyjs">GatsbyJS 教程</a>
-          <a href="/about">关于我</a> */}
+          <a href="/weekly">前端周刊</a>
+          <a href="/typescript-evolution">TS 演化系列</a>
         </div>
       </div>
     </header>
@@ -24,7 +24,6 @@ export default ({ children, data }) => (
         <title>CNOTE</title>
         <link rel="shortcut icon" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
