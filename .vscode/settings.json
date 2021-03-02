@@ -1,19 +1,20 @@
 {
   "commit-message-editor.dynamicTemplate": [
-    "{jira} {type}{scope}: {description}",
+    "{jira} {type} {description}",
     "",
     "{body}",
     "",
     "{breaking_change}{footer}"
   ],
   "commit-message-editor.staticTemplate": [
-    "taskId feat: Short description",
+    "taskId feat Short description",
     "",
     "Message body",
     "",
     "Message footer"
   ],
   "commit-message-editor.tokens": [
+
     {
       "label": "JIRA",
       "name": "jira",
