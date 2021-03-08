@@ -69,14 +69,14 @@ export default ({ children, data }) => (
               ))}
             </ul>
           </section>
-          <section className={cls.qrcode}>
+          {/* <section className={cls.qrcode}>
             <div>
               欢迎关注公众号
               <br />
               [前端每周翻译]
             </div>
             <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/qrcode.bmp" alt="我的微信公众号"/>
-          </section>
+          </section> */}
         </aside>
       )}
     </div>
