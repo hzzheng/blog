@@ -14,7 +14,7 @@ export default ({ children, data }) => (
           CNOTE
         </Link>
         <div className={cls.links}>
-          <a href="/weekly">前端周刊</a>
+          <a href="/weekly">每周阅读</a>
           <a href="/ts-evolution">TS 演化系列</a>
         </div>
       </div>
@@ -29,7 +29,7 @@ export default ({ children, data }) => (
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <section className={cls.content}>{children}</section>
-      { data && (
+      {data && (
         <aside>
           <section className={cls.profile}>
             <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
