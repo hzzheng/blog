@@ -86,7 +86,7 @@ class Home extends PureComponent {
               key={c}
               className={index === currentPage ? cls.active : undefined}
               onClick={() => this.handlePagination(index)}
-              onKeyDown={() => {}}
+              onKeyDown={() => { }}
             >
               {index + 1}
             </li>
@@ -108,7 +108,7 @@ class Home extends PureComponent {
     return (
       <Layout data={data}>
         <div className={cls.list}>
-          {this.getFilteredPosts().map(({ node }, index) => {
+          {this.getFilteredPosts().reverse().map(({ node }, index) => {
             const { frontmatter, excerpt, fields, id } = node
 
             return (
