@@ -105,10 +105,11 @@ class Home extends PureComponent {
 
   render() {
     const { data } = this.props
+    const posts = this.getFilteredPosts()
     return (
       <Layout data={data}>
         <div className={cls.list}>
-          {this.getFilteredPosts().reverse().map(({ node }, index) => {
+          {posts.reverse().map(({ node }, index) => {
             const { frontmatter, excerpt, fields, id } = node
 
             return (
@@ -116,7 +117,7 @@ class Home extends PureComponent {
                 <h3>
                   <Link to={fields.slug}>
                     【第
-                    {index + 1}
+                    {posts.length - index}
                     篇】
                     {frontmatter.title}
                   </Link>
