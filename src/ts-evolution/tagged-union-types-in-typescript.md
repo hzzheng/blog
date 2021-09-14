@@ -2,7 +2,7 @@
 title: "Typescript 中的标签联合类型"
 date: "2020-10-04"
 tags: ["ts-evolution"]
-origin: "https://mariusschulz.com/blog/read-only-properties-in-typescript"
+origin: "https://mariusschulz.com/blog/tagged-union-types-in-typescript"
 ---
 
   > 译者注：tagged union types 没有比较好的中文翻译，维基百科翻译为标签联合，也称可辨识联合（discriminated union）或者变体类型（variant type）。它是一种数据结构，很像联合（C/C++程序员一定知道这个结构）。它有一个字段（或称为属性）用于识别当前结构的确切类型。
