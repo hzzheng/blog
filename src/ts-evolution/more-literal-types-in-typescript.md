@@ -5,7 +5,7 @@ tags: ["ts-evolution"]
 origin: "https://mariusschulz.com/blog/more-literal-types-in-typescript"
 ---
 
-Typescript 1.8 引入了字符串字面量类型，用于将变量的值限制在有限的字符串字面量集合中。在 Typescript 2.0 中，字面量类型不再局限于字符串字面量。以下的这些字面量类型被添加到了类型系统中：
+Typescript 1.8 引入了字符串字面量类型，用于将变量的值限定在有限的字符串字面量集合中。在 Typescript 2.0 中，字面量类型不再局限于字符串字面量。以下的这些字面量类型被添加到了类型系统中：
 
 - 布尔字面量类型
 - 数字字面量类型
@@ -108,7 +108,7 @@ if (parsed.success) {
 - 如果`parsed.success`是`true`，`parsed`肯定是`{ success: true; value: string }` 类型。因此我们可以访问`value`属性，但不能访问 `error`。
 - 如果`parsed.success`是`false`，`parsed`肯定是`{ success: false; error: string }` 类型。因此我们可以访问`error`属性，但不能访问 `value`。
 
-顺便提一句，你发现了吗，这段代码中和 Typescript 相关的只有 `Result<T>` 和函数签名的类型标注？其他的部分都是普通的、原汁原味的 Javasscript，而这些代码因为基于控制流的类型分析而得到了类型安全。
+顺便提一句，你发现了吗，这段代码中和 Typescript 相关的只有 `Result<T>` 和函数签名的类型标注？其他的部分都是普通的、原汁原味的 Javascript，而这些代码因为基于控制流的类型分析而得到了类型安全。
 
 ### 数字字面量类型
 
@@ -127,7 +127,7 @@ zeroOrOne = 2;
 // Error: Type '2' is not assignable to type '0 | 1'
 ```
 
-举个例子，实际使用中，我们可以用数字字面量类型来定义端口号。HTTP 默认使用 80 端口，HTTPS 默认使用 443 端口。我们可以写一个 `getPort` 函数，并且在函数签名中声明只能返回这两个可能的值：
+举个例子，在实际使用中，我们可以用数字字面量类型来定义端口号。HTTP 默认使用 80 端口，HTTPS 默认使用 443 端口。我们可以写一个 `getPort` 函数，并且在函数签名中声明只能返回这两个可能的值：
 
 ```ts
 function getPort(scheme: "http" | "https"): 80 | 443 {
@@ -160,7 +160,7 @@ const httpPort = getPort("http"); // Type 80
 const httpsPort = getPort("https"); // Type 443
 ```
 
-现在如下图所示，当我们去比较`httpPort` 和 `443`，编译器会提示我们这个条件语句会永远返回 `false`:
+如下图所示，当我们去比较`httpPort` 和 `443`，编译器会提示我们这个条件语句会永远返回 `false`:
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/typescript-evolution/typescript_control_flow_contradiction-2x.kpi7hrylto.imm.png)
 
@@ -168,7 +168,7 @@ const httpsPort = getPort("https"); // Type 443
 
 ### 枚举字面量类型
 
-最后，我们还能使用枚举字面量类型。继续我们上面的例子，我们将实现一个函数用来映射给定的端口（80 或 443）到相应的协议（HTTPS 或 HTTPS）。首先，我们来定义一个枚举常量，包含了这两个端口号：
+最后，我们还能使用枚举字面量类型。继续我们上面的例子，我们将实现一个函数用来映射给定的端口（80 或 443）到相应的协议（HTTP 或 HTTPS）。首先，我们来定义一个枚举常量，包含了这两个端口号：
 
 ```ts
 const enum HttpPort {
@@ -177,7 +177,7 @@ const enum HttpPort {
 }
 ```
 
-现在我们来声明我们的 `getScheme` 函数，再一次我们使用函数重载来限定特定类型：
+现在我们来声明我们的 `getScheme` 函数，再一次，我们使用函数重载来限定特定类型：
 
 ```ts
 function getScheme(port: HttpPort.Http): "http";
