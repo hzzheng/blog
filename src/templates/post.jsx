@@ -3,8 +3,8 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import cls from './templates.module.scss'
 
-const API_ID = 'r7PmfMicPGJRTPMX7AeAFxIK-gzGzoHsz'
-const API_KEY = 'FCsB1Kpp0h1wOqFV2Wh6mVki'
+// const API_ID = 'r7PmfMicPGJRTPMX7AeAFxIK-gzGzoHsz'
+// const API_KEY = 'FCsB1Kpp0h1wOqFV2Wh6mVki'
 
 class postPage extends PureComponent {
   componentDidMount() {
@@ -14,18 +14,18 @@ class postPage extends PureComponent {
     // eslint-disable-next-line no-undef
     document.title = frontmatter ? frontmatter.title : 'CNOTE';
 
-    setTimeout(() => {
-      // 等待依赖的JS加载完成
-      if (window.Valine) {
-        new Valine({
-          el: '#comments',
-          appId: API_ID,
-          appKey: API_KEY,
-          placeholder: '可匿名评论...',
-          path: slug,
-        })
-      }
-    }, 3000);
+    // setTimeout(() => {
+    //   // 等待依赖的JS加载完成
+    //   if (window.Valine) {
+    //     new Valine({
+    //       el: '#comments',
+    //       appId: API_ID,
+    //       appKey: API_KEY,
+    //       placeholder: '可匿名评论...',
+    //       path: slug,
+    //     })
+    //   }
+    // }, 3000);
   }
 
   render() {
@@ -49,7 +49,7 @@ class postPage extends PureComponent {
             </div>
           )}
           <div className={cls.content} dangerouslySetInnerHTML={{ __html: post.html }} />
-          <div id="comments" />
+          {/* <div id="comments" /> */}
         </div>
       </Layout>
     )

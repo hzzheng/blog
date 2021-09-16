@@ -17,12 +17,13 @@ class Home extends PureComponent {
     const {
       data: { allMarkdownRemark }
     } = this.props
-    const { currentPage } = this.state
+    // const { currentPage } = this.state
 
-    const posts = allMarkdownRemark.edges.filter((_, index) => {
-      const skip = currentPage * PAGE_SIZE
-      return index >= skip && index < skip + PAGE_SIZE
-    })
+    const posts = allMarkdownRemark.edges;
+    // .filter((_, index) => {
+    //   const skip = currentPage * PAGE_SIZE
+    //   return index >= skip && index < skip + PAGE_SIZE
+    // })
     return posts
   }
 
@@ -86,7 +87,7 @@ class Home extends PureComponent {
               key={c}
               className={index === currentPage ? cls.active : undefined}
               onClick={() => this.handlePagination(index)}
-              onKeyDown={() => {}}
+              onKeyDown={() => { }}
             >
               {index + 1}
             </li>
@@ -123,7 +124,6 @@ class Home extends PureComponent {
               </div>
             )
           })}
-          {this.renderPagination()}
         </div>
       </Layout>
     )

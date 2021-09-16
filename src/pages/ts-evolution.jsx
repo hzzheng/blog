@@ -17,12 +17,13 @@ class Home extends PureComponent {
     const {
       data: { allMarkdownRemark }
     } = this.props
-    const { currentPage } = this.state
+    // const { currentPage } = this.state
 
-    const posts = allMarkdownRemark.edges.filter((_, index) => {
-      const skip = currentPage * PAGE_SIZE
-      return index >= skip && index < skip + PAGE_SIZE
-    })
+    const posts = allMarkdownRemark.edges;
+    // .filter((_, index) => {
+    //   const skip = currentPage * PAGE_SIZE
+    //   return index >= skip && index < skip + PAGE_SIZE
+    // })
     return posts
   }
 
@@ -109,7 +110,7 @@ class Home extends PureComponent {
     return (
       <Layout data={data}>
         <div className={cls.list}>
-          {posts.reverse().map(({ node }, index) => {
+          {posts.map(({ node }, index) => {
             const { frontmatter, excerpt, fields, id } = node
 
             return (
@@ -127,7 +128,7 @@ class Home extends PureComponent {
               </div>
             )
           })}
-          {this.renderPagination()}
+          {/* {this.renderPagination()} */}
         </div>
       </Layout>
     )
@@ -139,7 +140,7 @@ export default Home
 export const query = graphql`
   query {
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date] }
+      sort: { fields: [frontmatter___date], order: DESC }
       filter: { frontmatter: { tags: { in: ["ts-evolution"] } } }
     ) {
       group(field: frontmatter___tags) {
