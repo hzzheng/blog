@@ -80,6 +80,6 @@ export default ({ children, data }) => (
         </aside>
       )}
     </div>
-    <footer>郑超的独立博客 © 2020 Powered By GatsbyJS</footer>
+    <footer>郑超的独立博客</footer>
   </div>
 )
