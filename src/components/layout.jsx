@@ -14,6 +14,7 @@ export default ({ children, data }) => (
           以终为始，知行合一
         </Link>
         <div className={cls.links}>
+          <a href="/abount-me">About Me</a>
           <a href="/weekly">Weekly Reading</a>
           <a href="/ts-evolution">Typescript Evolution</a>
         </div>
