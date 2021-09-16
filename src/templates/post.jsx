@@ -46,6 +46,7 @@ class postPage extends PureComponent {
               <a href={origin} target="_blank">
                 {origin}
               </a>
+              <hr style={{ marginTop: 10 }} />
             </div>
           )}
           <div className={cls.content} dangerouslySetInnerHTML={{ __html: post.html }} />
