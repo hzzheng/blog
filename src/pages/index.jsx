@@ -135,7 +135,7 @@ export const query = graphql`
   query {
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { nin: ["ts-evolution", "weekly"] } } }
+      filter: { frontmatter: { tags: { nin: ["weekly"] } } }
     ) {
       group(field: frontmatter___tags) {
         fieldValue

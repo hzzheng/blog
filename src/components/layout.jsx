@@ -10,12 +10,12 @@ export default ({ children, data }) => (
     <header>
       <div className={cls.nav}>
         <Link to="/">
-          <span className="iconfont icon-home" />
-          CNOTE
+          {/* <span className="iconfont icon-home" /> */}
+          以终为始，知行合一
         </Link>
         <div className={cls.links}>
-          <a href="/weekly">每周阅读</a>
-          <a href="/ts-evolution">TS 演化系列</a>
+          <a href="/weekly">Weekly Reading</a>
+          <a href="/ts-evolution">Typescript Evolution</a>
         </div>
       </div>
     </header>
