@@ -6,7 +6,7 @@ origin: "https://mariusschulz.com/blog/compiling-async-await-to-es3-es5-in-types
 ---
 
 
-早在 2015年 11月的时候，Typescript 在 1.7 的版本就已经支持 `async/await` 关键字了。编译器会把异步函数转换成 generator 函数。然而，这也意味着编译后的代码不能运行在只支持 ES3或ES5 的环境中，因为 generator 是 ES2015 才引入的新特性。
+早在2015年11月的时候，Typescript 在 1.7 的版本就已经支持 `async/await` 关键字了。编译器会把异步函数转换成 generator 函数。然而，这也意味着编译后的代码不能运行在只支持 ES3或ES5 的环境中，因为 generator 是 ES2015 才引入的新特性。
 
 好消息是，Typescript 2.1 现在支持将异步函数编译成 ES3/ES5。就和其他编译生成的代码一样，它们可以在任何 Javascript 环境中运行（甚至包括 IE6，虽然我真的不希望你还要被迫支持这么古老的浏览器）。
 
@@ -51,7 +51,7 @@ asyncAwait();
 
 ### 编译 async/await 到 ES2017
 
-因为异步函数这个 Javascript 语言特性会在 ES2017 中被标准化。因此，当构建目标是 ES2017 的时候，Typescript 编译器没必要将 `async/await` 改写成其形式，因为异步函数已经在这个语言版本中得到原生支持。下面这个编译后的 Javascript 代码除了删除了所有类型标注以及空行，和 Typescript 代码几乎是一样的：
+异步函数这个 Javascript 语言特性已在 ES2017 中被标准化。当构建目标是 ES2017 的时候，Typescript 编译器没必要将 `async/await` 改写成其形式，因为异步函数已经在这个语言版本中得到原生支持。下面这个编译后的 Javascript 代码除了删除了所有类型标注以及空行，和 Typescript 代码几乎是一样的：
 
 ```ts
 function delay(ms) {
@@ -72,7 +72,7 @@ async function asyncAwait() {
 
 ### 编译 async/await 到 ES2015/ES2016
 
-当构建目标是 ES2015 的时候，Typescript 编译器会把 `async/await` 重写成使用 `yield` 关键字的 generator 函数。它同时会舌根成一个 `__awaiter` 帮助函数作为异步函数的运行器。上面 `asyncAwait` 函数编译后的 Javascript 代码如下所示：
+当构建目标是 ES2015 的时候，Typescript 编译器会把 `async/await` 重写成使用 `yield` 关键字的 generator 函数。它同时会生成一个 `__awaiter` 帮助函数作为异步函数的运行器。上面 `asyncAwait` 函数编译后的 Javascript 代码如下所示：
 
 ```ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -99,9 +99,9 @@ function asyncAwait() {
 }
 ```
 
-生成的帮助函数的代码数量并不是可以忽略不计的，但还是在可接受范围内。如果你想在 Node 6.x 或者 7.x 的应用中使用 `async/await`，ES2015 或者 ES2016 是你应该作为构建目标的语言标准。
+生成的帮助函数的代码数量并不是可以忽略不计的，但还是在可接受范围内。如果你想在 Node 6.x 或者 7.x 的应用中使用 `async/await`，ES2015 或者 ES2016 应该是你作为构建目标的语言标准。
 
-值得一提的是，ES2016 中唯二标准化的芋圆特性是求幂操操作符以及 Array.prototype.includes 方法，在这里都没有被用到。因此，在这里构建目标无论是的 ES2016 还是 ES2015，生成的 Javascript 代码都是一样的。
+值得一提的是，ES2016 中唯二标准化的语言特性是求幂操操作符以及 Array.prototype.includes 方法，但在这里都没有被用到。因此，就这个程序构建目标无论是 ES2016 还是 ES2015，生成的 Javascript 代码都是一样的。
 
 ### 编译 async/await 到 ES3/ES5
 
