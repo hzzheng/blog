@@ -5,7 +5,7 @@ tags: ["ts-evolution"]
 origin: "https://mariusschulz.com/blog/object-rest-and-spread-in-typescript"
 ---
 
-Typescript 2.1 实现了预计在 ES2015 标准化的对象剩余和扩展属性（Object Rest And Spread Properties）。所以你可以以类型安全的方式使用剩余和扩展属性，编译器最终会将这两个特性降级为 ES3 代码。
+Typescript 2.1 实现了在 ES2018 中标准化的对象剩余和扩展属性（Object Rest And Spread Properties）。所以你可以以类型安全的方式使用剩余和扩展属性，编译器最终会将这两个特性降级为 ES3 代码。
 
 ### 对象剩余属性
 
