@@ -29,19 +29,19 @@ let baseUrl = "https://example.com/";
 // Inferred type: string
 ```
 
-这两个变量都被推断为 `string` 类型，因为它们可以在任何时候被改变。它们倍初始化了一个字符串字面量，但它们依然可能在之后被改变。
+这两个变量都被推断为 `string` 类型，因为它们可以在任何时候被改变。它们初始化了一个字符串字面量，但它们依然可能在之后被改变。
 
-不过，当一个变量使用 `const` 关键字声明，并且初始化了一个字符串字面量，那么推断出的类型就不再是 `string` 了，而是响应的字符串字面量类型：
+不过，当一个变量使用 `const` 关键字声明，并且初始化了一个字符串字面量，那么推断出的类型就不再是 `string` 了，而是相应的字符串字面量类型：
 
 ```ts
 const baseUrl = "https://example.com/";
 // Inferred type: "https://example.com/"
 ```
 
-推断出的类型应该越具体越好，因为一个字符串常量的值后面是不可能被修改的。也就是 `baseUrl` 的值只可能是`"https://example.com/"`，而不可能是其他。这个信息现在倍反映到了类型系统中。
+推断出的类型应该越具体越好，因为一个字符串常量的值后面是不可能被修改的。也就是 `baseUrl` 的值只可能是`"https://example.com/"`，而不可能是其他。这个信息现在被反映到了类型系统中。
 
 
-字面量类型推断也同样作用于其他原始类型。如果一个常量被初始化为一个数字或布尔值，同样会被推断为字面量类型：s
+字面量类型推断也同样作用于其他原始类型。如果一个常量被初始化为一个数字或布尔值，同样会被推断为字面量类型：
 
 ```ts
 const HTTPS_PORT = 443;
@@ -67,7 +67,7 @@ const direction = FlexDirection.Column;
 
 ### readonly 属性更好的类型推断
 
-和 `const` 变量类似， readonly 属性如果倍初始化了一个字面量，也会被推断为一个字面量类型：
+和 `const` 变量类似， readonly 属性如果初始化了一个字面量，也会被推断为一个字面量类型：
 
 ```ts
 class ApiClient {
@@ -82,7 +82,7 @@ class ApiClient {
 
 class 中的只读属性只能在声明的时候或者在构造函数中被初始化。尝试在其他地方修改它的值都会导致编译时报错。因此，将只读的 class 属性推断为字面量类型是合理的，因为它的值不会再改变（前提是这个 Typescript 程序是类型正确的）。
 
-当然，Typescript 并不知道运行时会发声什么：使用 `readonly` 修饰的属性在运行时可以被任意的 Javascript 代码修改。`readonly` 修饰符只在 Typescript 限制了对对应属性的操作，运行时它不会起任何的作用。因为，它会在编译时被去除，不会出现在生成的 Javascript 代码中。
+当然，Typescript 并不知道运行时会发声什么：使用 `readonly` 修饰的属性在运行时可以被任意的 Javascript 代码修改。`readonly` 修饰符只在 Typescript 中限制了对对应属性的操作，它不会在运行时起任何作用。因为，它会在编译时被去除，不会出现在生成的 Javascript 代码中。
 
 ### 字面量类型推断的用处
 
@@ -105,6 +105,6 @@ request("https://example.com/", HTTP_GET);
 Argument of type 'string' is not assignable to parameter of type '"GET" | "POST"'.
 ```
 
-显而易见，你不能给一个明确只接受两个特定字符串作为参数的入参传递任意的字符串。当上面的两个常量被推断为 `"GET"` 和 `"POST"`的时候，程序就能正常工作了。
+显而易见，你不能给一个明确只接受两个特定字符串作为参数的入参传递任意的字符串。但当上面的两个常量被推断为 `"GET"` 和 `"POST"`的时候，程序就能正常工作了。
 
 
