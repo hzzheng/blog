@@ -27,7 +27,7 @@ let widenedNumericLiteral = numericLiteral; // Type number
 let widenedBooleanLiteral = booleanLiteral; // Type boolean
 ```
 
-和 `const` 关键字声明的变量不同，`let` 关键字声明的变量初始化之后还是可以被修改的。它们通常会被初始化一个值，并且之后会被修改。如果 Typescript 将每一个 `let` 变量都推断为字面量类型，那么之后如果想给它赋值初始值意外以外的值都会导致编译时报错。
+和 `const` 关键字声明的变量不同，`let` 关键字声明的变量初始化之后还是可以被修改的。它们通常会被初始化一个值，并且之后会被修改。如果 Typescript 将每一个 `let` 变量都推断为字面量类型，那么之后如果想给它赋值初始值以外的值都会导致编译时报错。
 
 基于这个原因，`let` 变量会被推断为拓宽后的类型。对于枚举类型同样也如此：
 
@@ -48,7 +48,7 @@ let widenedEnumLiteral = enumLiteral; // Type FlexDirection
 - 布尔字面量类型会被拓宽为布尔类型
 - 枚举字面量类型会被拓宽为枚举类型
 
-目前为止，我们学习了字面量类型如果在需要的时候被自动拓宽。现在我们再来看下非拓宽的字面量类型，正如其名所示，他们不会被自动拓宽。
+目前为止，我们学习了字面量类型如果在需要的时候被自动拓宽。现在我们再来看下非拓宽的字面量类型，正如其名所示，它们不会被自动拓宽。
 
 ### 非拓宽的字面量类型
 
@@ -98,7 +98,7 @@ const second = protocols[1]; // Type "http" | "https"
 
 现在 `first` 和 `second` 都被推断为 `"http" | "https"` 类型。这是因为数组类型并没有区分索引0和索引1位置的 `"http"` 和 `"https"` 具体类型，数组只知道元素不管在哪个索引位置，只能包含这两个字面量类型。
 
-如果出于某些原因，你想保留数组中字符串字面量类型的位置信息，你可以显式地给这个数组标注为两个元素的元组类型：
+如果出于某些原因，你想保留数组中字符串字面量类型的位置信息，你可以显式地将这个数组标注为拥有两个元素的元组类型：
 
 ```ts
 const http = "http"; // Type "http" (widening)
@@ -115,7 +115,7 @@ const second = protocols[1]; // Type "https" (non-widening)
 
 ### 更多的阅读
 
-如果你像了解更多关于拓宽和非拓宽类型背后的理论依据，你可以阅读下面的这些 GitHub 上的讨论和 PR：
+如果你想了解更多关于拓宽和非拓宽类型背后的理论依据，你可以阅读下面这些 GitHub 上的讨论和 PR：
 
 - [https://github.com/Microsoft/TypeScript/pull/10676](https://github.com/Microsoft/TypeScript/pull/10676)
 - [https://github.com/Microsoft/TypeScript/pull/11126](https://github.com/Microsoft/TypeScript/pull/11126)
