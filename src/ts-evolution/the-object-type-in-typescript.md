@@ -25,11 +25,11 @@ type Primitive = string | boolean | number | bigint | symbol | null | undefined;
 type NonPrimitive = object;
 ```
 
-让我们看一下 `object` 是如何让我们能够写出更准确的类型声明。
+让我们看一下 `object` 如何能够让我们写出更准确的类型声明。
 
-### 使用 object 类型声明类型
+### 使用 object 声明类型
 
-随着 Typescript 2.2 的发布，标准库已经更新了类型声明以支持 `object` 类型的使用。举个例子，`Object.create()` 和 `Object.setPrototypeOf()` 方法现在将 `object | null` 作为他们的原型参数：
+随着 Typescript 2.2 的发布，标准库已经更新了类型声明以支持 `object` 类型的使用。举个例子，`Object.create()` 和 `Object.setPrototypeOf()` 方法现在将 `object | null` 作为它们的原型参数：
 
 ```ts
 interface ObjectConstructor {
