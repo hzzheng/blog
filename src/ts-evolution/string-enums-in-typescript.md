@@ -149,7 +149,7 @@ fetch("https://example.com/api/endpoint", {
 }
 ```
 
-在设置 `preserveConstEnums` 之后，我们再次编译我们的代码，编译器依然会內联 `MediaTypes.JSON` 的值，但是它同时会生成映射代码：
+在设置 `preserveConstEnums` 之后，再次编译我们的代码，编译器依然会內联 `MediaTypes.JSON` 的值，但是它同时会生成映射代码：
 
 ```ts
 var MediaTypes;

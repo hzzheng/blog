@@ -259,7 +259,7 @@ $ node index.ts
 
 这是因为我们的编译目标是 ES5，它并没有实现 `Map` 类型的集合。那我们该如何让这个代码顺利通过编译，假定我们提供了 `Map` 的 polyfill 所以程序能够在运行时正常工作？
 
-解决方案是给`tsconfig.json` 中的 `lib` 编译选项添加 `es2015.collection` 和 `es2015.iterable` 两个值。这就告诉 Typescript 编译器，它能够在运行时找到 ES2015 集合以及 `Symbol.iterator` symbol 的实现。 不过，一旦你显式地设定了 `lib` 选项，它的默认值将被覆盖。因此，你应该同时添加 `dom` 和 `es5`，这样你就可以访问其他的标准库方法。
+解决方案是给`tsconfig.json` 中的 `lib` 编译选项添加 `es2015.collection` 和 `es2015.iterable` 两个值。这会告诉 Typescript 编译器，它能够在运行时找到 ES2015 集合以及 `Symbol.iterator` symbol 的实现。 不过，一旦你显式地设定了 `lib` 选项，它的默认值将被覆盖。因此，你应该同时添加 `dom` 和 `es5`，这样你就可以访问其他的标准库方法。
 
 下面是最终的 `tsconfig.json`：
 
@@ -425,6 +425,6 @@ function printDigits() {
 exports.printDigits = printDigits;
 ```
 
-注意，上面的代码不再内联帮助函数，而是在最上面倒入了 `tslib` 这个包。
+注意，上面的代码不再内联帮助函数，而是在最上面导入了 `tslib` 这个包。
 
 好了，我们终于得到了兼容规范的降级编译成的 `for...of` 循环，它完全支持迭代协议，并且没有任何多余的 Typescript 帮助函数。
