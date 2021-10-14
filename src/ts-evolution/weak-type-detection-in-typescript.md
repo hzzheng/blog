@@ -17,7 +17,7 @@ interface PrettierConfig {
 }
 ```
 
-弱类型检测的主要目标是为了找出代码中可能的错误，避免成为潜在的 bug。看下面的例子：
+弱类型检测的主要目的是为了找出代码中可能的错误，避免成为潜在的 bug。看下面的例子：
 
 ```ts
 interface PrettierConfig {
@@ -37,7 +37,7 @@ const prettierConfig = {
 const formatter = createFormatter(prettierConfig); // Error
 ```
 
-在 Typescript 2.4 之前，上面的这段代码是类型正确的。`PrettierConfig` 的所有属性都是可选的，所以不设置任何一个属性都没问题。并且，我们的 `pretteirConfig` 对象有一个 `semicolons` 属性，这个属性并不存在于 `PrettierConfig` 类型中。
+在 Typescript 2.4 之前，上面的这段代码是类型正确的。`PrettierConfig` 的所有属性都是可选的，所以一个属性都不设置也没问题。并且，我们的 `pretteirConfig` 对象有一个 `semicolons` 属性，这个属性并不存在于 `PrettierConfig` 类型中。
 
 从 Typescript 2.4 开始，如果给弱类型赋值的对象中没有和弱类型相互重叠的属性（看[文档](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#weak-type-detection)），类型检查器会报以下的错误：
 
@@ -46,9 +46,9 @@ Type '{ semicolons: boolean; }' has no properties
 in common with type 'PrettierConfig'.
 ```
 
-虽然我们的代码严格说并没有错，但它很可能潜入了一个 bug。`createFormatter` 函数很可能会忽略 `config` 中它不认识的任何属性（比如 `semicolons`），然后使用每个属性的默认值。在这种情况下，我们的 `semicolons` 属性不会有任何作用，无论它被设置为 `true` 或者 `false`。
+虽然我们的代码严格说并没有错，但它很可能潜入了一个 bug。`createFormatter` 函数很可能会忽略 `config` 中它不认识的任何属性（比如 `semicolons`），而只使用它认识属性的默认值。在这种情况下，我们的 `semicolons` 属性不会有任何作用，无论它被设置为 `true` 或者 `false`。
 
-Typescript 弱类型检测帮助我们找出并对函数调用中的 `prettierConfig` 报错。如此，我们就可以很快地知道某些可能潜在的问题。
+Typescript 弱类型检测能帮助我们找出函数调用中 `prettierConfig` 可能存在的问题。如此，我们就可以更早地知道某些潜在的问题。
 
 ### 显式的类型标注
 
@@ -71,11 +71,11 @@ and 'semicolons' does not exist in type 'PrettierConfig'.
 
 通过这种方式 ，类型错误会更就近提示。它会提示在我们错误定义 `semicolons` 属性的地方，而不是正确地将 `prettierConfig` 参数传给 `createFormatter` 函数的时候。
 
-另一个好处是，Typescript 会提供自动补全的建议，因为类型标注告诉了它我们创建的对象的类型。
+这样做另一个好处是，Typescript 会提供自动补全的建议，因为类型标注告知了我们创建的对象类型。
 
 ### 避免弱类型报错的方法
 
-假如，出于某些原因，我们不希望对某个特定的弱类型检测并报错，该怎么做？一种方法是给 `PrettierConfig` 类型添加 `unknown` 类型的索引签名：
+假如，出于某些原因，我们不希望对某个特定的弱类型检测并报错，该怎么做？一种方法是给 `PrettierConfig` 添加 `unknown` 类型的索引签名：
 
 ```ts
 interface PrettierConfig {
@@ -96,7 +96,7 @@ const prettierConfig = {
 const formatter = createFormatter(prettierConfig);
 ```
 
-现在，这段代码是类型正确的了，因为我们显式地允许 `PrettierConfig` 类型中有未知的属性名。
+现在，这段代码是类型正确的了，因为我们显式地允许 `PrettierConfig` 类型中有未知的属性。
 
 或者，我们也可以使用类型断言来告诉类型检查器我们的 `prettierConfig` 对象是 `PrettierConfig` 类型：
 
@@ -118,7 +118,7 @@ const prettierConfig = {
 const formatter = createFormatter(prettierConfig as PrettierConfig);
 ```
 
-我建议你避免使用类型断言来静默弱类型检测。也许是有一些场景使用类型断言是合适的，但一般而言，你应该选择其他更好的解决方案。
+我建议你避免使用类型断言来静默弱类型检测。可能是有一些场景使用类型断言是合适的，但一般而言，你应该选择其他更好的解决方案。
 
 ### 弱类型检测的局限
 
@@ -143,7 +143,4 @@ const prettierConfig = {
 const formatter = createFormatter(prettierConfig);
 ```
 
-在上面的例子中，我同时设置了 `printWidth` 和 `semicolons`。因为 `printWidth` 存在于 `PrettierConfig` 中，所以我的对象和 `PrettierConfig` 类型有属性重叠，弱类型的检测不再对函数调用提示错误。
-
-
-另外再提一句，弱类型检测背后的启发是，它设计致力于最小化假阳性（false positives）（将正确的误判为错误） 的数量，这会带来更少的真阳性（true positives）（错误被正确判断为错误）。
+在上面的例子中，我同时设置了 `printWidth` 和 `semicolons`。因为 `printWidth` 存在于 `PrettierConfig` 中，所以对象和 `PrettierConfig` 类型有属性重叠，弱类型的检测不再对函数调用提示错误。
