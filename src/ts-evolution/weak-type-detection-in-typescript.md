@@ -2,7 +2,7 @@
 title: "Typescript 中的弱类型检测"
 date: "2021-02-28"
 tags: ["ts-evolution"]
-origin: "https://mariusschulz.com/blog/string-enums-in-typescript"
+origin: "https://mariusschulz.com/blog/weak-type-detection-in-typescript"
 ---
 
 Typescript 2.4 引入了弱类型（weak types）的概念。当一个类型的所有属性都是可选的时候 ，它被认为是弱类型。说得更具体一些，一个弱类型定义了一个或多个可选属性，没有必需属性，也没有索引签名。
