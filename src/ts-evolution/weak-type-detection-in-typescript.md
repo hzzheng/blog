@@ -1,6 +1,6 @@
 ---
 title: "Typescript 中的弱类型检测"
-date: "2021-02-21"
+date: "2021-02-28"
 tags: ["ts-evolution"]
 origin: "https://mariusschulz.com/blog/string-enums-in-typescript"
 ---
