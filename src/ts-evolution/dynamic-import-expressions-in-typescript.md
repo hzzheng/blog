@@ -8,11 +8,11 @@ origin: "https://mariusschulz.com/blog/dynamic-import-expressions-in-typescript"
 
 Typescript 2.4 添加了对动态 import() 表达式的支持，它允许按需异步加载和执行 ECMAScript 模块。
 
-在 2018 年一月的写作当下，TC39 官方的动态 `import()` 表达式提议在 TC39 提议流程的的阶段3（stage 3），这意味着它很可能会作为 ECMAScript 2018 或者 2019 的一部分被标准。
+在 2018 年一月的写作当下，TC39 官方的动态 `import()` 表达式提议处在 TC39 提议流程的阶段3（stage 3），这意味着它很可能会作为 ECMAScript 2018 或者 2019 的一部分被标准化。
 
 ### 通过静态 import 声明导入模块
 
-我们先来看一个没有使用动态 import() 的例子来说明我们为什么需要它。
+我们先来看一个没有使用动态 import() 的例子来启发我们为什么需要它。
 
 假设我们给客户端写了一个 `widget.ts` 模块：
 
@@ -41,11 +41,11 @@ function renderWidget() {
 renderWidget();
 ```
 
-现在如果我们将 `main.ts` 作为入口模块，并使用 `webpack` 或者 `rollup` 这样的打包工具打包我们的应用，打包后的 Javascript 文件有 10000 多行代码。这是因为在我们的 `widget` 模块中，我们导入了 `jquery` 这个 体积非常大的 npm 包。
+现在如果我们将 `main.ts` 作为入口模块，并使用 `webpack` 或者 `rollup` 这样的打包工具打包我们的应用，打包后的 Javascript 文件有 10000 多行代码。这是因为在我们的 `widget` 模块中，我们导入了 `jquery` 这个体积非常大的 npm 包。
 
-问题子啊雨我们导入了我们的 widget 以及它所有的依赖，即便我们没有渲染这个 widget。当一个新用户第一次打开我们的 web 应用的时候，他们的浏览器需要下载和解析大量的无用代码。这对于那些网络不稳定、带宽低、处理性能有限的移动设备来说尤其糟糕。
+问题在于我们导入了 widget 以及它所有的依赖，即便我们没有渲染这个 widget。当新用户第一次打开我们 web 应用的时候，他们的浏览器需要下载和解析大量的无用代码。这对于那些网络不稳定、带宽低、处理性能有限的移动设备来说尤其糟糕。
 
-让我们来看下入锅使用动态的 `import()` 表达式来改善这种情况。
+让我们来看下如何使用动态的 `import()` 表达式来改善这种情况。
 
 
 ### 使用动态 import() 表达式来导入模块
@@ -74,7 +74,7 @@ renderWidget();
 
 ### 使用 await 操作符来执行 import()
 
-我们来做点简单的重构来使 `renderWidget` 函数嵌套更少，更易阅读。因为 `import()` 会返回 ES2015 promise（它有一个 .then() 方法），我们可以使用 `await` 操作符来等待 promise 被 resolve：
+我们来做点简单的重构使 `renderWidget` 函数嵌套更少，更易阅读。因为 `import()` 会返回 ES2015 promise（它有一个 .then() 方法），我们可以使用 `await` 操作符来等待 promise 被 resolve：
 
 ```ts
 async function renderWidget() {
@@ -88,9 +88,9 @@ async function renderWidget() {
 renderWidget();
 ```
 
-清晰又干净！不过别忘了给 `renderWidget` 函数添加 `async` 关键字来声明它是一个一步函数。
+清晰又干净！不过别忘了给 `renderWidget` 函数添加 `async` 关键字来声明它是一个异步函数。
 
-如果还不太熟悉 `async` 和 `await` 是如何工作的，可以看一下我们的 [`Asynchronous Javascript with async/await`](https://egghead.io/courses/asynchronous-javascript-with-async-await?af=9g63dt) 视频课程。它只有18分钟——你下一个喝咖啡休息的空档就能看完它！
+如果你还不太熟悉 `async` 和 `await` 是如何工作的，可以看一下我的 [`Asynchronous Javascript with async/await`](https://egghead.io/courses/asynchronous-javascript-with-async-await?af=9g63dt) 视频课程。它只有18分钟——你下一个喝咖啡休息的空档就能看完它！
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/typescript-evolution/asynchronous_javascript_with_async_await-2x.mmlkmp6xpm.imm.png)
 
@@ -139,6 +139,6 @@ function renderWidget() {
 renderWidget();
 ```
 
-对于 Node 应用，CommonJS 是一个很不错的选择。所有的 `import()` 表达式都会被转换成 `require()` 调用，它支持在你程序的任何位置有条件地去执行代码，而不必提前夹在、解析、执行这个模块。
+对于 Node 应用，CommonJS 是一个很不错的选择。所有的 `import()` 表达式都会被转换成 `require()` 调用，它支持在你程序的任何位置有条件地去执行代码，而不必提前加载、解析、执行这个模块。
 
-所以，如果你在开发一个客户端 web 应用并且使用了 `import()`来按需懒加载模块，你应该选择那种模块系统作为构建目标？我推荐你使用 `--module esnext`，并且结合 webpack 的代码分片（code splitting）功能。可以参考一下这个 demo：[Code-Splitting a TypeScript Application with import() and webpack](https://mariusschulz.com/blog/code-splitting-a-typescript-application-with-import-and-webpack)。
+所以，如果你在开发一个客户端 web 应用并且使用了 `import()`来按需懒加载模块，你应该选择哪种模块系统作为构建目标？我推荐你使用 `--module esnext`，并且结合 webpack 的代码分片（code splitting）功能。可以参考一下这个 demo：[Code-Splitting a TypeScript Application with import() and webpack](https://mariusschulz.com/blog/code-splitting-a-typescript-application-with-import-and-webpack)。
