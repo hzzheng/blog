@@ -35,16 +35,15 @@ export default ({ children, data }) => (
           <section className={cls.profile}>
             <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
             <div className={cls.desc}>
-              可以通过
-              <span role="img" aria-label="下面">
-                👇
-              </span>
-              的方式联系我
+              欢迎加微信好友沟通
             </div>
           </section>
           <section className={cls.contact}>
-            <h4>Contact</h4>
-            <div>
+            {/* <h4>Contact</h4> */}
+            <div class={cls.qrcode}>
+              <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpeg" alt="微信二维码" />
+            </div>
+            {/* <div>
               <a href="mailto:zhchaozju@gmail.com">Email</a>
               <a href="https://twitter.com/zhchaozju" target="_blank">
                 Twitter
@@ -52,7 +51,7 @@ export default ({ children, data }) => (
               <a href="https://github.com/hzzheng" target="_blank">
                 Github
               </a>
-            </div>
+            </div> */}
           </section>
           <section className={cls.search}>
             {/* <div className={cls.searchwrapper}>
