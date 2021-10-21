@@ -120,7 +120,7 @@ class Home extends PureComponent {
                   <Link to={fields.slug}>{frontmatter.title}</Link>
                 </h3>
                 <div className={cls.excerpt}>{excerpt}</div>
-                <div className={cls.date}>{frontmatter.date}{preDate}</div>
+                <div className={cls.date}>{frontmatter.date}</div>
               </div>
             );
             if (preDate && preDate.slice(0,7) !== date.slice(0, 7) || index == 0) {
