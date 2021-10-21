@@ -106,21 +106,34 @@ class Home extends PureComponent {
 
   render() {
     const { data } = this.props
+    const posts = this.getFilteredPosts();
     return (
       <Layout data={data}>
         <div className={cls.list}>
-          {this.getFilteredPosts().map(({ node }) => {
+          {posts.map(({ node }, index) => {
             const { frontmatter, excerpt, fields, id } = node
-
-            return (
+            const date = frontmatter.date;
+            const preDate = index > 0 ? posts[index - 1].node.frontmatter.date : null;
+            const item = (
               <div key={id}>
                 <h3>
                   <Link to={fields.slug}>{frontmatter.title}</Link>
                 </h3>
                 <div className={cls.excerpt}>{excerpt}</div>
-                <div className={cls.date}>{frontmatter.date}</div>
+                <div className={cls.date}>{frontmatter.date}{preDate}</div>
               </div>
-            )
+            );
+            if (preDate && preDate.slice(0,7) !== date.slice(0, 7) || index == 0) {
+              return (
+                <>
+                  <h3>{date.slice(0, 7)}</h3>
+                  <hr />
+                  {item}
+                </>
+              )
+            } else {
+              return item;
+            }
           })}
           {/* {this.renderPagination()} */}
         </div>
