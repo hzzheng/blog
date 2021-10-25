@@ -7,17 +7,17 @@ origin: "https://mariusschulz.com/blog/strict-property-initialization-in-typescr
 
 Typescript 2.7 中引入了一个新的编译选项用来对类的属性初始化做严格检查。如果 `--strictPropertyInitialization` 选项被开启，类型检查会验证类中的每一个实例属性是否满足以下三个条件之一：
 
-- 类型中包括了 `undefined`
-- 有一个明确的初始值，或者
+- 类型中包括了 `undefined` 类型，
+- 有一个明确的初始值，或者，
 - 在构造函数中有被明确赋值
 
 `--strictPropertyInitialization` 选项是 `--strict` 选项开启后自动生效编译选项家族中的一员。
 
---strictPropertyInitialization就像其他所有的严格编译选项一样，你可以将 `--strict` 设置为 `true`，同时选择性地将 `--strictPropertyInitialization` 设置为 `false` 来关闭对属性初始化的严格检查。
+`--strictPropertyInitialization` 就像其他所有的严格编译选项一样，你可以将 `--strict` 设置为 `true`，同时选择性地将 `--strictPropertyInitialization` 设置为 `false` 来关闭对属性初始化的严格检查。
 
-注意为了 `--strictPropertyInitialization` 设置有效果，你必须同时设置 `--strictNullChecks`（可以直接设置，也可以通过 `strict` 间接设置）。
+注意，为了 `--strictPropertyInitialization` 设置有效果，你必须同时设置 `--strictNullChecks`（可以直接设置，也可以通过 `strict` 间接设置）。
 
-好了，让我们来看严格属性初始化检查的实际例子。在没有开启 `--strictPropertyInitialization` 的情况下，下面的代码能通过类型检查，但会在运行时报一个 `TypeError` 错误：
+好了，让我们来看看严格属性初始化检查的实际例子。在没有开启 `--strictPropertyInitialization` 的情况下，下面的代码能通过类型检查，但会在运行时报一个 `TypeError` 错误：
 
 ```ts
 class User {
@@ -47,7 +47,7 @@ class User {
 
 ### 方案一：允许 undefined 
 
-一种避免类型错误的方案是给 `username` 属性一个 `undefined`类型：
+一种避免该类型错误的方案是给 `username` 属性一个 `undefined`类型：
 
 ```ts
 class User {
@@ -57,7 +57,7 @@ class User {
 const user = new User();
 ```
 
-现在，`username` 属性完全可以包含 `undefined` 的值而不会有问题。不过，每当我们想把 `username` 作为字符串类型使用的时候，我们首先需要确保它确实包含了一个字符串，而不是 `undefined`。比如实用 `typeof` 判断：
+现在，`username` 属性完全可以包含 `undefined` 的值而不会有问题。不过，每当我们想把 `username` 作为字符串类型使用的时候，我们首先需要确保它包含了一个字符串，而不是 `undefined`。比如使用 `typeof` 判断：
 
 ```ts
 // OK
@@ -65,7 +65,7 @@ const username =
   typeof user.username === "string" ? user.username.toLowerCase() : "n/a";
 ```
 
-或者，我们也可以使用可选链（`?.`运算符）来保证只有在 `username` 包含了一个非空的值的时候才会调用 `toLowerCase()` 方法。我们还可以结合空值合并（`??` 运算符）来提供一个备选值：
+或者，我们也可以使用可选链（`?.`运算符）来保证只有在 `username` 包含了一个非空值的时候才会调用 `toLowerCase()` 方法。我们还可以结合空值合并（`??` 运算符）来提供一个备选值：
 
 ```ts
 // OK
@@ -73,7 +73,7 @@ const username = user.username?.toLowerCase() ?? "n/a";
 ```
 
 
-### 方案二：显示初始化属性
+### 方案二：显式初始化属性
 
 另一个解决类型错误的方式是显式地给 `username` 属性初始化一个值。这样，属性就拥有了一个字符串类型的值，而不会是`undefined`：
 
@@ -138,7 +138,7 @@ class User {
 
 ### 方案四：明确的赋值断言
 
-如果是类属性既没有显式的初始化，又没有包含 `undefined`，类型检查器会要求在属性在构造函数中要被直接初始化。否则，严格属性初始化检查就会失败。这可能会有问题，如果你想在一个帮助函数中来初始化这个属性或者希望某个依赖注入框架来帮助初始化。在这些场景中，你需要给属性声明添加一个明确的赋值断言（!）：
+如果类属性既没有显式地初始化，又没有包含 `undefined` 类型，类型检查器会要求属性在构造函数中被直接初始化。否则，严格属性初始化检查就会失败。但如果你想在一个帮助函数中初始化这个属性或者希望某个依赖注入框架来帮助初始化的时候可能会有问题。在这些场景中，你需要给属性声明添加一个明确的赋值断言（!）：
 
 ```ts
 class User {
@@ -159,7 +159,7 @@ const user = new User("mariusschulz");
 const username = user.username.toLowerCase();
 ```
 
-通过给 `username` 属性添加明确的赋值断言，我们在告诉类型检查器它可以期望 `username` 属性已经被初始化，即便它自己并没有检测到。现在确保属性在构造函数返回前被明确赋值就是我们自己的责任了，所以我们应该很小心；否则，`username` 属性很可能是 `undefined`，然后又在运行时报一个 `TypeError` 错误。
+通过给 `username` 属性添加明确的赋值断言，我们在告诉类型检查器它可以期望 `username` 属性已经被初始化，即便它自己并没有检测到。现在确保属性在构造函数返回前被明确赋值就是我们自己的责任了，所以我们应该很小心。否则，`username` 属性很可能是 `undefined`，然后又会在运行时报一个 `TypeError` 错误。
 
 
 
