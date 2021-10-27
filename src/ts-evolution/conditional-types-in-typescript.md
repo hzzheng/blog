@@ -30,6 +30,8 @@ type NonNullable<T> = T extends null | undefined ? never : T;
 
 `NonNullable<T>` 类型会选择 `never` 类型，如果类型 `T` 可以赋值给类型 `null` 或者类型 `undefined`，否则它会使用类型 `T`。`never` 类型是 Typescript 的 [bottom type](https://en.wikipedia.org/wiki/Bottom_type)，表示这个类型的值不可能存在。
 
-### 分配条件类型
+### 可分配的条件类型
 
-为什么结合条件类型和 `never` 类型是有用的？因为它允许我们从一个联合类型中移除某些类型。如果条件类型的类型关系测试的是原始的泛型参数（naked type parameter，译者注：也就是 T，而不是 [T] 之类）。
+为什么结合条件类型和 `never` 类型是有用的？因为它允许我们从一个联合类型中移除某些类型。如果条件类型关系测试的是原始的泛型参数（naked type parameter，译者注：也就是 T，而不是 [T] 之类），则条件类型被称为可分配的条件类型（见[Distributive conditional types ](https://www.zhihu.com/question/470581497/answer/1985882672)），它会在联合类型实例化的时候基于联合类型进行类型分配。
+
+因为 `NonNullable<T>` 
