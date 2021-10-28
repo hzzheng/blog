@@ -15,7 +15,7 @@ Typescript 2.8 引入了条件类型，它是类型系统强有力的补充。�
 T extends U ? X : Y
 ```
 
-条件类型使用了熟悉的 `... ? ... : ...` 语法，它在 Javascript 中被用于条件表达式。`T`, `U`, `X` 和 `Y` 代表了任意类型。 其中 `T extends U` 部分描述了类型关系测试。如果条件满足，类型 `X` 被选择，否则类型 `Y` 被选择。
+条件类型使用了熟悉的 `... ? ... : ...` 语法，它在 Javascript 中被用于条件表达式。`T`, `U`, `X` 和 `Y` 代表了任意类型。 其中 `T extends U` 描述了类型关系测试。如果条件满足，类型 `X` 被选择，否则类型 `Y` 被选择。
 
 如果使用人类语言，条件类型可以描述如下：如果类型 `T` 可以赋值给 `U`，选择类型 `X`，否则选择类型 `Y`。
 
@@ -28,15 +28,15 @@ T extends U ? X : Y
 type NonNullable<T> = T extends null | undefined ? never : T;
 ```
 
-`NonNullable<T>` 类型会选择 `never` 类型，如果类型 `T` 可以赋值给类型 `null` 或者类型 `undefined`，否则它会使用类型 `T`。`never` 类型是 Typescript 的 [bottom type](https://en.wikipedia.org/wiki/Bottom_type)，表示这个类型的值不可能存在。
+如果类型 `T` 可以赋值给类型 `null` 或者类型 `undefined`，`NonNullable<T>` 类型会选择 `never` 类型，否则它会使用类型 `T`。`never` 类型是 Typescript 的 [bottom type](https://en.wikipedia.org/wiki/Bottom_type)，表示这个类型的值不可能存在。
 
 ### 可分配的条件类型
 
-为什么结合条件类型和 `never` 类型是有用的？因为它允许我们从一个联合类型中移除某些类型。如果条件类型关系测试的是原始的泛型参数（naked type parameter，译者注：也就是 T，而不是 [T] 之类），则条件类型被称为可分配的条件类型（见[Distributive conditional types ](https://www.zhihu.com/question/470581497/answer/1985882672)），它会在联合类型实例化的时候基于联合类型进行类型分配。
+为什么结合条件类型和 `never` 类型是有用的？因为它允许我们从一个联合类型中移除某些类型。如果条件类型关系测试的是原始的泛型参数（naked type parameter，译者注：也就是 T，而不是 [T] 之类），则条件类型被称为可分配的条件类型（见[Distributive conditional types ](https://www.zhihu.com/question/470581497/answer/1985882672)），它会在联合类型实例化的时候基于分配率进行类型分配。
 
-因为 `NonNullable<T>` 检查的是原始泛型参数，它可以基于联合类型比如 `A | B` 根据分配率进行类型分配。这意味着 `NonNullable<A | B>` 最后等同于 `NonNullable<A> | NonNullable<B>`。如果，比如 `NonNullable<A>` 最后运算得到 `never` 类型，我们可以将 `A` 从结果的联合类型中去除，有效地过滤 A 这个空类型。同理，这也适用于 `NonNullable<B>`。
+因为 `NonNullable<T>` 检查的是原始泛型参数，它可以基于联合类型比如 `A | B` 根据分配率进行类型分配。这意味着 `NonNullable<A | B>` 最后等同于 `NonNullable<A> | NonNullable<B>`。如果，比如 `NonNullable<A>` 最后运算得到 `never` 类型，我们可以将 `A` 从结果的联合类型中去除，有效地过滤 A 这个空类型。同理，相同规则也适用于 `NonNullable<B>`。
 
-上面的描述相当地抽象，让我们来看一个具体的例子。我们会定义一个 `EmailAddress` 类型别名代表不同类型的联合，其中包括了 `null` 和 `undefined` 类型：
+上面的描述相当抽象，让我们来看一个具体的例子。我们定义了一个叫 `EmailAddress` 的类型别名代表不同类型的联合，其中包括了 `null` 和 `undefined` 类型：
 
 ```ts
 type EmailAddress = string | string[] | null | undefined;
@@ -93,7 +93,7 @@ type NonNullableEmailAddress = string | string[];
 
 ### 条件类型和映射类型一起用
 
-现在让我们来看一个更复杂的例子，它结合了条件类型和映射类型。这里我们定义了一个类型，它可以从一个类型中抽取出所有属性值非空类型的 key：
+现在让我们来看一个更复杂的例子，它结合了条件类型和映射类型。这里我们定义了一个类型，它可以从一个类型中抽取出所有非空属性值类型对应的 key：
 
 ```ts
 type NonNullablePropertyKeys<T> = {
@@ -148,7 +148,7 @@ type NonNullableUserPropertyKeys = {
 }[keyof User];
 ```
 
-现在是时候应用我们的条件类型。`null` 并不能赋值各 `string`，但它可以赋值给 `string | null`，我们因此分别得到 `"name"` 和 `never` 类型：
+现在是时候应用我们的条件类型。`null` 并不能赋值给 `string`，但它可以赋值给 `string | null`，我们因此分别得到 `"name"` 和 `never` 类型：
 
 ```ts
 type NonNullableUserPropertyKeys = {
@@ -166,7 +166,7 @@ type NonNullableUserPropertyKeys = {
 }["name" | "email"];
 ```
 
-我们现在有一个索引访问类型查询 `name` 和 `email` 属性的类型。Typescript 会分别查询这两个类型的，然后创建一个查询结果的联合类型：
+我们现在有一个索引访问类型查询 `name` 和 `email` 属性的类型。Typescript 会分别查询这两个类型，然后创建一个查询结果的联合类型：
 
 ```ts
 type NonNullableUserPropertyKeys =
@@ -174,7 +174,7 @@ type NonNullableUserPropertyKeys =
   | { name: "name"; email: never }["email"];
 ```
 
-马上就搞定了！我们现在分别查询 `name` 和 `email` 两个属性的类型。`name` 属性有一个 `"name"` 类型，`email` 属性有一个 `never` 类型：
+马上就搞定了！我们现在分别查询 `name` 和 `email` 两个属性的类型，`name` 属性有一个 `"name"` 类型，`email` 属性有一个 `never` 类型：
 
 ```ts
 type NonNullableUserPropertyKeys = "name" | never;
@@ -214,7 +214,7 @@ type NonNullableUserProperties = NonNullableProperties<User>;
 
 ### 条件类型中的类型推断
 
-另一个条件类型支持的有用特性是通过 `infer` 关键字来推断类型变量的类型。在一个条件类型的 `extends` 从句中，你可以使用 `infer` 关键字来推断一个类型变量，并有效地使用在类型中运用模式匹配：
+另一个条件类型支持的有用特性是通过 `infer` 关键字来推断类型变量的类型。在一个条件类型的 `extends` 从句中，你可以使用 `infer` 关键字来推断一个类型变量，并有效地在类型中运用模式匹配：
 
 ```ts
 type First<T> = T extends [infer U, ...unknown[]] ? U : never;
