@@ -17,7 +17,7 @@ function Form() {
 }
 ```
 
-为了理解为什么泛型 JSX 元素是有用的（以及为什么我们通常并不需要显式地把类型参数写出来），我们先来写一个 `Select` 组件，让后围绕这个组件迭代升级它的静态类型。
+为了理解为什么泛型 JSX 元素是有用的（以及为什么我们通常并不需要显式地把类型参数写出来），我们先来写一个 `Select` 组件，然后围绕这个组件迭代升级它的静态类型。
 
 ### 步骤一：在 Javascript/JSX 中实现 Select
 
@@ -25,7 +25,7 @@ function Form() {
 
 ![](https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/typescript-evolution/select_component-2x.r3ukgn6ebw.imm.png)
 
-我们需要给 `Select` 组件传递 `options` 属性，以及当前选中的 `value` 和 `onChange` 回调函数。上面组件截图的代码如下：
+我们需要给 `Select` 组件传递 `options` 属性，以及当前选中的 `value` 和 `onChange` 回调函数。上面截图组件的代码如下：
 
 ```ts
 function Form() {
@@ -133,11 +133,11 @@ function Form() {
 }
 ```
 
-注意我已经用数字替换了字符串类型的值，包括川给 `useState` Hook 的初始值。
+注意我已经用数字替换了字符串类型的值，包括传给 `useState` Hook 的初始值。
 
-在我们更新 `Select` 组件的类型之前，让我们先给 `handleOnChange` 函数添加非字符串选项值得支持。当前，它只能接受字符串类型的值。`e.currentTarget.value` 永远是一个字符串，即便我们给我们的选项设置了数字类型的值。
+在我们更新 `Select` 组件的类型之前，让我们先给 `handleOnChange` 函数添加非字符串选项值的支持。当前，它只能接受字符串类型的值。`e.currentTarget.value` 永远是一个字符串，即便我们给我们的选项设置了数字类型的值。
 
-好消息是，修改并不难，且相当简单。我们可以不用读取 `e.currentTarget.value` 然后把它直接传给 `onChange` 回调，相反的，我们可以通过 `e.currentTarget.selectedIndex` 属性来获取选中选项的索引，然后通过 `options` 数组来获取到对应索引中的值选项值，并传递各 `onChange`：
+好消息是，修改并不难，且相当简单。我们可以不用读取 `e.currentTarget.value` 然后把它直接传给 `onChange` 回调，相反的，我们可以通过 `e.currentTarget.selectedIndex` 属性来获取选中选项的索引，然后通过 `options` 数组来获取到对应索引中的选项值，并传递给 `onChange`：
 
 ```ts
 function Select(props: Props) {
@@ -201,7 +201,7 @@ Type 'number' is not assignable to type 'SetStateAction'.
 
 ### 步骤四：使用泛型确定精确的属性类型
 
-我们来使用泛型 `T` 来替代到处使用的 `string | number` 类型。我们通过给 `Option` 添加诶性参数使得它变为泛型。然后我们可以使用类型 `T` 作为属性 `value` 的类型：
+我们来使用泛型 `T` 来替代到处使用的 `string | number` 类型。我们通过给 `Option` 添加类型参数使得它变为泛型。然后我们可以使用类型 `T` 作为属性 `value` 的类型：
 
 ```ts
 type OptionValue = string | number;
@@ -274,11 +274,11 @@ function Form() {
 }
 ```
 
-这个语法刚接触确实有点奇怪。然而，再仔细一想，它和我们在 Typescript 其他地方设置泛型参数的语法是保持一致的。
+这个语法刚接触确实有点奇怪。然而，再仔细一想，它和我们在 Typescript 其他地方设置泛型参数的语法是一致的。
 
 现在我们将 `Select` 组件以及 `Props` 和 `Option` 类型都变成了泛型，我们的程序能通过类型检查，不再有任何类型报错，无论我们使用字符串、数字，或者两者都使用。
 
-注意在这里我们并不需要在 JSX 元素上显式地设置泛型类型参数。Typescript 可以帮我们推断出来。通过检查 `targets` 数组中每个独享的 `value` 属性类型，Typescript 会理解我们正在使用 `string` 作为值的类型。
+注意在这里我们并不需要在 JSX 元素上显式地设置泛型类型参数。Typescript 可以帮我们推断出来。通过检查 `targets` 数组中每个对象的 `value` 属性类型，Typescript 会理解我们正在使用 `string` 作为值的类型。
 
 因为 Typescript 可以根据上下文为我们推断出类型 `string`，我们可以将 `<Select<string>` 修改回 `<Select`。下面是完整可运行的例子：
 
