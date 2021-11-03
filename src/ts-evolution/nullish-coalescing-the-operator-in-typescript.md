@@ -10,7 +10,7 @@ Typescript 3.7 中增加了对 `??` 运算符的支持，它被称为空值合�
 ### Javascript 中的真值和假值
 
 
-在我们深入研究 `??` 操作符之前，我们来复习一下， Javascript 的值要么为真值要么为假：当转换为布尔类型的时候，一个值会转换为 `true` 或者 `false`。在 Javascript 中，以下的这些值被认为是假值：
+在我们深入研究 `??` 操作符之前，我们来复习一下Javascript 的真值和假值：当转换为布尔类型的时候，一个值会转换为 `true` 或者 `false`。在 Javascript 中，以下的这些值被认为是假值：
 
 - false
 - 0
@@ -88,7 +88,7 @@ function serializeJSON(value: unknown, options: Options): string {
 
 `options.prettyPrint ?? true` 表达式允许我们在 `prettyPrint` 属性包含 `null` 或者 `undefined` 的时候提供 `true` 这个默认值。如果 `prettyPrint` 的值是 `false`，表达式 `false ?? true` 仍然会返回 `false`，这就是我们确切想要的行为。
 
-注意这个例子中如果使用 `||` 操作符，会导致错误的结果。当值是 `null` 或者 `undefinded` 时，`options.prettyPrint || true` 会计算计算为 `true`，但当值是 `false` 的时候，返回的结果就不是我们想要的了。我不止一次在实践中发现过这种问题，所以请记住这个例子，并且使用 `??` 操作符而非 `||`。
+注意这个例子中如果使用 `||` 操作符，会导致错误的结果。当值是 `null` 或者 `undefinded` 时，`options.prettyPrint || true` 会计算为 `true`，但当值是 `false` 的时候，返回的结果就不是我们想要的了。我不止一次在实践中发现过这种问题，所以请记住这个例子，并且使用 `??` 操作符而非 `||`。
 
 ### 编译输出：ES2020 以及更高版本
 
@@ -144,7 +144,7 @@ const value = (_a = getValue()) !== null && _a !== void 0
   : fallbackValue;
 ```
 
-你可以看到编译器会使用一个临时的 `_a` 变量来存储 `getValue()` 调用返回的值。然后 `_a` 变量会分别和 `null` 以及 `void 0` 进行比较，并且可能作为整个表达式的返回值。这个临时变量是有用的，因为这样我们只需要调用 `getValue` 函数一次。
+你可以看到编译器会使用一个临时的 `_a` 变量来存储 `getValue()` 调用返回的值。然后 `_a` 变量会分别和 `null` 以及 `void 0` 进行比较，并且有可能作为整个表达式的返回值。这个临时变量是有用的，因为这样我们只需要调用 `getValue` 函数一次。
 
 
 ### 编译输出：检查 null 和 undefined
@@ -161,7 +161,7 @@ value !== null && value !== void 0;
 value != null;
 ```
 
-不幸的是，我们并不能通过不牺牲正确性的前提下这样做。对于 Javascript 中的大部分值，`value == null` 的比较和 `value === null || value === undefined` 是等价的。对于这些值，反向比较 `value != null` 和 `value !== null && value !== undefined` 是等价的。然而，有一个值会使得这两个表达式并不等价，这个值就是 `document.all`：
+不幸的是，我们并不能通过不牺牲正确性的前提下这样做。对于 Javascript 中的大部分值，`value == null` 的比较和 `value === null || value === undefined` 是等价的。对于这些值，反向比较 `value != null` 和 `value !== null && value !== undefined` 也是等价的。然而，有一个值会使得这两个表达式并不等价，这个值就是 `document.all`：
 
 ```ts
 document.all === null;
