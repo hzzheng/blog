@@ -5,7 +5,7 @@ tags: ["ts-evolution"]
 origin: "https://mariusschulz.com/blog/the-omit-helper-type-in-typescript"
 ---
 
-在 3.5 版本中， Typescript 增加了 `Omit<T, K>` 帮助类型，作为 lib.es5.d.ts 类型定义文件的一部分和 Typescript 编译器一起发布。`Omit<T, K>` 让我们通过从一个对象中删除特性的属性来创建一个新对象类型。
+在 3.5 版本中， Typescript 增加了 `Omit<T, K>` 帮助类型，作为 lib.es5.d.ts 类型定义文件的一部分和 Typescript 编译器一起发布。`Omit<T, K>` 允许我们通过从一个对象中删除特定的属性来创建一个新的对象类型。
 
 ```ts
 type User = {
@@ -79,7 +79,7 @@ type Exclude<T, U> = T extends U ? never : T;
 
 它使用了[条件类型](https://chaosflutter.com/ts-evolution/conditional-types-in-typescript) 以及 never 类型。通过使用 `Exclude<T, U>`，我们移除了 `"id" | "name" | "email"` 联合类型中可以赋值给 `"email"` 的类型。在这里只有类型 `"email"` 自己可以赋值给 `"email"` 类型，所以我们得到了最终的 `"id | "name"` 联合类型。
 
-最后，我们需要创建一个包含了 `User` 类型属性子集的对象类型。准确地说，我们要创建一个对象类型，它只包含 `UserKeysWithoutEmail` 联合类型中能够找到的属性 key。我们可以 `Pick<T, K>` 帮助类型来从 `User` 类型中选出这些属性。
+最后，我们需要创建一个包含了 `User` 类型属性子集的对象类型。准确地说，我们要创建一个对象类型，它只包含 `UserKeysWithoutEmail` 联合类型中能够找到的属性 key。我们可以使用 `Pick<T, K>` 帮助类型来从 `User` 类型中选出这些属性。
 
 ```ts
 type UserWithoutEmail = Pick<User, UserKeysWithoutEmail>;
@@ -126,7 +126,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 type UserWithoutEmail = Omit<User, "email">;
 ```
 
-因为对象的 key 只能是字符串、数字和 symbol 类型，我们可以给 `Omit<T, K>` 的参数 `K` 添加泛型约束，值允许 `string`、`number` 和 `symbol` 类型的 key：
+因为对象的 key 只能是字符串、数字和 symbol 类型，我们可以给 `Omit<T, K>` 的参数 `K` 添加泛型约束，只允许 `string`、`number` 和 `symbol` 类型的 key：
 
 ```ts
 type Omit<T, K extends string | number | symbol> = Pick<T, Exclude<keyof T, K>>;
