@@ -1,5 +1,5 @@
 ---
-title: "高效工作工具篇：常用的 VIM 命令"
+title: "前端高效工作工具篇：常用的 vim 命令"
 date: "2019-05-12"
 tags: ["tools", "vim", "editor"]
 ---
