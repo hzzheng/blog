@@ -1,5 +1,5 @@
 ---
-title: "前端高效工作工具篇：用 chrome 插件及相关应用高效管理输入源"
+title: "前端高效工作工具篇：用 chrome 插件高效管理输入源"
 date: "2021-08-01"
 tags: ["chrome", "tools"]
 ---
