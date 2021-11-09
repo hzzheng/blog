@@ -1,5 +1,5 @@
 ---
-title: "前端高效工作工具篇：常用的 vim 配置和插件"
+title: "前端高效工作工具篇：常用的 Vim 配置和插件"
 date: "2021-07-18"
 tags: ["tools", "vim", "editor"]
 ---

@@ -1,5 +1,5 @@
 ---
-title: "前端高效工作工具篇：在 chrome 中使用 vim"
+title: "前端高效工作工具篇：在 Chrome 中使用 Vim"
 date: "2021-07-25"
 tags: ["chrome", "tools", "vim", "editor"]
 ---
