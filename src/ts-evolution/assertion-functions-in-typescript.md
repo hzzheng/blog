@@ -109,6 +109,3 @@ root.addEventListener("click", e => {
 同时，我们发现这个方法没有带任何 Typescript 特有的语法。所有的都是合法的 Javascript 代码。Typescript [基于控制流的类型分析](https://juejin.cn/post/7026522261846769677)能够理解我们的空检查，并且将 `root` 变量的类型收窄 —— 不需要任何的类型标注信息。
 
 ### 实现断言函数
-
-
-
