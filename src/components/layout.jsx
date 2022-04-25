@@ -15,7 +15,7 @@ export default ({ children, data }) => (
         </Link>
         <div className={cls.links}>
           {/* <a href="/abount-me">About Me</a> */}
-          <a href="/weekly">Weekly Reading</a>
+          <a href="/weekly">Reading Weekly</a>
           <a href="/ts-evolution">Typescript Evolution</a>
         </div>
       </div>
@@ -23,8 +23,15 @@ export default ({ children, data }) => (
     <div className={cls.container}>
       <Helmet>
         <title>CNOTE</title>
-        <link rel="shortcut icon" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css" />
+        <link
+          rel="shortcut icon"
+          href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/favicon.ico"
+          type="image/x-icon"
+        />
+        <link
+          rel="stylesheet"
+          href="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/iconfont.css"
+        />
         <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js" />
         <script src="//unpkg.com/valine/dist/Valine.min.js" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,15 +40,19 @@ export default ({ children, data }) => (
       {data && (
         <aside>
           <section className={cls.profile}>
-            <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg" alt="profile" />
-            <div className={cls.desc}>
-              欢迎加微信好友沟通
-            </div>
+            <img
+              src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/profile.jpg"
+              alt="profile"
+            />
+            <div className={cls.desc}>欢迎加微信好友沟通</div>
           </section>
           <section className={cls.contact}>
             {/* <h4>Contact</h4> */}
             <div class={cls.qrcode}>
-              <img src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpeg" alt="微信二维码" />
+              <img
+                src="https://blog-1258648987.cos.ap-shanghai.myqcloud.com/blog/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpeg"
+                alt="微信二维码"
+              />
             </div>
             {/* <div>
               <a href="mailto:zhchaozju@gmail.com">Email</a>
@@ -59,7 +70,7 @@ export default ({ children, data }) => (
               <span className="iconfont icon-search" />
             </div> */}
             <ul className={cls.tags}>
-              {data.allMarkdownRemark.group.map(tag => (
+              {data.allMarkdownRemark.group.map((tag) => (
                 <li key={tag.fieldValue}>
                   <Link to={`/tags/${_.kebabCase(tag.fieldValue)}/`}>
                     {tag.fieldValue}
