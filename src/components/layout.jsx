@@ -11,7 +11,8 @@ export default ({ children, data }) => (
       <div className={cls.nav}>
         <Link to="/">
           {/* <span className="iconfont icon-home" /> */}
-          以终为始，知行合一
+          Think Big, Think Long
+          <small className={cls.sm}>以终为始，知行合一</small>
         </Link>
         <div className={cls.links}>
           {/* <a href="/abount-me">About Me</a> */}
